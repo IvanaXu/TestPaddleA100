@@ -1,2 +1,2 @@
 # TFPG
-Test For PaddlePaddle GPU
+Test For PaddlePaddle GPU/A100
