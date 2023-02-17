@@ -17,7 +17,6 @@
 #include <string>
 #include <vector>
 
-#include "paddle/phi/common/int_array.h"
 #include "paddle/phi/core/dense_tensor.h"
 
 namespace phi {
@@ -27,7 +26,7 @@ void Pool2dGradKernel(const Context& ctx,
                       const DenseTensor& x,
                       const DenseTensor& out,
                       const DenseTensor& dout,
-                      const IntArray& kernel_size,
+                      const std::vector<int>& kernel_size,
                       const std::vector<int>& strides,
                       const std::vector<int>& paddings,
                       bool ceil_mode,
@@ -44,7 +43,7 @@ void Pool2dGradGPUDNNKernel(const Context& ctx,
                             const DenseTensor& x,
                             const DenseTensor& out,
                             const DenseTensor& dout,
-                            const IntArray& kernel_size,
+                            const std::vector<int>& kernel_size,
                             const std::vector<int>& strides,
                             const std::vector<int>& paddings,
                             bool ceil_mode,
@@ -59,7 +58,7 @@ void Pool2dGradGPUDNNKernel(const Context& ctx,
 template <typename T, typename Context>
 void Pool2dDoubleGradKernel(const Context& ctx,
                             const DenseTensor& x,
-                            const IntArray& kernel_size,
+                            const std::vector<int>& kernel_size,
                             const std::vector<int>& strides,
                             const std::vector<int>& paddings,
                             bool ceil_mode,
@@ -74,7 +73,7 @@ void Pool2dDoubleGradKernel(const Context& ctx,
 template <typename T, typename Context>
 void Pool2dDoubleGradGPUDNNKernel(const Context& ctx,
                                   const DenseTensor& x,
-                                  const IntArray& kernel_size,
+                                  const std::vector<int>& kernel_size,
                                   const std::vector<int>& strides,
                                   const std::vector<int>& paddings,
                                   bool ceil_mode,

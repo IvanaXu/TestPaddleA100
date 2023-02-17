@@ -254,12 +254,9 @@ class MobileNetV3Small(MobileNetV3):
 
     Args:
         scale (float, optional): Scale of channels in each layer. Default: 1.0.
-        num_classes (int, optional): Output dim of last fc layer. If num_classes <= 0, last fc layer 
+        num_classes (int, optional): Output dim of last fc layer. If num_classes <=0, last fc layer
                             will not be defined. Default: 1000.
         with_pool (bool, optional): Use pool before the last fc layer or not. Default: True.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of MobileNetV3 Small architecture model.
 
     Examples:
         .. code-block:: python
@@ -274,7 +271,6 @@ class MobileNetV3Small(MobileNetV3):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
     """
 
     def __init__(self, scale=1.0, num_classes=1000, with_pool=True):
@@ -305,12 +301,9 @@ class MobileNetV3Large(MobileNetV3):
 
     Args:
         scale (float, optional): Scale of channels in each layer. Default: 1.0.
-        num_classes (int, optional): Output dim of last fc layer. If num_classes <= 0, last fc layer 
+        num_classes (int, optional): Output dim of last fc layer. If num_classes <=0, last fc layer
                             will not be defined. Default: 1000.
         with_pool (bool, optional): Use pool before the last fc layer or not. Default: True.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of MobileNetV3 Large architecture model.
 
     Examples:
         .. code-block:: python
@@ -325,7 +318,6 @@ class MobileNetV3Large(MobileNetV3):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
     """
 
     def __init__(self, scale=1.0, num_classes=1000, with_pool=True):
@@ -387,13 +379,8 @@ def mobilenet_v3_small(pretrained=False, scale=1.0, **kwargs):
     `"Searching for MobileNetV3" <https://arxiv.org/abs/1905.02244>`_.
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
         scale (float, optional): Scale of channels in each layer. Default: 1.0.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`MobileNetV3Small <api_paddle_vision_MobileNetV3Small>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of MobileNetV3 Small architecture model.
 
     Examples:
         .. code-block:: python
@@ -414,7 +401,7 @@ def mobilenet_v3_small(pretrained=False, scale=1.0, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     model = _mobilenet_v3("mobilenet_v3_small",
                           scale=scale,
@@ -428,13 +415,8 @@ def mobilenet_v3_large(pretrained=False, scale=1.0, **kwargs):
     `"Searching for MobileNetV3" <https://arxiv.org/abs/1905.02244>`_.
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
         scale (float, optional): Scale of channels in each layer. Default: 1.0.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`MobileNetV3Large <api_paddle_vision_MobileNetV3Large>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of MobileNetV3 Large architecture model.
 
     Examples:
         .. code-block:: python
@@ -455,7 +437,7 @@ def mobilenet_v3_large(pretrained=False, scale=1.0, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     model = _mobilenet_v3("mobilenet_v3_large",
                           scale=scale,

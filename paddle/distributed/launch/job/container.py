@@ -37,7 +37,6 @@ class Container(object):
         self._grace_period = 10
 
         self._log_handler = None
-        self._shell = False
 
     @property
     def entrypoint(self):
@@ -71,14 +70,6 @@ class Container(object):
     def errfile(self, err):
         self._err = err
 
-    @property
-    def shell(self):
-        return self._shell
-
-    @shell.setter
-    def shell(self, shell):
-        self._shell = shell
-
     def update_env(self, env={}, **kwargs):
         env = {k: v for k, v in env.items() if isinstance(v, str)}
         self._env.update(env)
@@ -99,7 +90,7 @@ class Container(object):
             d = os.path.dirname(pth)
             if not os.path.isdir(d):
                 os.makedirs(d, exist_ok=True)
-            return open(pth, 'a')
+            return open(pth, 'w')
         except:
             return None
 
@@ -115,17 +106,10 @@ class Container(object):
         elif self._err:
             self._stderr = self._get_fd(self._err) or sys.stderr
 
-        if not self._log_handler:
-            self._log_handler = open(self._out)
-            self._log_handler.seek(0, 2)
-            self._log_start_offset = self._log_handler.tell()
-
         self._proc = ProcessContext(self._entrypoint,
                                     env=self._env,
                                     out=self._stdout,
-                                    err=self._stderr,
-                                    shell=self._shell)
-
+                                    err=self._stderr)
         self._proc.start()
 
     def terminate(self, force=False):
@@ -137,11 +121,7 @@ class Container(object):
             return self._proc.terminate(force)
 
     def wait(self, timeout=None):
-        try:
-            self._proc.wait(timeout)
-            return True
-        except Exception:
-            return False
+        self._proc.wait(timeout)
 
     @property
     def exit_code(self):
@@ -177,16 +157,13 @@ class Container(object):
 
         try:
             if offset != 0 or whence != 1:
-                if whence == 0 and offset < self._log_start_offset:
-                    offset = self._log_start_offset
                 self._log_handler.seek(offset, whence)
 
             for _ in range(limit):
                 line = self._log_handler.readline()
                 if not line:
-                    return False
+                    break
                 fn.write(line)
-            return True
         except:
             return
 

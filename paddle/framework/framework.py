@@ -46,16 +46,11 @@ def set_default_dtype(d):
         else:
             raise TypeError(
                 "set_default_dtype only supports [float16, float32, float64] "
-                ", but received %s" % d.__name__
-            )
+                ", but received %s" % d.__name__)
     else:
         if d in [
-            'float16',
-            'float32',
-            'float64',
-            u'float16',
-            u'float32',
-            u'float64',
+                'float16', 'float32', 'float64', u'float16', u'float32',
+                u'float64'
         ]:
             # this code is a little bit dangerous, since error could happen
             # when casting no-ascii code to str in python2.
@@ -66,8 +61,7 @@ def set_default_dtype(d):
         else:
             raise TypeError(
                 "set_default_dtype only supports [float16, float32, float64] "
-                ", but received %s" % str(d)
-            )
+                ", but received %s" % str(d))
 
     LayerHelperBase.set_default_dtype(d)
 
@@ -79,7 +73,7 @@ def get_default_dtype():
     Args:
         None.
     Returns:
-        String, this global dtype only supports float16, float32, float64.
+        The default dtype.
 
     Examples:
         .. code-block:: python
@@ -100,7 +94,7 @@ def set_grad_enabled(mode):
 
     Examples:
         .. code-block:: python
-
+            
             import paddle
             x = paddle.ones([3, 2])
             x.stop_gradient = False
@@ -133,9 +127,9 @@ def is_grad_enabled():
 
     Examples:
         .. code-block:: python
-
+            
             import paddle
-
+            
             # Dygraph gradient calculation mode is enabled by default.
             paddle.is_grad_enabled() # True
 

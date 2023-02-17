@@ -54,7 +54,7 @@ class DatasetBase(object):
             thread_num(int): thread num, it is the num of readers. default is 1.
             use_var(list): list of variables. Variables which you will use. default is [].
             pipe_command(str): pipe command of current dataset. A pipe command is a UNIX pipeline command that can be used only. default is "cat"
-            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. default is 0.
+            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. defalut is 0.
             fs_name(str): fs name. default is "".
             fs_ugi(str): fs ugi. default is "".
             download_cmd(str): customized download command. default is "cat"
@@ -441,7 +441,7 @@ class InMemoryDataset(DatasetBase):
             batch_size(int): batch size. It will be effective during training. default is 1.
             thread_num(int): thread num, it is the num of readers. default is 1.
             use_var(list): list of variables. Variables which you will use. default is [].
-            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. default is 0.
+            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. defalut is 0.
             fs_name(str): fs name. default is "".
             fs_ugi(str): fs ugi. default is "".
             pipe_command(str): pipe command of current dataset. A pipe command is a UNIX pipeline command that can be used only. default is "cat"
@@ -522,7 +522,7 @@ class InMemoryDataset(DatasetBase):
             batch_size(int): batch size. It will be effective during training. default is 1.
             thread_num(int): thread num, it is the num of readers. default is 1.
             use_var(list): list of variables. Variables which you will use. default is [].
-            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. default is 0.
+            input_type(int): the input type of generated input. 0 is for one sample, 1 is for one batch. defalut is 0.
             fs_name(str): fs name. default is "".
             fs_ugi(str): fs ugi. default is "".
             pipe_command(str): pipe command of current dataset. A pipe command is a UNIX pipeline command that can be used only. default is "cat"
@@ -583,12 +583,6 @@ class InMemoryDataset(DatasetBase):
         pipe_command = kwargs.get("pipe_command", "cat")
         download_cmd = kwargs.get("download_cmd", "cat")
 
-        if self.use_ps_gpu:
-            data_feed_type = "SlotRecordInMemoryDataFeed"
-        else:
-            data_feed_type = "MultiSlotInMemoryDataFeed"
-        self._set_feed_type(data_feed_type)
-
         super(InMemoryDataset, self).init(batch_size=batch_size,
                                           thread_num=thread_num,
                                           use_var=use_var,
@@ -597,6 +591,10 @@ class InMemoryDataset(DatasetBase):
                                           fs_name=fs_name,
                                           fs_ugi=fs_ugi,
                                           download_cmd=download_cmd)
+
+        data_feed_type = kwargs.get("data_feed_type",
+                                    "MultiSlotInMemoryDataFeed")
+        self._set_feed_type(data_feed_type)
 
         if kwargs.get("queue_num", -1) > 0:
             queue_num = kwargs.get("queue_num", -1)
@@ -607,8 +605,6 @@ class InMemoryDataset(DatasetBase):
         Set data_feed_desc
         """
         self.proto_desc.name = data_feed_type
-        if (self.proto_desc.name == "SlotRecordInMemoryDataFeed"):
-            self.dataset = core.Dataset("SlotRecordDataset")
 
     def _prepare_to_run(self):
         """

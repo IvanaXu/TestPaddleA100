@@ -1396,7 +1396,5 @@ class Transformer(Layer):
                 # [  0.   0.   0.   0.   0.]]
 
         """
-        return paddle.tensor.triu(
-            paddle.full(shape=[length, length],
-                        fill_value=-np.inf,
-                        dtype=paddle.get_default_dtype()), 1)
+        return paddle.tensor.triu((paddle.ones(
+            (length, length), dtype=paddle.get_default_dtype()) * -np.inf), 1)

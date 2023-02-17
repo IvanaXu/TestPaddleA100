@@ -21,7 +21,6 @@
 #include "paddle/phi/common/int_array.h"
 #include "paddle/phi/common/layout.h"
 #include "paddle/phi/common/scalar.h"
-#include "paddle/utils/flat_hash_map.h"
 #include "paddle/utils/variant.h"
 
 namespace phi {
@@ -47,7 +46,5 @@ using Attribute = paddle::variant<bool,
                                   DataType,
                                   DataLayout,
                                   Place>;
-
-using RuntimeAttrs = paddle::flat_hash_map<std::string, Attribute>;
 
 }  // namespace phi

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='trainer_desc.proto',
   package='paddle.framework',
   syntax='proto2',
-  serialized_pb=_b('\n\x12trainer_desc.proto\x12\x10paddle.framework\x1a\x0f\x64\x61ta_feed.proto\x1a\x0f\x66ramework.proto\"\xd7\x0b\n\x0bTrainerDesc\x12\x12\n\nclass_name\x18\x01 \x01(\t\x12\x1a\n\x12\x64\x65vice_worker_name\x18\x02 \x01(\t\x12\x12\n\nthread_num\x18\x03 \x01(\x05\x12\x1a\n\x0b\x62inding_cpu\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x10\n\x08\x66ilelist\x18\x05 \x03(\t\x12\x14\n\x05\x64\x65\x62ug\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x33\n\x0c\x66\x65tch_config\x18\x07 \x01(\x0b\x32\x1d.paddle.framework.FetchConfig\x12\x16\n\x07use_cvm\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x18\n\tdump_slot\x18\t \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0escale_datanorm\x18\n \x01(\x02:\x02-1\x12\x14\n\x08mpi_rank\x18\x0b \x01(\x05:\x02-1\x12\x18\n\x10\x64ump_fields_path\x18\x0c \x01(\t\x12\x13\n\x0b\x64ump_fields\x18\r \x03(\t\x12\x16\n\x0e\x64ump_converter\x18\x0e \x01(\t\x12\x12\n\ndump_param\x18\x0f \x03(\t\x12\x14\n\x08mpi_size\x18\x10 \x01(\x05:\x02-1\x12\x19\n\rdump_file_num\x18\x11 \x01(\x05:\x02\x31\x36\x12\x1b\n\x13\x63heck_nan_var_names\x18\x12 \x03(\t\x12<\n\x11\x63opy_table_config\x18\x13 \x01(\x0b\x32!.paddle.framework.CopyTableConfig\x12I\n\x18\x61\x64just_ins_weight_config\x18\x14 \x01(\x0b\x32\'.paddle.framework.AdjustInsWeightConfig\x12\x15\n\x06no_cvm\x18\x15 \x01(\x08:\x05\x66\x61lse\x12\x16\n\x0ethread_barrier\x18\x16 \x01(\x08\x12\x12\n\nloss_names\x18\x17 \x03(\t\x12!\n\x12\x65nable_random_dump\x18\x18 \x01(\x08:\x05\x66\x61lse\x12!\n\x12random_with_lineid\x18\x19 \x01(\x08:\x05\x66\x61lse\x12\x1c\n\rdump_interval\x18\x1a \x01(\x05:\x05\x31\x30\x30\x30\x30\x12\x15\n\rworker_places\x18\x1b \x03(\x05\x12\x15\n\rxpu_send_list\x18\x1c \x03(\t\x12\x15\n\rxpu_recv_list\x18\x1d \x03(\t\x12\x15\n\rxpu_start_idx\x18\x1e \x01(\x05\x12\x13\n\x0bxpu_end_idx\x18\x1f \x01(\x05\x12\x19\n\nuse_ps_gpu\x18  \x01(\x08:\x05\x66\x61lse\x12!\n\x19user_define_dump_filename\x18! \x01(\t\x12\x33\n%scale_sparse_gradient_with_batch_size\x18\" \x01(\x08:\x04true\x12\x10\n\x08trainers\x18# \x03(\x05\x12\x12\n\ntrainer_id\x18$ \x01(\x05\x12\x12\n\nfleet_desc\x18% \x01(\t\x12%\n\x16is_dump_in_simple_mode\x18& \x01(\x08:\x05\x66\x61lse\x12?\n\rhogwild_param\x18\x65 \x01(\x0b\x32(.paddle.framework.HogwildWorkerParameter\x12\x41\n\x0e\x64ownpour_param\x18g \x01(\x0b\x32).paddle.framework.DownpourWorkerParameter\x12\x44\n\x10pull_dense_param\x18\x66 \x01(\x0b\x32*.paddle.framework.PullDenseWorkerParameter\x12?\n\rsection_param\x18h \x01(\x0b\x32(.paddle.framework.SectionWorkerParameter\x12J\n\x13heter_section_param\x18i \x01(\x0b\x32-.paddle.framework.HeterSectionWorkerParameter\x12\x32\n\tdata_desc\x18\xc9\x01 \x01(\x0b\x32\x1e.paddle.framework.DataFeedDesc\"B\n\x16HogwildWorkerParameter\x12\x10\n\x08skip_ops\x18\x01 \x03(\t\x12\x16\n\x0estat_var_names\x18\x02 \x03(\t\"\xa0\x02\n\x17\x44ownpourWorkerParameter\x12\x36\n\x0csparse_table\x18\x01 \x03(\x0b\x32 .paddle.framework.TableParameter\x12\x35\n\x0b\x64\x65nse_table\x18\x02 \x03(\x0b\x32 .paddle.framework.TableParameter\x12\x10\n\x08skip_ops\x18\x03 \x03(\t\x12\x37\n\x0eprogram_config\x18\x04 \x03(\x0b\x32\x1f.paddle.framework.ProgramConfig\x12\x19\n\x0bpush_sparse\x18\x05 \x01(\x08:\x04true\x12\x18\n\npush_dense\x18\x06 \x01(\x08:\x04true\x12\x16\n\x0estat_var_names\x18\x07 \x03(\t\"\xa5\x02\n\x16SectionWorkerParameter\x12\x37\n\x0esection_config\x18\x01 \x01(\x0b\x32\x1f.paddle.framework.SectionConfig\x12\x15\n\nqueue_size\x18\x02 \x01(\x05:\x01\x31\x12\x15\n\nsync_steps\x18\x03 \x01(\x03:\x01\x31\x12\x1c\n\x11start_cpu_core_id\x18\x04 \x01(\x05:\x01\x31\x12\x17\n\x0fparam_need_sync\x18\x05 \x03(\t\x12\x18\n\x10num_microbatches\x18\x06 \x01(\x05\x12\x1e\n\x13num_pipeline_stages\x18\x07 \x01(\x05:\x01\x31\x12\x19\n\x0epipeline_stage\x18\x08 \x01(\x05:\x01\x31\x12\x18\n\rschedule_mode\x18\t \x01(\x05:\x01\x30\"\x90\x02\n\x1bHeterSectionWorkerParameter\x12\x37\n\x0esection_config\x18\x01 \x01(\x0b\x32\x1f.paddle.framework.SectionConfig\x12\x15\n\nqueue_size\x18\x02 \x01(\x05:\x01\x31\x12\x15\n\nsync_steps\x18\x03 \x01(\x03:\x01\x31\x12\x1c\n\x11start_cpu_core_id\x18\x04 \x01(\x05:\x01\x31\x12\x17\n\x0fparam_need_sync\x18\x05 \x03(\t\x12\x18\n\x10num_microbatches\x18\x06 \x01(\x05\x12\x1e\n\x13num_pipeline_stages\x18\x07 \x01(\x05:\x01\x31\x12\x19\n\x0epipeline_stage\x18\x08 \x01(\x05:\x01\x31\"\xa6\x02\n\rSectionConfig\x12\x39\n\x0cprogram_desc\x18\x01 \x01(\x0b\x32#.paddle.framework.proto.ProgramDesc\x12\x34\n\x05place\x18\x02 \x01(\x0e\x32%.paddle.framework.SectionConfig.Place\x12\x16\n\x0b\x63oncurrency\x18\x03 \x01(\x05:\x01\x31\x12\x1c\n\x14section_in_var_names\x18\x04 \x03(\t\x12\x1d\n\x15section_out_var_names\x18\x05 \x03(\t\x12\x14\n\x08place_id\x18\x06 \x01(\x05:\x02-1\"9\n\x05Place\x12\x0c\n\x08\x43PUPlace\x10\x00\x12\r\n\tCUDAPlace\x10\x01\x12\x13\n\x0f\x43UDAPinnedPlace\x10\x02\"\xb1\x01\n\x0b\x46\x65tchConfig\x12\x17\n\x0f\x66\x65tch_var_names\x18\x01 \x03(\t\x12\x1c\n\x14\x66\x65tch_var_str_format\x18\x02 \x03(\t\x12\x19\n\x0cprint_period\x18\x03 \x01(\x05:\x03\x31\x30\x30\x12;\n\x06method\x18\x04 \x01(\x0e\x32$.paddle.framework.FetchConfig.Method:\x05PRINT\"\x13\n\x06Method\x12\t\n\x05PRINT\x10\x00\"\x9c\x01\n\x15\x41\x64justInsWeightConfig\x12\x1a\n\x0bneed_adjust\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x12\n\x08nid_slot\x18\x02 \x01(\t:\x00\x12\x1d\n\x12nid_adjw_threshold\x18\x03 \x01(\x02:\x01\x30\x12\x19\n\x0enid_adjw_ratio\x18\x04 \x01(\x02:\x01\x30\x12\x19\n\x0fins_weight_slot\x18\x05 \x01(\t:\x00\"1\n\x12TableDependencyMap\x12\x0b\n\x03key\x18\x01 \x02(\x05\x12\x0e\n\x06values\x18\x02 \x03(\x05\"\x8f\x03\n\x0f\x43opyTableConfig\x12\x18\n\tneed_copy\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x16\n\tbatch_num\x18\x02 \x01(\x05:\x03\x31\x30\x30\x12\x19\n\x11src_sparse_tables\x18\x03 \x03(\x05\x12\x1a\n\x12\x64\x65st_sparse_tables\x18\x04 \x03(\x05\x12\x18\n\x10src_dense_tables\x18\x05 \x03(\x05\x12\x19\n\x11\x64\x65st_dense_tables\x18\x06 \x03(\x05\x12\x14\n\x0csrc_var_list\x18\x07 \x03(\t\x12\x15\n\rdest_var_list\x18\x08 \x03(\t\x12$\n\x15\x64\x65nse_pull_after_copy\x18\t \x01(\x08:\x05\x66\x61lse\x12$\n\x16sparse_copy_by_feasign\x18\n \x01(\x08:\x04true\x12 \n\x11\x65nable_dependency\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x43\n\x15table_denpendency_map\x18\x0c \x03(\x0b\x32$.paddle.framework.TableDependencyMap\"*\n\x0c\x43ondTableMap\x12\x0b\n\x03key\x18\x01 \x02(\x05\x12\r\n\x05value\x18\x02 \x02(\x05\"\xe2\x01\n\rProgramConfig\x12\x12\n\nprogram_id\x18\x01 \x02(\t\x12\x1c\n\x14push_sparse_table_id\x18\x02 \x03(\x05\x12\x1b\n\x13push_dense_table_id\x18\x03 \x03(\x05\x12\x1c\n\x14pull_sparse_table_id\x18\x04 \x03(\x05\x12\x1b\n\x13pull_dense_table_id\x18\x05 \x03(\x05\x12G\n\x1fpartial_pushdense_condtable_map\x18\n \x03(\x0b\x32\x1e.paddle.framework.CondTableMap\"\x95\x01\n\x18PullDenseWorkerParameter\x12\x14\n\tthreshold\x18\x01 \x01(\x05:\x01\x31\x12\x12\n\ndevice_num\x18\x02 \x01(\x05\x12\x18\n\rsleep_time_ms\x18\x03 \x01(\x05:\x01\x32\x12\x35\n\x0b\x64\x65nse_table\x18\x04 \x03(\x0b\x32 .paddle.framework.TableParameter\"\xea\x02\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x18\n\x10\x64\x65nse_value_name\x18\x02 \x03(\t\x12\x17\n\x0f\x64\x65nse_grad_name\x18\x03 \x03(\t\x12\x1d\n\x15push_dense_wait_times\x18\x05 \x03(\x05\x12\x17\n\x0fsparse_key_name\x18\x06 \x03(\t\x12\x19\n\x11sparse_value_name\x18\x07 \x03(\t\x12\x18\n\x10sparse_grad_name\x18\x08 \x03(\t\x12\x1e\n\x16push_sparse_wait_times\x18\t \x03(\x05\x12\x0f\n\x07\x65mb_dim\x18\n \x01(\x05\x12\x0f\n\x07\x66\x65\x61_dim\x18\x0b \x01(\x05\x12\x16\n\x0elabel_var_name\x18\x0c \x01(\t\x12\x17\n\x08is_local\x18\r \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08is_async\x18\x0e \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x12\x61sync_wait_op_name\x18\x0f \x01(\tB\x02H\x03')
+  serialized_pb=_b('\n\x12trainer_desc.proto\x12\x10paddle.framework\x1a\x0f\x64\x61ta_feed.proto\x1a\x0f\x66ramework.proto\"\xb0\x0b\n\x0bTrainerDesc\x12\x12\n\nclass_name\x18\x01 \x01(\t\x12\x1a\n\x12\x64\x65vice_worker_name\x18\x02 \x01(\t\x12\x12\n\nthread_num\x18\x03 \x01(\x05\x12\x1a\n\x0b\x62inding_cpu\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x10\n\x08\x66ilelist\x18\x05 \x03(\t\x12\x14\n\x05\x64\x65\x62ug\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x33\n\x0c\x66\x65tch_config\x18\x07 \x01(\x0b\x32\x1d.paddle.framework.FetchConfig\x12\x16\n\x07use_cvm\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x18\n\tdump_slot\x18\t \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0escale_datanorm\x18\n \x01(\x02:\x02-1\x12\x14\n\x08mpi_rank\x18\x0b \x01(\x05:\x02-1\x12\x18\n\x10\x64ump_fields_path\x18\x0c \x01(\t\x12\x13\n\x0b\x64ump_fields\x18\r \x03(\t\x12\x16\n\x0e\x64ump_converter\x18\x0e \x01(\t\x12\x12\n\ndump_param\x18\x0f \x03(\t\x12\x14\n\x08mpi_size\x18\x10 \x01(\x05:\x02-1\x12\x19\n\rdump_file_num\x18\x11 \x01(\x05:\x02\x31\x36\x12\x1b\n\x13\x63heck_nan_var_names\x18\x12 \x03(\t\x12<\n\x11\x63opy_table_config\x18\x13 \x01(\x0b\x32!.paddle.framework.CopyTableConfig\x12I\n\x18\x61\x64just_ins_weight_config\x18\x14 \x01(\x0b\x32\'.paddle.framework.AdjustInsWeightConfig\x12\x15\n\x06no_cvm\x18\x15 \x01(\x08:\x05\x66\x61lse\x12\x16\n\x0ethread_barrier\x18\x16 \x01(\x08\x12\x12\n\nloss_names\x18\x17 \x03(\t\x12!\n\x12\x65nable_random_dump\x18\x18 \x01(\x08:\x05\x66\x61lse\x12!\n\x12random_with_lineid\x18\x19 \x01(\x08:\x05\x66\x61lse\x12\x1c\n\rdump_interval\x18\x1a \x01(\x05:\x05\x31\x30\x30\x30\x30\x12\x15\n\rworker_places\x18\x1b \x03(\x05\x12\x15\n\rxpu_send_list\x18\x1c \x03(\t\x12\x15\n\rxpu_recv_list\x18\x1d \x03(\t\x12\x15\n\rxpu_start_idx\x18\x1e \x01(\x05\x12\x13\n\x0bxpu_end_idx\x18\x1f \x01(\x05\x12\x19\n\nuse_ps_gpu\x18  \x01(\x08:\x05\x66\x61lse\x12!\n\x19user_define_dump_filename\x18! \x01(\t\x12\x33\n%scale_sparse_gradient_with_batch_size\x18\" \x01(\x08:\x04true\x12\x10\n\x08trainers\x18# \x03(\x05\x12\x12\n\ntrainer_id\x18$ \x01(\x05\x12\x12\n\nfleet_desc\x18% \x01(\t\x12?\n\rhogwild_param\x18\x65 \x01(\x0b\x32(.paddle.framework.HogwildWorkerParameter\x12\x41\n\x0e\x64ownpour_param\x18g \x01(\x0b\x32).paddle.framework.DownpourWorkerParameter\x12\x44\n\x10pull_dense_param\x18\x66 \x01(\x0b\x32*.paddle.framework.PullDenseWorkerParameter\x12?\n\rsection_param\x18h \x01(\x0b\x32(.paddle.framework.SectionWorkerParameter\x12J\n\x13heter_section_param\x18i \x01(\x0b\x32-.paddle.framework.HeterSectionWorkerParameter\x12\x32\n\tdata_desc\x18\xc9\x01 \x01(\x0b\x32\x1e.paddle.framework.DataFeedDesc\"B\n\x16HogwildWorkerParameter\x12\x10\n\x08skip_ops\x18\x01 \x03(\t\x12\x16\n\x0estat_var_names\x18\x02 \x03(\t\"\xa0\x02\n\x17\x44ownpourWorkerParameter\x12\x36\n\x0csparse_table\x18\x01 \x03(\x0b\x32 .paddle.framework.TableParameter\x12\x35\n\x0b\x64\x65nse_table\x18\x02 \x03(\x0b\x32 .paddle.framework.TableParameter\x12\x10\n\x08skip_ops\x18\x03 \x03(\t\x12\x37\n\x0eprogram_config\x18\x04 \x03(\x0b\x32\x1f.paddle.framework.ProgramConfig\x12\x19\n\x0bpush_sparse\x18\x05 \x01(\x08:\x04true\x12\x18\n\npush_dense\x18\x06 \x01(\x08:\x04true\x12\x16\n\x0estat_var_names\x18\x07 \x03(\t\"\xa5\x02\n\x16SectionWorkerParameter\x12\x37\n\x0esection_config\x18\x01 \x01(\x0b\x32\x1f.paddle.framework.SectionConfig\x12\x15\n\nqueue_size\x18\x02 \x01(\x05:\x01\x31\x12\x15\n\nsync_steps\x18\x03 \x01(\x03:\x01\x31\x12\x1c\n\x11start_cpu_core_id\x18\x04 \x01(\x05:\x01\x31\x12\x17\n\x0fparam_need_sync\x18\x05 \x03(\t\x12\x18\n\x10num_microbatches\x18\x06 \x01(\x05\x12\x1e\n\x13num_pipeline_stages\x18\x07 \x01(\x05:\x01\x31\x12\x19\n\x0epipeline_stage\x18\x08 \x01(\x05:\x01\x31\x12\x18\n\rschedule_mode\x18\t \x01(\x05:\x01\x30\"\x90\x02\n\x1bHeterSectionWorkerParameter\x12\x37\n\x0esection_config\x18\x01 \x01(\x0b\x32\x1f.paddle.framework.SectionConfig\x12\x15\n\nqueue_size\x18\x02 \x01(\x05:\x01\x31\x12\x15\n\nsync_steps\x18\x03 \x01(\x03:\x01\x31\x12\x1c\n\x11start_cpu_core_id\x18\x04 \x01(\x05:\x01\x31\x12\x17\n\x0fparam_need_sync\x18\x05 \x03(\t\x12\x18\n\x10num_microbatches\x18\x06 \x01(\x05\x12\x1e\n\x13num_pipeline_stages\x18\x07 \x01(\x05:\x01\x31\x12\x19\n\x0epipeline_stage\x18\x08 \x01(\x05:\x01\x31\"\xa6\x02\n\rSectionConfig\x12\x39\n\x0cprogram_desc\x18\x01 \x01(\x0b\x32#.paddle.framework.proto.ProgramDesc\x12\x34\n\x05place\x18\x02 \x01(\x0e\x32%.paddle.framework.SectionConfig.Place\x12\x16\n\x0b\x63oncurrency\x18\x03 \x01(\x05:\x01\x31\x12\x1c\n\x14section_in_var_names\x18\x04 \x03(\t\x12\x1d\n\x15section_out_var_names\x18\x05 \x03(\t\x12\x14\n\x08place_id\x18\x06 \x01(\x05:\x02-1\"9\n\x05Place\x12\x0c\n\x08\x43PUPlace\x10\x00\x12\r\n\tCUDAPlace\x10\x01\x12\x13\n\x0f\x43UDAPinnedPlace\x10\x02\"\xb1\x01\n\x0b\x46\x65tchConfig\x12\x17\n\x0f\x66\x65tch_var_names\x18\x01 \x03(\t\x12\x1c\n\x14\x66\x65tch_var_str_format\x18\x02 \x03(\t\x12\x19\n\x0cprint_period\x18\x03 \x01(\x05:\x03\x31\x30\x30\x12;\n\x06method\x18\x04 \x01(\x0e\x32$.paddle.framework.FetchConfig.Method:\x05PRINT\"\x13\n\x06Method\x12\t\n\x05PRINT\x10\x00\"\x9c\x01\n\x15\x41\x64justInsWeightConfig\x12\x1a\n\x0bneed_adjust\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x12\n\x08nid_slot\x18\x02 \x01(\t:\x00\x12\x1d\n\x12nid_adjw_threshold\x18\x03 \x01(\x02:\x01\x30\x12\x19\n\x0enid_adjw_ratio\x18\x04 \x01(\x02:\x01\x30\x12\x19\n\x0fins_weight_slot\x18\x05 \x01(\t:\x00\"1\n\x12TableDependencyMap\x12\x0b\n\x03key\x18\x01 \x02(\x05\x12\x0e\n\x06values\x18\x02 \x03(\x05\"\x8f\x03\n\x0f\x43opyTableConfig\x12\x18\n\tneed_copy\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x16\n\tbatch_num\x18\x02 \x01(\x05:\x03\x31\x30\x30\x12\x19\n\x11src_sparse_tables\x18\x03 \x03(\x05\x12\x1a\n\x12\x64\x65st_sparse_tables\x18\x04 \x03(\x05\x12\x18\n\x10src_dense_tables\x18\x05 \x03(\x05\x12\x19\n\x11\x64\x65st_dense_tables\x18\x06 \x03(\x05\x12\x14\n\x0csrc_var_list\x18\x07 \x03(\t\x12\x15\n\rdest_var_list\x18\x08 \x03(\t\x12$\n\x15\x64\x65nse_pull_after_copy\x18\t \x01(\x08:\x05\x66\x61lse\x12$\n\x16sparse_copy_by_feasign\x18\n \x01(\x08:\x04true\x12 \n\x11\x65nable_dependency\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x43\n\x15table_denpendency_map\x18\x0c \x03(\x0b\x32$.paddle.framework.TableDependencyMap\"*\n\x0c\x43ondTableMap\x12\x0b\n\x03key\x18\x01 \x02(\x05\x12\r\n\x05value\x18\x02 \x02(\x05\"\xe2\x01\n\rProgramConfig\x12\x12\n\nprogram_id\x18\x01 \x02(\t\x12\x1c\n\x14push_sparse_table_id\x18\x02 \x03(\x05\x12\x1b\n\x13push_dense_table_id\x18\x03 \x03(\x05\x12\x1c\n\x14pull_sparse_table_id\x18\x04 \x03(\x05\x12\x1b\n\x13pull_dense_table_id\x18\x05 \x03(\x05\x12G\n\x1fpartial_pushdense_condtable_map\x18\n \x03(\x0b\x32\x1e.paddle.framework.CondTableMap\"\x95\x01\n\x18PullDenseWorkerParameter\x12\x14\n\tthreshold\x18\x01 \x01(\x05:\x01\x31\x12\x12\n\ndevice_num\x18\x02 \x01(\x05\x12\x18\n\rsleep_time_ms\x18\x03 \x01(\x05:\x01\x32\x12\x35\n\x0b\x64\x65nse_table\x18\x04 \x03(\x0b\x32 .paddle.framework.TableParameter\"\xea\x02\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x18\n\x10\x64\x65nse_value_name\x18\x02 \x03(\t\x12\x17\n\x0f\x64\x65nse_grad_name\x18\x03 \x03(\t\x12\x1d\n\x15push_dense_wait_times\x18\x05 \x03(\x05\x12\x17\n\x0fsparse_key_name\x18\x06 \x03(\t\x12\x19\n\x11sparse_value_name\x18\x07 \x03(\t\x12\x18\n\x10sparse_grad_name\x18\x08 \x03(\t\x12\x1e\n\x16push_sparse_wait_times\x18\t \x03(\x05\x12\x0f\n\x07\x65mb_dim\x18\n \x01(\x05\x12\x0f\n\x07\x66\x65\x61_dim\x18\x0b \x01(\x05\x12\x16\n\x0elabel_var_name\x18\x0c \x01(\t\x12\x17\n\x08is_local\x18\r \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08is_async\x18\x0e \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x12\x61sync_wait_op_name\x18\x0f \x01(\tB\x02H\x03')
   ,
   dependencies=[data__feed__pb2.DESCRIPTOR,framework__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -49,8 +49,8 @@ _SECTIONCONFIG_PLACE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2740,
-  serialized_end=2797,
+  serialized_start=2701,
+  serialized_end=2758,
 )
 _sym_db.RegisterEnumDescriptor(_SECTIONCONFIG_PLACE)
 
@@ -67,8 +67,8 @@ _FETCHCONFIG_METHOD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2958,
-  serialized_end=2977,
+  serialized_start=2919,
+  serialized_end=2938,
 )
 _sym_db.RegisterEnumDescriptor(_FETCHCONFIG_METHOD)
 
@@ -340,49 +340,42 @@ _TRAINERDESC = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='is_dump_in_simple_mode', full_name='paddle.framework.TrainerDesc.is_dump_in_simple_mode', index=37,
-      number=38, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='hogwild_param', full_name='paddle.framework.TrainerDesc.hogwild_param', index=38,
+      name='hogwild_param', full_name='paddle.framework.TrainerDesc.hogwild_param', index=37,
       number=101, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='downpour_param', full_name='paddle.framework.TrainerDesc.downpour_param', index=39,
+      name='downpour_param', full_name='paddle.framework.TrainerDesc.downpour_param', index=38,
       number=103, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='pull_dense_param', full_name='paddle.framework.TrainerDesc.pull_dense_param', index=40,
+      name='pull_dense_param', full_name='paddle.framework.TrainerDesc.pull_dense_param', index=39,
       number=102, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='section_param', full_name='paddle.framework.TrainerDesc.section_param', index=41,
+      name='section_param', full_name='paddle.framework.TrainerDesc.section_param', index=40,
       number=104, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='heter_section_param', full_name='paddle.framework.TrainerDesc.heter_section_param', index=42,
+      name='heter_section_param', full_name='paddle.framework.TrainerDesc.heter_section_param', index=41,
       number=105, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='data_desc', full_name='paddle.framework.TrainerDesc.data_desc', index=43,
+      name='data_desc', full_name='paddle.framework.TrainerDesc.data_desc', index=42,
       number=201, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -401,7 +394,7 @@ _TRAINERDESC = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=75,
-  serialized_end=1570,
+  serialized_end=1531,
 )
 
 
@@ -438,8 +431,8 @@ _HOGWILDWORKERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1572,
-  serialized_end=1638,
+  serialized_start=1533,
+  serialized_end=1599,
 )
 
 
@@ -511,8 +504,8 @@ _DOWNPOURWORKERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1641,
-  serialized_end=1929,
+  serialized_start=1602,
+  serialized_end=1890,
 )
 
 
@@ -598,8 +591,8 @@ _SECTIONWORKERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1932,
-  serialized_end=2225,
+  serialized_start=1893,
+  serialized_end=2186,
 )
 
 
@@ -678,8 +671,8 @@ _HETERSECTIONWORKERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2228,
-  serialized_end=2500,
+  serialized_start=2189,
+  serialized_end=2461,
 )
 
 
@@ -745,8 +738,8 @@ _SECTIONCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2503,
-  serialized_end=2797,
+  serialized_start=2464,
+  serialized_end=2758,
 )
 
 
@@ -798,8 +791,8 @@ _FETCHCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2800,
-  serialized_end=2977,
+  serialized_start=2761,
+  serialized_end=2938,
 )
 
 
@@ -857,8 +850,8 @@ _ADJUSTINSWEIGHTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2980,
-  serialized_end=3136,
+  serialized_start=2941,
+  serialized_end=3097,
 )
 
 
@@ -895,8 +888,8 @@ _TABLEDEPENDENCYMAP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3138,
-  serialized_end=3187,
+  serialized_start=3099,
+  serialized_end=3148,
 )
 
 
@@ -1003,8 +996,8 @@ _COPYTABLECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3190,
-  serialized_end=3589,
+  serialized_start=3151,
+  serialized_end=3550,
 )
 
 
@@ -1041,8 +1034,8 @@ _CONDTABLEMAP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3591,
-  serialized_end=3633,
+  serialized_start=3552,
+  serialized_end=3594,
 )
 
 
@@ -1107,8 +1100,8 @@ _PROGRAMCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3636,
-  serialized_end=3862,
+  serialized_start=3597,
+  serialized_end=3823,
 )
 
 
@@ -1159,8 +1152,8 @@ _PULLDENSEWORKERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3865,
-  serialized_end=4014,
+  serialized_start=3826,
+  serialized_end=3975,
 )
 
 
@@ -1281,8 +1274,8 @@ _TABLEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4017,
-  serialized_end=4379,
+  serialized_start=3978,
+  serialized_end=4340,
 )
 
 _TRAINERDESC.fields_by_name['fetch_config'].message_type = _FETCHCONFIG

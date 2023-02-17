@@ -47,10 +47,9 @@ from paddle.io import Dataset
 from paddle.io import DistributedBatchSampler
 from paddle.metric import Metric
 from paddle.static import InputSpec as Input
+import paddle.distributed as dist
+import paddle.distributed.fleet as fleet
 from paddle.distributed.fleet.base import role_maker
-from paddle.autograd import no_grad
-from paddle.distributed import fleet
-from paddle.distributed.parallel import init_parallel_env
 
 from .callbacks import config_callbacks, EarlyStopping
 from .model_summary import summary
@@ -466,7 +465,7 @@ class StaticGraphAdapter(object):
                     idx] == core.VarDesc.VarType.FP16:
                 if isinstance(feed[n], core.LoDTensor):
                     feed[n] = feed[n]._as_type(core.VarDesc.VarType.FP16)
-                elif isinstance(feed[n], np.array):
+                elif isinstance(feed[n], numpy.array):
                     feed[n] = feed[n].astype('float16')
 
         if labels is not None:
@@ -684,7 +683,7 @@ class DynamicGraphAdapter(object):
         self._use_fp16_guard = True
 
         if self._nranks > 1:
-            init_parallel_env()
+            dist.init_parallel_env()
             stradegy = fluid.dygraph.parallel.ParallelStrategy()
             stradegy.nranks = ParallelEnv().nranks
             stradegy.local_rank = ParallelEnv().local_rank
@@ -720,9 +719,11 @@ class DynamicGraphAdapter(object):
                                   **self._amp_custom_lists,
                                   level=self._amp_level):
             if self._nranks > 1:
-                outputs = self.ddp_model(*[to_variable(x) for x in inputs])
+                outputs = self.ddp_model.forward(
+                    *[to_variable(x) for x in inputs])
             else:
-                outputs = self.model.network(*[to_variable(x) for x in inputs])
+                outputs = self.model.network.forward(
+                    *[to_variable(x) for x in inputs])
 
         losses = self.model._loss(*(to_list(outputs) + labels))
         losses = to_list(losses)
@@ -757,7 +758,7 @@ class DynamicGraphAdapter(object):
         labels = labels or []
         labels = [to_variable(l) for l in to_list(labels)]
 
-        outputs = self.model.network(*[to_variable(x) for x in inputs])
+        outputs = self.model.network.forward(*[to_variable(x) for x in inputs])
 
         # Transfrom data to expected device
         expected_device = paddle.device.get_device()
@@ -812,7 +813,7 @@ class DynamicGraphAdapter(object):
         self.mode = 'test'
         inputs = [to_variable(x) for x in to_list(inputs)]
         self._input_info = _update_input_info(inputs)
-        outputs = self.model.network(*inputs)
+        outputs = self.model.network.forward(*inputs)
         if self._nranks > 1 and isinstance(self.model._place, fluid.CUDAPlace):
             outputs = [_all_gather(o, self._nranks) for o in to_list(outputs)]
 
@@ -933,91 +934,89 @@ class Model(object):
     Args:
         network (paddle.nn.Layer): The network is an instance of
             paddle.nn.Layer.
-        inputs (InputSpec|list|tuple|dict|None, optional): `inputs`, entry points of network,
+        inputs (InputSpec|list|tuple|dict|None): `inputs`, entry points of network,
             could be a InputSpec instance, or list/tuple of InputSpec instances,
             or dict ({name: InputSpec}), and it couldn't be None in static
-            graph. Default: None.
-        labels (InputSpec|list|tuple|None, optional): `labels`, entry points of network,
+            graph.
+        labels (InputSpec|list|tuple|None): `labels`, entry points of network,
             could be a InputSpec instnace or list/tuple of InputSpec instances,
             or None. For static graph, if labels is required in loss,
-            labels must be set. Otherwise, it could be None. Default: None.
+            labels must be set. Otherwise, it could be None.
 
 
     Examples:
         1. A common example
 
         .. code-block:: python
-          :name: code-example1
 
-            import paddle
-            import paddle.nn as nn
-            import paddle.vision.transforms as T
-            from paddle.static import InputSpec
+          import paddle
+          import paddle.nn as nn
+          import paddle.vision.transforms as T
+          from paddle.static import InputSpec
+  
+          device = paddle.set_device('cpu') # or 'gpu'
 
-            device = paddle.set_device('cpu') # or 'gpu'
+          net = nn.Sequential(
+              nn.Flatten(1),
+              nn.Linear(784, 200),
+              nn.Tanh(),
+              nn.Linear(200, 10))
+  
+          # inputs and labels are not required for dynamic graph.
+          input = InputSpec([None, 784], 'float32', 'x')
+          label = InputSpec([None, 1], 'int64', 'label')
+          
+          model = paddle.Model(net, input, label)
+          optim = paddle.optimizer.SGD(learning_rate=1e-3,
+              parameters=model.parameters())
 
-            net = nn.Sequential(
-                nn.Flatten(1),
-                nn.Linear(784, 200),
-                nn.Tanh(),
-                nn.Linear(200, 10))
-
-            # inputs and labels are not required for dynamic graph.
-            input = InputSpec([None, 784], 'float32', 'x')
-            label = InputSpec([None, 1], 'int64', 'label')
-            
-            model = paddle.Model(net, input, label)
-            optim = paddle.optimizer.SGD(learning_rate=1e-3,
-                parameters=model.parameters())
-
-            model.prepare(optim,
+          model.prepare(optim,
                         paddle.nn.CrossEntropyLoss(),
                         paddle.metric.Accuracy())
-
-            transform = T.Compose([
-                T.Transpose(),
-                T.Normalize([127.5], [127.5])
-            ])
-            data = paddle.vision.datasets.MNIST(mode='train', transform=transform)
-            model.fit(data, epochs=2, batch_size=32, verbose=1)
+          
+          transform = T.Compose([
+              T.Transpose(),
+              T.Normalize([127.5], [127.5])
+          ])
+          data = paddle.vision.datasets.MNIST(mode='train', transform=transform)
+          model.fit(data, epochs=2, batch_size=32, verbose=1)
 
 
         2. An example using mixed precision training.
 
         .. code-block:: python
-          :name: code-example2
+        
+          # required: gpu
+          import paddle
+          import paddle.nn as nn
+          import paddle.vision.transforms as T
 
-            # required: gpu
-            import paddle
-            import paddle.nn as nn
-            import paddle.vision.transforms as T
+          def run_example_code():
+            device = paddle.set_device('gpu')
 
-            def run_example_code():
-                device = paddle.set_device('gpu')
+            net = nn.Sequential(nn.Flatten(1), nn.Linear(784, 200), nn.Tanh(),
+                                nn.Linear(200, 10))
 
-                net = nn.Sequential(nn.Flatten(1), nn.Linear(784, 200), nn.Tanh(),
-                                    nn.Linear(200, 10))
+            model = paddle.Model(net)
+            optim = paddle.optimizer.SGD(learning_rate=1e-3, parameters=model.parameters())
 
-                model = paddle.Model(net)
-                optim = paddle.optimizer.SGD(learning_rate=1e-3, parameters=model.parameters())
+            amp_configs = {
+                "level": "O1",
+                "custom_white_list": {'conv2d'},
+                "use_dynamic_loss_scaling": True
+            }
+            model.prepare(optim,
+                paddle.nn.CrossEntropyLoss(),
+                paddle.metric.Accuracy(),
+                amp_configs=amp_configs)
 
-                amp_configs = {
-                    "level": "O1",
-                    "custom_white_list": {'conv2d'},
-                    "use_dynamic_loss_scaling": True
-                }
-                model.prepare(optim,
-                    paddle.nn.CrossEntropyLoss(),
-                    paddle.metric.Accuracy(),
-                    amp_configs=amp_configs)
+            transform = T.Compose([T.Transpose(), T.Normalize([127.5], [127.5])])
+            data = paddle.vision.datasets.MNIST(mode='train', transform=transform)
+            model.fit(data, epochs=2, batch_size=32, verbose=1)
 
-                transform = T.Compose([T.Transpose(), T.Normalize([127.5], [127.5])])
-                data = paddle.vision.datasets.MNIST(mode='train', transform=transform)
-                model.fit(data, epochs=2, batch_size=32, verbose=1)
-
-            # mixed precision training is only supported on GPU now.
-            if paddle.is_compiled_with_cuda():
-                run_example_code()
+          # mixed precision training is only supported on GPU now.
+          if paddle.is_compiled_with_cuda():
+            run_example_code()
 
     """
 
@@ -1060,12 +1059,12 @@ class Model(object):
             inputs (numpy.ndarray|Tensor|list): Batch of input data. It could 
                 be a numpy array or paddle.Tensor, or a list of arrays or 
                 tensors (in case the model has multiple inputs).
-            labels (numpy.ndarray|Tensor|list, optional): Batch of labels. It could be 
+            labels (numpy.ndarray|Tensor|list): Batch of labels. It could be 
                 a numpy array or paddle.Tensor, or a list of arrays or tensors 
                 (in case the model has multiple labels). If has no labels, 
-                set None. Default: None.
-            update (bool, optional): Whether update parameters after loss.backward() computing.
-                Set it to False to accumulate gradients. Default: True.
+                set None. Default is None.
+            update (bool): Whether update parameters after loss.backward() computing.
+                Using it to accumulate gradients. Default is True.
 
         Returns:
             A list of scalar training loss if the model has no metrics,
@@ -1076,35 +1075,35 @@ class Model(object):
 
             .. code-block:: python
             
-                import paddle
-                import paddle.nn as nn
-                from paddle.static import InputSpec
+              import numpy as np
+              import paddle
+              import paddle.nn as nn
+              from paddle.static import InputSpec
 
-                device = paddle.set_device('cpu') # or 'gpu'
+              device = paddle.set_device('cpu') # or 'gpu'
 
-                net = nn.Sequential(
-                    nn.Linear(784, 200),
-                    nn.Tanh(),
-                    nn.Linear(200, 10))
+              net = nn.Sequential(
+                  nn.Linear(784, 200),
+                  nn.Tanh(),
+                  nn.Linear(200, 10))
 
-                input = InputSpec([None, 784], 'float32', 'x')
-                label = InputSpec([None, 1], 'int64', 'label')
-                model = paddle.Model(net, input, label)
-                optim = paddle.optimizer.SGD(learning_rate=1e-3,
-                    parameters=model.parameters())
-                model.prepare(optim, paddle.nn.CrossEntropyLoss())
-                data = paddle.rand((4, 784), dtype="float32")
-                label = paddle.randint(0, 10, (4, 1), dtype="int64")
-                loss = model.train_batch([data], [label])
-                print(loss)
-                # [array([2.192784], dtype=float32)]
+              input = InputSpec([None, 784], 'float32', 'x')
+              label = InputSpec([None, 1], 'int64', 'label')
+              model = paddle.Model(net, input, label)
+              optim = paddle.optimizer.SGD(learning_rate=1e-3,
+                  parameters=model.parameters())
+              model.prepare(optim, paddle.nn.CrossEntropyLoss())
+              data = np.random.random(size=(4,784)).astype(np.float32)
+              label = np.random.randint(0, 10, size=(4, 1)).astype(np.int64)
+              loss = model.train_batch([data], [label])
+              print(loss)
         """
         loss = self._adapter.train_batch(inputs, labels, update)
         if fluid._non_static_mode() and self._input_info is None:
             self._update_inputs()
         return loss
 
-    @no_grad()
+    @paddle.no_grad()
     def eval_batch(self, inputs, labels=None):
         """
         Run one evaluating step on a batch of data.
@@ -1113,10 +1112,10 @@ class Model(object):
             inputs (numpy.ndarray|Tensor|list): Batch of input data. It could 
                 be a numpy array or paddle.Tensor, or a list of arrays or 
                 tensors (in case the model has multiple inputs).
-            labels (numpy.ndarray|Tensor|list, optional): Batch of labels. It could be 
+            labels (numpy.ndarray|Tensor|list): Batch of labels. It could be 
                 a numpy array or paddle.Tensor, or a list of arrays or tensors 
                 (in case the model has multiple labels). If has no labels, 
-                set None. Default: None.
+                set None. Default is None.
 
         Returns:
             A list of scalar testing loss if the model has no metrics,
@@ -1126,37 +1125,37 @@ class Model(object):
         Examples:
 
             .. code-block:: python
+            
+              import numpy as np
+              import paddle
+              import paddle.nn as nn
+              from paddle.static import InputSpec
 
-                import paddle
-                import paddle.nn as nn
-                from paddle.static import InputSpec
+              device = paddle.set_device('cpu') # or 'gpu'
 
-                device = paddle.set_device('cpu') # or 'gpu'
+              net = nn.Sequential(
+                  nn.Linear(784, 200),
+                  nn.Tanh(),
+                  nn.Linear(200, 10))
 
-                net = nn.Sequential(
-                    nn.Linear(784, 200),
-                    nn.Tanh(),
-                    nn.Linear(200, 10))
-
-                input = InputSpec([None, 784], 'float32', 'x')
-                label = InputSpec([None, 1], 'int64', 'label')
-                model = paddle.Model(net, input, label)
-                optim = paddle.optimizer.SGD(learning_rate=1e-3,
-                    parameters=model.parameters())
-                model.prepare(optim,
-                            paddle.nn.CrossEntropyLoss(), metrics=paddle.metric.Accuracy())
-                data = paddle.rand((4, 784), dtype="float32")
-                label = paddle.randint(0, 10, (4, 1), dtype="int64")
-                loss, acc = model.eval_batch([data], [label])
-                print(loss, acc)
-                # [array([2.8825705], dtype=float32)] [0.0]
+              input = InputSpec([None, 784], 'float32', 'x')
+              label = InputSpec([None, 1], 'int64', 'label')
+              model = paddle.Model(net, input, label)
+              optim = paddle.optimizer.SGD(learning_rate=1e-3,
+                  parameters=model.parameters())
+              model.prepare(optim,
+                            paddle.nn.CrossEntropyLoss())
+              data = np.random.random(size=(4,784)).astype(np.float32)
+              label = np.random.randint(0, 10, size=(4, 1)).astype(np.int64)
+              loss = model.eval_batch([data], [label])
+              print(loss)
         """
         loss = self._adapter.eval_batch(inputs, labels)
         if fluid._non_static_mode() and self._input_info is None:
             self._update_inputs()
         return loss
 
-    @no_grad()
+    @paddle.no_grad()
     def predict_batch(self, inputs):
         """
         Run one predicting step on a batch of data.
@@ -1173,30 +1172,28 @@ class Model(object):
         Examples:
 
             .. code-block:: python
+            
+              import numpy as np
+              import paddle
+              import paddle.nn as nn
+              from paddle.static import InputSpec
 
-                import paddle
-                import paddle.nn as nn
-                from paddle.static import InputSpec
+              device = paddle.set_device('cpu') # or 'gpu'
+              
+              input = InputSpec([None, 784], 'float32', 'x')
+              label = InputSpec([None, 1], 'int64', 'label')
 
-                device = paddle.set_device('cpu') # or 'gpu'
-                
-                input = InputSpec([None, 784], 'float32', 'x')
-                label = InputSpec([None, 1], 'int64', 'label')
+              net = nn.Sequential(
+                  nn.Linear(784, 200),
+                  nn.Tanh(),
+                  nn.Linear(200, 10),
+                  nn.Softmax())
 
-                net = nn.Sequential(
-                    nn.Linear(784, 200),
-                    nn.Tanh(),
-                    nn.Linear(200, 10),
-                    nn.Softmax())
-
-                model = paddle.Model(net, input, label)
-                model.prepare()
-                data = paddle.rand((1, 784), dtype="float32")
-                out = model.predict_batch([data])
-                print(out)
-                # [array([[0.08189095, 0.16740078, 0.06889386, 0.05085445, 0.10729759,
-                #          0.02217775, 0.14518553, 0.1591538 , 0.01808308, 0.17906217]],
-                #          dtype=float32)]
+              model = paddle.Model(net, input, label)
+              model.prepare()
+              data = np.random.random(size=(4,784)).astype(np.float32)
+              out = model.predict_batch([data])
+              print(out)
         """
         loss = self._adapter.predict_batch(inputs)
         if fluid._non_static_mode() and self._input_info is None:
@@ -1262,7 +1259,7 @@ class Model(object):
                 optim = paddle.optimizer.SGD(learning_rate=1e-3,
                     parameters=model.parameters())
                 model.prepare(optim, paddle.nn.CrossEntropyLoss())
-
+                
                 transform = T.Compose([
                     T.Transpose(),
                     T.Normalize([127.5], [127.5])
@@ -1297,14 +1294,14 @@ class Model(object):
                 optimizer states. The files would be `path.pdparams` and
                 `path.pdopt` separately, and the latter is not necessary
                 when no need to restore.
-            skip_mismatch (bool, optional): Whether to skip the loading of mismatch
+            skip_mismatch (bool): Whether to skip the loading of mismatch
                 parameter or raise an error when mismatch happens (not found
                 the parameter in file storing model states of or receives a
-                mismatch shape). Default: False.
-            reset_optimizer (bool, optional): If True, ignore the providing file storing
+                mismatch shape).
+            reset_optimizer (bool): If True, ignore the providing file storing
                 optimizer states and initialize optimizer states from scratch.
                 Otherwise, restore optimizer states from `path.pdopt` if
-                a optimizer has been set to the model. Default: False.
+                a optimizer has been set to the model. Default False.
 
         Returns:
             None
@@ -1312,23 +1309,23 @@ class Model(object):
         Examples:
 
             .. code-block:: python
+            
+              import paddle
+              import paddle.nn as nn
+              from paddle.static import InputSpec
 
-                import paddle
-                import paddle.nn as nn
-                from paddle.static import InputSpec
+              device = paddle.set_device('cpu')
 
-                device = paddle.set_device('cpu')
+              input = InputSpec([None, 784], 'float32', 'x')
 
-                input = InputSpec([None, 784], 'float32', 'x')
+              model = paddle.Model(nn.Sequential(
+                  nn.Linear(784, 200),
+                  nn.Tanh(),
+                  nn.Linear(200, 10),
+                  nn.Softmax()), input)
 
-                model = paddle.Model(nn.Sequential(
-                    nn.Linear(784, 200),
-                    nn.Tanh(),
-                    nn.Linear(200, 10),
-                    nn.Softmax()), input)
-
-                model.save('checkpoint/test')
-                model.load('checkpoint/test')
+              model.save('checkpoint/test')
+              model.load('checkpoint/test')
         """
 
         def _load_state_from_path(path):
@@ -1398,19 +1395,19 @@ class Model(object):
         Examples:
 
             .. code-block:: python
-            
-                import paddle
-                import paddle.nn as nn
-                from paddle.static import InputSpec
 
-                input = InputSpec([None, 784], 'float32', 'x')
-                
-                model = paddle.Model(nn.Sequential(
-                    nn.Linear(784, 200),
-                    nn.Tanh(),
-                    nn.Linear(200, 10)), input)
+              import paddle
+              import paddle.nn as nn
+              from paddle.static import InputSpec
 
-                params = model.parameters()
+              input = InputSpec([None, 784], 'float32', 'x')
+              
+              model = paddle.Model(nn.Sequential(
+                  nn.Linear(784, 200),
+                  nn.Tanh(),
+                  nn.Linear(200, 10)), input)
+
+              params = model.parameters()
         """
         return self._adapter.parameters()
 
@@ -1504,16 +1501,16 @@ class Model(object):
         Configures the model before runing.
 
         Args:
-            optimizer (Optimizer|None, optional): Optimizer must be set in training
+            optimizer (Optimizer|None): Optimizer must be set in training
                 and should be a Optimizer instance. It can be None in eval
-                and test mode. Default: None.
-            loss (Loss|Callable|None, optional): Loss function can
+                and test mode.
+            loss (Loss|callable function|None): Loss function can
                 be a `paddle.nn.Layer` instance or any callable function
                 taken the predicted values and ground truth values as input.
-                It can be None when there is no loss. Default: None.
-            metrics (Metric|list[Metric]|None, optional): If metrics is set, all
-                metrics will be calculated and output in train/eval mode. Default: None.
-            amp_configs (str|dict|None, optional): AMP configurations. If AMP or pure
+                It can be None when there is no loss.
+            metrics (Metric|list of Metric|None): If metrics is set, all
+                metrics will be calculated and output in train/eval mode.
+            amp_configs (str|dict|None): AMP configurations. If AMP or pure
                 float16 training is used, the key 'level' of 'amp_configs'
                 should be set to 'O1' or 'O2' respectively. Otherwise, the
                 value of 'level' defaults to 'O0', which means float32
@@ -1529,7 +1526,6 @@ class Model(object):
                 for details. For convenience, 'amp_configs' could be set to
                 'O1' or 'O2' if no more parameters are needed. 'amp_configs'
                 could be None in float32 training. Default: None.
-
         Returns:
             None
         """
@@ -1591,133 +1587,133 @@ class Model(object):
         evaluation will be done at the end of each epoch.
 
         Args:
-            train_data (Dataset|DataLoader, optional): An iterable data loader is used for 
+            train_data (Dataset|DataLoader): An iterable data loader is used for 
                 train. An instance of paddle paddle.io.Dataset or 
                 paddle.io.Dataloader is recomended. Default: None.
-            eval_data (Dataset|DataLoader, optional): An iterable data loader is used for
+            eval_data (Dataset|DataLoader): An iterable data loader is used for
                 evaluation at the end of epoch. If None, will not do evaluation. 
                 An instance of paddle.io.Dataset or paddle.io.Dataloader 
                 is recomended. Default: None.
-            batch_size (int, optional): The batch size of train_data and eval_data. When 
-                train_data and eval_data are both the instance of Dataloader, this
-                parameter will be ignored. Default: 1.
-            epochs (int, optional): The number of epochs to train the model. Default: 1.
-            eval_freq (int, optional): The frequency, in number of epochs, an evalutation
+            batch_size (int): Integer number. The batch size of train_data
+                and eval_data. When train_data and eval_data are both the
+                instance of Dataloader, this parameter will be ignored.
+                Default: 1.
+            epochs (int): Integer number. The number of epochs to train
+                the model. Default: 1.
+            eval_freq (int): The frequency, in number of epochs, an evalutation
                 is performed. Default: 1.
-            log_freq (int, optional): The frequency, in number of steps, the training logs
+            log_freq (int): The frequency, in number of steps, the training logs
                 are printed. Default: 10.
-            save_dir(str|None, optional): The directory to save checkpoint during training.
+            save_dir(str|None): The directory to save checkpoint during training.
                 If None, will not save checkpoint. Default: None.
-            save_freq (int, optional): The frequency, in number of epochs, to save
+            save_freq (int): The frequency, in number of epochs, to save
                 checkpoint. Default: 1.
-            verbose (int, optional): The verbosity mode, should be 0, 1, or 2. 0 = silent,
+            verbose (int): The verbosity mode, should be 0, 1, or 2. 0 = silent,
                 1 = progress bar, 2 = one line per epoch. Default: 2.
-            drop_last (bool, optional): Whether drop the last incomplete batch of
+            drop_last (bool): Whether drop the last incomplete batch of
                 train_data when dataset size is not divisible by the batch size.
                 When train_data is an instance of Dataloader, this parameter
                 will be ignored. Default: False.
-            shuffle (bool, optional): Whther to shuffle train_data. When train_data is
+            shuffle (bool): Whther to shuffle train_data. When train_data is
                 an instance of Dataloader, this parameter will be ignored.
                 Default: True.
-            num_workers (int, optional): The number of subprocess to load data, 0 for no
+            num_workers (int): The number of subprocess to load data, 0 for no
                 subprocess used and loading data in main process.
                 When train_data and eval_data are both the instance of
                 Dataloader, this parameter will be ignored. Default: 0.
-            callbacks (Callback|None, optional): A list of `Callback` instances to apply
-                during training. If None, :ref:`api_paddle_callbacks_ProgBarLogger` and
-                :ref:`api_paddle_callbacks_ModelCheckpoint` are automatically inserted. Default: None.
-            accumulate_grad_batches (int, optional): The number of batches to accumulate gradident 
+            callbacks (Callback|None): A list of `Callback` instances to apply
+                during training. If None, `ProgBarLogger` and `ModelCheckpoint`
+                are automatically inserted. Default: None.
+            accumulate_grad_batches (int): The number of batches to accumulate gradident 
                 during training process before optimizer updates. It can mimic large batch
                 size. Default: 1.
-            num_iters (int|None, optional): The number of iterations to evaluate the model.
-                If None, evaluate on whole input dataset, otherwise, evaluate `num_iters` times.
-                Default: None.
-
+            num_iters (int|None): Integer number. The number of iterations to train
+                the model. If None, follow `epochs` to train the model, otherwise, train
+                the model `num_iters` times. Default: None.
+            
         Returns:
             None
 
         Examples:
-            1. An example use Dataset and set batch size, shuffle in fit.
+            1. An example use Dataset and set btch size, shuffle in fit.
                How to make a batch is done internally.
 
             .. code-block:: python
-              :name: code-example1
 
-                import paddle
-                import paddle.vision.transforms as T
-                from paddle.vision.datasets import MNIST
-                from paddle.static import InputSpec
+              import paddle
+              import paddle.vision.transforms as T
+              from paddle.vision.datasets import MNIST
+              from paddle.static import InputSpec
 
-                dynamic = True
-                if not dynamic:
-                    paddle.enable_static()
+              dynamic = True
+              if not dynamic:
+                  paddle.enable_static()
 
-                transform = T.Compose([
-                    T.Transpose(),
-                    T.Normalize([127.5], [127.5])
-                ])
-                train_dataset = MNIST(mode='train', transform=transform)
-                val_dataset = MNIST(mode='test', transform=transform)
-
-                input = InputSpec([None, 1, 28, 28], 'float32', 'image')
-                label = InputSpec([None, 1], 'int64', 'label')
-
-                model = paddle.Model(
-                    paddle.vision.models.LeNet(),
-                    input, label)
-                optim = paddle.optimizer.Adam(
-                    learning_rate=0.001, parameters=model.parameters())
-                model.prepare(
-                    optim,
-                    paddle.nn.CrossEntropyLoss(),
-                    paddle.metric.Accuracy(topk=(1, 2)))
-                model.fit(train_dataset,
-                            val_dataset,
-                            epochs=2,
-                            batch_size=64,
-                            save_dir='mnist_checkpoint')
+              transform = T.Compose([
+                  T.Transpose(),
+                  T.Normalize([127.5], [127.5])
+              ])
+              train_dataset = MNIST(mode='train', transform=transform)
+              val_dataset = MNIST(mode='test', transform=transform)
+           
+              input = InputSpec([None, 1, 28, 28], 'float32', 'image')
+              label = InputSpec([None, 1], 'int64', 'label')
+           
+              model = paddle.Model(
+                  paddle.vision.models.LeNet(),
+                  input, label)
+              optim = paddle.optimizer.Adam(
+                  learning_rate=0.001, parameters=model.parameters())
+              model.prepare(
+                  optim,
+                  paddle.nn.CrossEntropyLoss(),
+                  paddle.metric.Accuracy(topk=(1, 2)))
+              model.fit(train_dataset,
+                        val_dataset,
+                        epochs=2,
+                        batch_size=64,
+                        save_dir='mnist_checkpoint')
 
             2. An example use DataLoader, batch size and shuffle is set in
                DataLoader.
 
             .. code-block:: python
-              :name: code-example2
 
-                import paddle
-                import paddle.vision.transforms as T
-                from paddle.vision.datasets import MNIST
-                from paddle.static import InputSpec
+              import paddle
+              import paddle.vision.transforms as T
+              from paddle.vision.datasets import MNIST
+              from paddle.static import InputSpec
 
-                dynamic = True
-                if not dynamic:
-                    paddle.enable_static()
-                
-                transform = T.Compose([
-                        T.Transpose(),
-                        T.Normalize([127.5], [127.5])
-                    ])
-                train_dataset = MNIST(mode='train', transform=transform)
-                train_loader = paddle.io.DataLoader(train_dataset,
-                    batch_size=64)
-                val_dataset = MNIST(mode='test', transform=transform)
-                val_loader = paddle.io.DataLoader(val_dataset,
-                    batch_size=64)
-
-                input = InputSpec([None, 1, 28, 28], 'float32', 'image')
-                label = InputSpec([None, 1], 'int64', 'label')
-
-                model = paddle.Model(
-                    paddle.vision.models.LeNet(), input, label)
-                optim = paddle.optimizer.Adam(
-                    learning_rate=0.001, parameters=model.parameters())
-                model.prepare(
-                    optim,
-                    paddle.nn.CrossEntropyLoss(),
-                    paddle.metric.Accuracy(topk=(1, 2)))
-                model.fit(train_loader,
-                            val_loader,
-                            epochs=2,
-                            save_dir='mnist_checkpoint')
+              dynamic = True
+              if not dynamic:
+                  paddle.enable_static()
+              
+              transform = T.Compose([
+                    T.Transpose(),
+                    T.Normalize([127.5], [127.5])
+                ])
+              train_dataset = MNIST(mode='train', transform=transform)
+              train_loader = paddle.io.DataLoader(train_dataset,
+                  batch_size=64)
+              val_dataset = MNIST(mode='test', transform=transform)
+              val_loader = paddle.io.DataLoader(val_dataset,
+                  batch_size=64)
+           
+              input = InputSpec([None, 1, 28, 28], 'float32', 'image')
+              label = InputSpec([None, 1], 'int64', 'label')
+           
+              model = paddle.Model(
+                  paddle.vision.models.LeNet(), input, label)
+              optim = paddle.optimizer.Adam(
+                  learning_rate=0.001, parameters=model.parameters())
+              model.prepare(
+                  optim,
+                  paddle.nn.CrossEntropyLoss(),
+                  paddle.metric.Accuracy(topk=(1, 2)))
+              model.fit(train_loader,
+                        val_loader,
+                        epochs=2,
+                        save_dir='mnist_checkpoint')
         """
         assert train_data is not None, \
                 "train_data must be given!"
@@ -1813,23 +1809,23 @@ class Model(object):
             eval_data (Dataset|DataLoader): An iterable data loader is used for
                 evaluation. An instance of paddle.io.Dataset or 
                 paddle.io.Dataloader is recomended.
-            batch_size (int, optional): The batch size of train_data and eval_data.
-                When eval_data is the instance of Dataloader, this argument will be
-                ignored. Default: 1.
-            log_freq (int, optional): The frequency, in number of steps, the eval logs
+            batch_size (int): Integer number. The batch size of train_data
+                and eval_data.  When eval_data is the instance of Dataloader,
+                this argument will be ignored. Default: 1.
+            log_freq (int): The frequency, in number of steps, the eval logs
                 are printed. Default: 10.
-            verbose (int, optional): The verbosity mode, should be 0, 1, or 2. 0 = silent,
+            verbose (int): The verbosity mode, should be 0, 1, or 2. 0 = silent,
                 1 = progress bar, 2 = one line per epoch. Default: 2.
-            num_workers (int, optional): The number of subprocess to load data,
+            num_workers (int): The number of subprocess to load data,
                 0 for no subprocess used and loading data in main process. When
                 train_data and eval_data are both the instance of Dataloader,
                 this parameter will be ignored. Default: 0.
-            callbacks (Callback|None, optional): A list of `Callback` instances to apply
+            callbacks (Callback|None): A list of `Callback` instances to apply
                 during training. If None, `ProgBarLogger` and `ModelCheckpoint`
                 are automatically inserted. Default: None.
-            num_iters (int|None, optional): The number of iterations to evaluate the model.
-                If None, evaluate on whole input dataset, otherwise, evaluate `num_iters` times.
-                Default: None.
+            num_iters (int|None): Integer number. The number of iterations to
+                evaluate the model. If None, evaluate on whole input dataset,
+                otherwise, evaluate `num_iters` times. Default: None.
         Returns:
             dict: Result of metric. The key is the names of Metric,
                 value is a scalar or numpy.array.
@@ -1838,24 +1834,23 @@ class Model(object):
 
           .. code-block:: python
 
-                import paddle
-                import paddle.vision.transforms as T
-                from paddle.static import InputSpec
+            import paddle
+            import paddle.vision.transforms as T
+            from paddle.static import InputSpec
 
-                # declarative mode
-                transform = T.Compose([
-                        T.Transpose(),
-                        T.Normalize([127.5], [127.5])
-                    ])
-                val_dataset = paddle.vision.datasets.MNIST(mode='test', transform=transform)
+            # declarative mode
+            transform = T.Compose([
+                    T.Transpose(),
+                    T.Normalize([127.5], [127.5])
+                ])
+            val_dataset = paddle.vision.datasets.MNIST(mode='test', transform=transform)
 
-                input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
-                label = InputSpec([None, 1], 'int64', 'label')
-                model = paddle.Model(paddle.vision.models.LeNet(), input, label)
-                model.prepare(metrics=paddle.metric.Accuracy())
-                result = model.evaluate(val_dataset, batch_size=64)
-                print(result)
-                # {'acc': 0.0699}
+            input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
+            label = InputSpec([None, 1], 'int64', 'label')
+            model = paddle.Model(paddle.vision.models.LeNet(), input, label)
+            model.prepare(metrics=paddle.metric.Accuracy())
+            result = model.evaluate(val_dataset, batch_size=64)
+            print(result)
         """
 
         if eval_data is not None and isinstance(eval_data, Dataset):
@@ -1917,20 +1912,21 @@ class Model(object):
             test_data (Dataset|DataLoader): An iterable data loader is used for
                 predict. An instance of paddle.io.Dataset or paddle.io.Dataloader
                 is recomended.
-            batch_size (int, optional): The batch size of test_data. When test_data is the
-                instance of Dataloader, this argument will be ignored. Default: 1.
-            num_workers (int, optional): The number of subprocess to load data, 0 for no subprocess 
-                used and loading data in main process. When test_data is the instance of Dataloader,
-                this argument will be ignored. Default: 0.
-            stack_outputs (bool, optional): Whether stack output field like a batch, as for an output
-                field of a sample is in shape [X, Y], test_data contains N samples, predict
+            batch_size (int): Integer number. The batch size of train_data and eval_data.
+                When train_data and eval_data are both the instance of Dataloader, this
+                argument will be ignored. Default: 1.
+            num_workers (int): The number of subprocess to load data, 0 for no subprocess 
+                used and loading data in main process. When train_data and eval_data are
+                both the instance of Dataloader, this argument will be ignored. Default: 0.
+            stack_outputs (bool): Whether stack output field like a batch, as for an output
+                filed of a sample is in shape [X, Y], test_data contains N samples, predict
                 output field will be in shape [N, X, Y] if stack_output is True, and will
-                be a length N list in shape [[X, Y], [X, Y], ..., [X, Y]] if stack_outputs
+                be a length N list in shape [[X, Y], [X, Y], ....[X, Y]] if stack_outputs
                 is False. stack_outputs as False is used for LoDTensor output situation,
                 it is recommended set as True if outputs contains no LoDTensor. Default: False.
-            verbose (int, optional): The verbosity mode, should be 0, 1, or 2. 0 = silent,
+            verbose (int): The verbosity mode, should be 0, 1, or 2. 0 = silent,
                 1 = progress bar, 2 = one line per batch. Default: 1.
-            callbacks(Callback, optional): A Callback instance, Default: None.
+            callbacks(Callback): A Callback instance, default None.
 
         Returns:
             list: output of models.
@@ -1939,44 +1935,42 @@ class Model(object):
 
           .. code-block:: python
 
-                import numpy as np
-                import paddle
-                from paddle.static import InputSpec
+            import numpy as np
+            import paddle
+            from paddle.static import InputSpec
 
-                class MnistDataset(paddle.vision.datasets.MNIST):
-                    def __init__(self, mode, return_label=True):
-                        super(MnistDataset, self).__init__(mode=mode)
-                        self.return_label = return_label
+            class MnistDataset(paddle.vision.datasets.MNIST):
+                def __init__(self, mode, return_label=True):
+                    super(MnistDataset, self).__init__(mode=mode)
+                    self.return_label = return_label
 
-                    def __getitem__(self, idx):
-                        img = np.reshape(self.images[idx], [1, 28, 28])
-                        if self.return_label:
-                            return img, np.array(self.labels[idx]).astype('int64')
-                        return img,
+                def __getitem__(self, idx):
+                    img = np.reshape(self.images[idx], [1, 28, 28])
+                    if self.return_label:
+                        return img, np.array(self.labels[idx]).astype('int64')
+                    return img,
 
-                    def __len__(self):
-                        return len(self.images)
+                def __len__(self):
+                    return len(self.images)
 
-                test_dataset = MnistDataset(mode='test', return_label=False)
+            test_dataset = MnistDataset(mode='test', return_label=False)
 
-                # imperative mode
-                input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
-                model = paddle.Model(paddle.vision.models.LeNet(), input)
-                model.prepare()
-                result = model.predict(test_dataset, batch_size=64)
-                print(len(result[0]), result[0][0].shape)
-                # 157 (64, 10)
+            # imperative mode
+            input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
+            model = paddle.Model(paddle.vision.models.LeNet(), input)
+            model.prepare()
+            result = model.predict(test_dataset, batch_size=64)
+            print(len(result[0]), result[0][0].shape)
 
-                # declarative mode
-                device = paddle.set_device('cpu')
-                paddle.enable_static()
-                input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
-                model = paddle.Model(paddle.vision.models.LeNet(), input)
-                model.prepare()
+            # declarative mode
+            device = paddle.set_device('cpu')
+            paddle.enable_static()
+            input = InputSpec([-1, 1, 28, 28], 'float32', 'image')
+            model = paddle.Model(paddle.vision.models.LeNet(), input)
+            model.prepare()
 
-                result = model.predict(test_dataset, batch_size=64)
-                print(len(result[0]), result[0][0].shape)
-                # 157 (64, 10)
+            result = model.predict(test_dataset, batch_size=64)
+            print(len(result[0]), result[0][0].shape)
         """
 
         if test_data is not None and isinstance(test_data, Dataset):
@@ -2171,23 +2165,22 @@ class Model(object):
         Examples:
             .. code-block:: python
 
-                import paddle
-                from paddle.static import InputSpec
+              import paddle
+              from paddle.static import InputSpec
+           
+              input = InputSpec([None, 1, 28, 28], 'float32', 'image')
+              label = InputSpec([None, 1], 'int64', 'label')
+           
+              model = paddle.Model(paddle.vision.models.LeNet(),
+                  input, label)
+              optim = paddle.optimizer.Adam(
+                  learning_rate=0.001, parameters=model.parameters())
+              model.prepare(
+                  optim,
+                  paddle.nn.CrossEntropyLoss())
 
-                input = InputSpec([None, 1, 28, 28], 'float32', 'image')
-                label = InputSpec([None, 1], 'int64', 'label')
-
-                model = paddle.Model(paddle.vision.models.LeNet(),
-                    input, label)
-                optim = paddle.optimizer.Adam(
-                    learning_rate=0.001, parameters=model.parameters())
-                model.prepare(
-                    optim,
-                    paddle.nn.CrossEntropyLoss())
-
-                params_info = model.summary()
-                print(params_info)
-                # {'total_params': 61610, 'trainable_params': 61610}
+              params_info = model.summary()
+              print(params_info)
 
         """
         assert (input_size is not None or self._inputs

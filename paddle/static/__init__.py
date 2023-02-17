@@ -51,7 +51,6 @@ from ..fluid.framework import mlu_places  # noqa: F401
 from ..fluid.framework import npu_places  # noqa: F401
 from ..fluid.framework import Variable  # noqa: F401
 from ..fluid.framework import ipu_shard_guard  # noqa: F401
-from ..fluid.framework import set_ipu_shard  # noqa: F401
 from ..fluid.layers.control_flow import Print  # noqa: F401
 from ..fluid.layers.nn import py_func  # noqa: F401
 from ..fluid.parallel_executor import ParallelExecutor  # noqa: F401
@@ -64,14 +63,11 @@ from ..fluid.io import set_program_state  # noqa: F401
 
 from ..fluid.io import load_vars  # noqa: F401
 from ..fluid.io import save_vars  # noqa: F401
-from ..fluid.io import batch  # noqa: F401
 
 from ..fluid.layers import create_parameter  # noqa: F401
 from ..fluid.layers import create_global_var  # noqa: F401
 from ..fluid.layers.metric_op import auc  # noqa: F401
 from ..fluid.layers.metric_op import accuracy  # noqa: F401
-from ..fluid.contrib.layers import ctr_metric_bundle  # noqa: F401
-from ..fluid.layers import exponential_decay  # noqa: F401
 
 __all__ = [  #noqa
     'append_backward', 'gradients', 'Executor', 'global_scope', 'scope_guard',
@@ -85,6 +81,5 @@ __all__ = [  #noqa
     'deserialize_persistables', 'load_from_file', 'normalize_program',
     'load_program_state', 'set_program_state', 'cpu_places', 'cuda_places',
     'xpu_places', 'npu_places', 'mlu_places', 'Variable', 'create_global_var',
-    'accuracy', 'auc', 'device_guard', 'create_parameter', 'set_ipu_shard',
-    'ctr_metric_bundle', 'exponential_decay'
+    'accuracy', 'auc', 'device_guard', 'create_parameter'
 ]

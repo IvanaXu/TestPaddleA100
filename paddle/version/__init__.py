@@ -1,14 +1,14 @@
 # THIS FILE IS GENERATED FROM PADDLEPADDLE SETUP.PY
 #
-full_version    = '2.4.0'
-major           = '2'
-minor           = '4'
+full_version    = '0.0.0'
+major           = '0'
+minor           = '0'
 patch           = '0'
 rc              = '0'
 cuda_version    = '11.2'
-cudnn_version   = '8.2.1'
+cudnn_version   = '8.1.1'
 istaged         = False
-commit          = '3fa7a736e32508e797616b6344d97814c37d3ff8'
+commit          = 'b4a938840967f8e0d59a588a50a77f54f63961c8'
 with_mkl        = 'ON'
 
 __all__ = ['cuda', 'cudnn', 'show']

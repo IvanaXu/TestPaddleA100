@@ -27,7 +27,7 @@ void WarpctcKernel(const Context& dev_ctx,
                    const paddle::optional<DenseTensor>& labels_length,
                    int blank,
                    bool norm_by_times,
-                   DenseTensor* loss,
-                   DenseTensor* warpctcgrad);
+                   DenseTensor* warpctc_grad,
+                   DenseTensor* loss);
 
 }  // namespace phi

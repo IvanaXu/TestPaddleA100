@@ -28,7 +28,7 @@ class CELU(Layer):
     CELU Activation.
 
     .. math::
-
+    
         CELU(x) = max(0, x) + min(0, \alpha * (e^{x/\alpha}-1))
 
     Parameters:
@@ -44,7 +44,7 @@ class CELU(Layer):
         .. code-block:: python
 
             import paddle
-
+            
             x = paddle.to_tensor([[-1. ,6.], [1., 15.6]])
             m = paddle.nn.CELU(0.2)
             out = m(x)
@@ -142,8 +142,9 @@ class GELU(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([[-1, 0.5],[1, 1.5]])
+            x = paddle.to_tensor(np.array([[-1, 0.5],[1, 1.5]]))
 
             m = paddle.nn.GELU()
             out = m(x) # [-0.158655 0.345731 0.841345 1.39979]
@@ -215,8 +216,9 @@ class Hardshrink(Layer):
 
 class Hardswish(Layer):
     r"""
-    Hardswish activation. Create a callable object of `Hardswish`. Hardswish
-    is proposed in MobileNetV3, and performs better in computational stability
+    Hardswish activation
+
+    Hardswish is proposed in MobileNetV3, and performs better in computational stability
     and efficiency compared to swish function. For more details please refer
     to: https://arxiv.org/pdf/1905.02244.pdf
 
@@ -283,13 +285,13 @@ class Tanh(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3])
+            x = paddle.to_tensor(np.array([-0.4, -0.2, 0.1, 0.3]))
             m = paddle.nn.Tanh()
             out = m(x)
             print(out)
-            # Tensor(shape=[4], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [-0.37994894, -0.19737533,  0.09966800,  0.29131261])
+            # [-0.37994896 -0.19737532  0.09966799  0.29131261]
     """
 
     def __init__(self, name=None):
@@ -306,7 +308,7 @@ class Tanh(Layer):
 
 class Hardtanh(Layer):
     r"""
-    Hardtanh Activation. Create a callable object of `Hardtanh`.
+    Hardtanh Activation
 
     .. math::
 
@@ -383,18 +385,19 @@ class PReLU(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
+
             paddle.set_default_dtype("float64")
 
-            data = paddle.to_tensor([[[[-2.0,  3.0, -4.0,  5.0],
-                                    [ 3.0, -4.0,  5.0, -6.0],
-                                    [-7.0, -8.0,  8.0,  9.0]],
-                                    [[ 1.0, -2.0, -3.0,  4.0],
-                                    [-5.0,  6.0,  7.0, -8.0],
-                                    [ 6.0,  7.0,  8.0,  9.0]]]])
-
+            data = np.array([[[[-2.0,  3.0, -4.0,  5.0],
+                            [ 3.0, -4.0,  5.0, -6.0],
+                            [-7.0, -8.0,  8.0,  9.0]],
+                            [[ 1.0, -2.0, -3.0,  4.0],
+                            [-5.0,  6.0,  7.0, -8.0],
+                            [ 6.0,  7.0,  8.0,  9.0]]]], 'float64')
+            x = paddle.to_tensor(data)
             m = paddle.nn.PReLU(1, 0.25)
-            out = m(data)
-            print(out)
+            out = m(x)
             # [[[[-0.5 ,  3.  , -1.  ,  5.  ],
             #    [ 3.  , -1.  ,  5.  , -1.5 ],
             #    [-1.75, -2.  ,  8.  ,  9.  ]],
@@ -403,14 +406,12 @@ class PReLU(Layer):
             #    [ 6.  ,  7.  ,  8.  ,  9.  ]]]]
     """
 
-    def __init__(
-        self,
-        num_parameters=1,
-        init=0.25,
-        weight_attr=None,
-        data_format="NCHW",
-        name=None,
-    ):
+    def __init__(self,
+                 num_parameters=1,
+                 init=0.25,
+                 weight_attr=None,
+                 data_format="NCHW",
+                 name=None):
         super(PReLU, self).__init__()
         self._num_parameters = num_parameters
         self._init = init
@@ -418,13 +419,12 @@ class PReLU(Layer):
         self._name = name
         self._data_format = data_format
 
-        self._weight = self.create_parameter(
-            attr=self._weight_attr,
-            shape=[self._num_parameters],
-            dtype=get_default_dtype(),
-            is_bias=False,
-            default_initializer=Constant(self._init),
-        )
+        self._weight = self.create_parameter(attr=self._weight_attr,
+                                             shape=[self._num_parameters],
+                                             dtype=get_default_dtype(),
+                                             is_bias=False,
+                                             default_initializer=Constant(
+                                                 self._init))
 
     def forward(self, x):
         return F.prelu(x, self._weight, data_format=self._data_format)
@@ -432,12 +432,8 @@ class PReLU(Layer):
     def extra_repr(self):
         name_str = ', name={}'.format(self._name) if self._name else ''
         return 'num_parameters={}, data_format={}, init={}, dtype={}{}'.format(
-            self._num_parameters,
-            self._data_format,
-            self._init,
-            self._dtype,
-            name_str,
-        )
+            self._num_parameters, self._data_format, self._init, self._dtype,
+            name_str)
 
 
 class RReLU(Layer):
@@ -490,6 +486,7 @@ class RReLU(Layer):
 
     Examples:
         .. code-block:: python
+            :name: RReLU-example
 
             import paddle
 
@@ -501,8 +498,7 @@ class RReLU(Layer):
                                             [ 6.0,  7.0,  8.0,  9.0]]]], dtype='float32')
 
             rrelu_layer = paddle.nn.RReLU(0.1, 0.3)
-            out = rrelu_layer(input_tensor)
-            print(out)
+            output = rrelu_layer(input_tensor)
             #[[[[-0.20000899  3.         -0.88108218  5.        ]
             #   [ 3.         -0.55175185  5.         -1.07761011]
             #   [-1.06806871 -1.98962009  8.          9.        ]]
@@ -511,22 +507,22 @@ class RReLU(Layer):
             #   [ 6.          7.          8.          9.        ]]]]
     """
 
-    def __init__(self, lower=1.0 / 8.0, upper=1.0 / 3.0, name=None):
+    def __init__(self, lower=1. / 8., upper=1. / 3., name=None):
         super(RReLU, self).__init__()
         self._lower = lower
         self._upper = upper
         self._name = name
 
     def forward(self, x):
-        return F.rrelu(
-            x, lower=self._lower, upper=self._upper, training=self.training
-        )
+        return F.rrelu(x,
+                       lower=self._lower,
+                       upper=self._upper,
+                       training=self.training)
 
     def extra_repr(self):
         name_str = ', name={}'.format(self._name) if self._name else ''
         return 'lower={}, upper={}, training={}, dtype={}{}'.format(
-            self._lower, self._upper, self.training, self._dtype, name_str
-        )
+            self._lower, self._upper, self.training, self._dtype, name_str)
 
 
 class ReLU(Layer):
@@ -552,9 +548,7 @@ class ReLU(Layer):
 
             x = paddle.to_tensor([-2., 0., 1.])
             m = paddle.nn.ReLU()
-            out = m(x)
-            print(out)
-            # [0., 0., 1.]
+            out = m(x) # [0., 0., 1.]
     """
 
     def __init__(self, name=None):
@@ -589,12 +583,11 @@ class ReLU6(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-1., 0.3, 6.5])
+            x = paddle.to_tensor(np.array([-1, 0.3, 6.5]))
             m = paddle.nn.ReLU6()
-            out = m(x)
-            print(out)
-            # [0, 0.3, 6]
+            out = m(x) # [0, 0.3, 6]
     """
 
     def __init__(self, name=None):
@@ -637,20 +630,17 @@ class SELU(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([[0.0, 1.0],[2.0, 3.0]])
+            x = paddle.to_tensor(np.array([[0.0, 1.0],[2.0, 3.0]]))
             m = paddle.nn.SELU()
-            out = m(x)
-            print(out)
-            # [[0, 1.050701],[2.101402, 3.152103]]
+            out = m(x) # [[0, 1.050701],[2.101402, 3.152103]]
     """
 
-    def __init__(
-        self,
-        scale=1.0507009873554804934193349852946,
-        alpha=1.6732632423543772848170429916717,
-        name=None,
-    ):
+    def __init__(self,
+                 scale=1.0507009873554804934193349852946,
+                 alpha=1.6732632423543772848170429916717,
+                 name=None):
         super(SELU, self).__init__()
         self._scale = scale
         self._alpha = alpha
@@ -661,15 +651,13 @@ class SELU(Layer):
 
     def extra_repr(self):
         name_str = ', name={}'.format(self._name) if self._name else ''
-        return 'scale={:.16f}, alpha={:.16f}{}'.format(
-            self._scale, self._alpha, name_str
-        )
+        return 'scale={:.16f}, alpha={:.16f}{}'.format(self._scale, self._alpha,
+                                                       name_str)
 
 
 class LeakyReLU(Layer):
     r"""
-    Leaky ReLU Activation. Create a callable object of `LeakyReLU` to calculate
-    the `LeakyReLU` of input `x`.
+    Leaky ReLU Activation.
 
     .. math::
 
@@ -696,9 +684,10 @@ class LeakyReLU(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
             m = paddle.nn.LeakyReLU()
-            x = paddle.to_tensor([-2.0, 0, 1])
+            x = paddle.to_tensor(np.array([-2, 0, 1], 'float32'))
             out = m(x)  # [-0.02, 0., 1.]
     """
 
@@ -716,15 +705,15 @@ class LeakyReLU(Layer):
 
 
 class Sigmoid(Layer):
-    r"""
+    """
     this interface is used to construct a callable object of the ``Sigmoid`` class. This layer calcluate the `sigmoid` of input x.
 
     .. math::
 
-        sigmoid(x) = \frac{1}{1 + e^{-x}}
+        Sigmoid(x) = \\frac{1}{1 + e^{-x}}
 
     Parameters:
-        name (str, optional): For details, please refer to :ref:`api_guide_Name`. Generally, no setting is required. Default: None.
+        name (str, optional): Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`.
 
     Shape:
         x: N-D tensor, available dtype is float16, float32, float64.
@@ -736,11 +725,11 @@ class Sigmoid(Layer):
 
         .. code-block:: python
 
-            import paddle
+          import paddle
 
-            m = paddle.nn.Sigmoid()
-            x = paddle.to_tensor([1.0, 2.0, 3.0, 4.0])
-            out = m(x) # [0.7310586, 0.880797, 0.95257413, 0.98201376]
+          m = paddle.nn.Sigmoid()
+          x = paddle.to_tensor([1.0, 2.0, 3.0, 4.0])
+          out = m(x) # [0.7310586, 0.880797, 0.95257413, 0.98201376]
     """
 
     def __init__(self, name=None):
@@ -757,8 +746,8 @@ class Sigmoid(Layer):
 
 class Hardsigmoid(Layer):
     r"""
-    ``Hardsigmoid`` Activiation Layers, Construct a callable object of
-    the ``Hardsigmoid`` class. This layer calcluate the `hardsigmoid` of input x.
+    This interface is used to construct a callable object of the ``Hardsigmoid`` class.
+    This layer calcluate the `hardsigmoid` of input x.
 
     A 3-part piecewise linear approximation of sigmoid(https://arxiv.org/abs/1603.00391),
     which is much faster than sigmoid.
@@ -773,6 +762,7 @@ class Hardsigmoid(Layer):
             x/6 + 1/2, & & \text{otherwise}
                 \end{array}
             \right.
+
 
     Parameters:
         name (str, optional): Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`.
@@ -811,15 +801,15 @@ class Softplus(Layer):
     Softplus Activation
 
     .. math::
-        softplus(x)=\begin{cases}
-                \frac{1}{\beta} * \log(1 + e^{\beta * x}),&x\leqslant\frac{\varepsilon}{\beta};\\
-                x,&x>\frac{\varepsilon}{\beta}.
-            \end{cases}
+
+        Softplus(x) = \frac{1}{beta} * \log(1 + e^{beta * x}) \\
+        \text{For numerical stability, the implementation reverts to the linear function when: beta * x > threshold.}
 
     Parameters:
-        beta (float, optional): The value of :math:`\beta` for Softplus. Default is 1
-        threshold (float, optional): The value of :math:`\varepsilon` for Softplus. Default is 20
-        name (str, optional): For details, please refer to :ref:`api_guide_Name`. Generally, no setting is required. Default: None.
+        beta (float, optional): The value of beta for Softplus. Default is 1
+        threshold (float, optional): The value of threshold for Softplus. Default is 20
+        name (str, optional): Name for the operation (optional, default is None).
+            For more information, please refer to :ref:`api_guide_Name`.
 
     Shape:
         - input: Tensor with any shape.
@@ -829,8 +819,9 @@ class Softplus(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3], dtype='float32')
+            x = paddle.to_tensor(np.array([-0.4, -0.2, 0.1, 0.3]))
             m = paddle.nn.Softplus()
             out = m(x) # [0.513015, 0.598139, 0.744397, 0.854355]
     """
@@ -846,9 +837,8 @@ class Softplus(Layer):
 
     def extra_repr(self):
         name_str = ', name={}'.format(self._name) if self._name else ''
-        return 'beta={}, threshold={}{}'.format(
-            self._beta, self._threshold, name_str
-        )
+        return 'beta={}, threshold={}{}'.format(self._beta, self._threshold,
+                                                name_str)
 
 
 class Softshrink(Layer):
@@ -880,13 +870,11 @@ class Softshrink(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-0.9, -0.2, 0.1, 0.8])
+            x = paddle.to_tensor(np.array([-0.9, -0.2, 0.1, 0.8]))
             m = paddle.nn.Softshrink()
-            out = m(x)
-            print(out)
-            # Tensor(shape=[4], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [-0.39999998,  0.        ,  0.        ,  0.30000001])
+            out = m(x) # [-0.4, 0, 0, 0.3]
     """
 
     def __init__(self, threshold=0.5, name=None):
@@ -922,13 +910,11 @@ class Softsign(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3])
+            x = paddle.to_tensor(np.array([-0.4, -0.2, 0.1, 0.3]))
             m = paddle.nn.Softsign()
-            out = m(x)
-            print(out)
-            # Tensor(shape=[4], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [-0.28571430, -0.16666666,  0.09090909,  0.23076925])
+            out = m(x) # [-0.285714, -0.166667, 0.0909091, 0.230769]
     """
 
     def __init__(self, name=None):
@@ -963,13 +949,11 @@ class Swish(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-2., 0., 1.])
+            x = paddle.to_tensor(np.array([-2., 0., 1.]))
             m = paddle.nn.Swish()
-            out = m(x)
-            print(out)
-            # Tensor(shape=[3], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [-0.23840584,  0.        ,  0.73105854])
+            out = m(x) # [-0.238406, 0., 0.731059]
     """
 
     def __init__(self, name=None):
@@ -1049,13 +1033,11 @@ class Tanhshrink(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3])
+            x = paddle.to_tensor(np.array([-0.4, -0.2, 0.1, 0.3]))
             m = paddle.nn.Tanhshrink()
-            out = m(x)
-            print(out)
-            # Tensor(shape=[4], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [-0.02005106, -0.00262468,  0.00033200,  0.00868741])
+            out = m(x) # [-0.020051, -0.00262468, 0.000332005, 0.00868739]
     """
 
     def __init__(self, name=None):
@@ -1098,13 +1080,11 @@ class ThresholdedReLU(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([2., 0., 1.])
+            x = paddle.to_tensor(np.array([2., 0., 1.]))
             m = paddle.nn.ThresholdedReLU()
-            out = m(x)
-            print(out)
-            # Tensor(shape=[3], dtype=float32, place=Place(gpu:0), stop_gradient=True,
-            #        [2., 0., 0.])
+            out = m(x) # [2., 0., 0.]
     """
 
     def __init__(self, threshold=1.0, name=None):
@@ -1121,17 +1101,16 @@ class ThresholdedReLU(Layer):
 
 
 class Silu(Layer):
-    r"""
-    Silu Activation
-
+    """
+    Silu Activation.
     .. math::
 
-        silu(x) = \frac{x}{1 + \mathrm{e}^{-x}}
-
-    Where :math:`x` is the input Tensor.
+        Silu(x) = \frac{x}{1 + e^{-x}}
 
     Parameters:
-        name (str, optional): For details, please refer to :ref:`api_guide_Name`. Generally, no setting is required. Default: None.
+        x (Tensor): The input Tensor with data type float32, or float64.
+        name (str, optional): Name for the operation (optional, default is None).
+            For more information, please refer to :ref:`api_guide_Name`.
 
     Shape:
         - input: Tensor with any shape.
@@ -1292,13 +1271,15 @@ class Softmax(Layer):
         .. code-block:: python
 
             import paddle
+            import numpy as np
 
-            x = paddle.to_tensor([[[2.0, 3.0, 4.0, 5.0],
+            x = np.array([[[2.0, 3.0, 4.0, 5.0],
                         [3.0, 4.0, 5.0, 6.0],
                         [7.0, 8.0, 8.0, 9.0]],
                         [[1.0, 2.0, 3.0, 4.0],
                         [5.0, 6.0, 7.0, 8.0],
-                        [6.0, 7.0, 8.0, 9.0]]], dtype='float32')
+                        [6.0, 7.0, 8.0, 9.0]]], 'float32')
+            x = paddle.to_tensor(x)
             m = paddle.nn.Softmax()
             out = m(x)
             # [[[0.0320586 , 0.08714432, 0.23688282, 0.64391426],
@@ -1383,7 +1364,7 @@ class LogSoftmax(Layer):
 
 class Maxout(Layer):
     r"""
-    Maxout Activation. Create a callable object of `Maxout`.
+    Maxout Activation.
 
     Assumed the input shape is (N, Ci, H, W).
     The output shape is (N, Co, H, W).
@@ -1491,11 +1472,8 @@ class Softmax2D(Layer):
         self._name = name
 
     def forward(self, x):
-        assert (
-            x.ndim == 3 or x.ndim == 4
-        ), "Softmax2D requires a 3D or 4D tensor as input. Received: {}D.".format(
-            x.ndim
-        )
+        assert x.ndim == 3 or x.ndim == 4, "Softmax2D requires a 3D or 4D tensor as input. Received: {}D.".format(
+            x.ndim)
         return F.softmax(x, axis=-3, dtype=self._dtype, name=self._name)
 
     def extra_repr(self):

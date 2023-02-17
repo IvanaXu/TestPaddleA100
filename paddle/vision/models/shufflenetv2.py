@@ -190,17 +190,14 @@ class InvertedResidualDS(nn.Layer):
 
 class ShuffleNetV2(nn.Layer):
     """ShuffleNetV2 model from
-    `"ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_
 
     Args:
-        scale (float, optional): Scale of output channels. Default: True.
-        act (str, optional): Activation function of neural network. Default: "relu".
-        num_classes (int, optional): Output dim of last fc layer. If num_classes <= 0, last fc layer 
+        scale (float, optional) - scale of output channels. Default: True.
+        act (str, optional) - activation function of neural network. Default: "relu".
+        num_classes (int, optional): output dim of last fc layer. If num_classes <=0, last fc layer
                             will not be defined. Default: 1000.
-        with_pool (bool, optional): Use pool before the last fc layer or not. Default: True.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 model.
+        with_pool (bool, optional): use pool before the last fc layer or not. Default: True.
 
     Examples:
         .. code-block:: python
@@ -212,7 +209,7 @@ class ShuffleNetV2(nn.Layer):
             x = paddle.rand([1, 3, 224, 224])
             out = shufflenet_v2_swish(x)
             print(out.shape)
-            # [1, 1000]
+
     """
 
     def __init__(self, scale=1.0, act="relu", num_classes=1000, with_pool=True):
@@ -318,15 +315,10 @@ def _shufflenet_v2(arch, pretrained=False, **kwargs):
 
 def shufflenet_v2_x0_25(pretrained=False, **kwargs):
     """ShuffleNetV2 with 0.25x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 0.25x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -344,7 +336,7 @@ def shufflenet_v2_x0_25(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x0_25",
                           scale=0.25,
@@ -354,15 +346,10 @@ def shufflenet_v2_x0_25(pretrained=False, **kwargs):
 
 def shufflenet_v2_x0_33(pretrained=False, **kwargs):
     """ShuffleNetV2 with 0.33x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 0.33x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -380,7 +367,7 @@ def shufflenet_v2_x0_33(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x0_33",
                           scale=0.33,
@@ -390,15 +377,10 @@ def shufflenet_v2_x0_33(pretrained=False, **kwargs):
 
 def shufflenet_v2_x0_5(pretrained=False, **kwargs):
     """ShuffleNetV2 with 0.5x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 0.5x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -416,7 +398,7 @@ def shufflenet_v2_x0_5(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x0_5",
                           scale=0.5,
@@ -426,15 +408,10 @@ def shufflenet_v2_x0_5(pretrained=False, **kwargs):
 
 def shufflenet_v2_x1_0(pretrained=False, **kwargs):
     """ShuffleNetV2 with 1.0x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 1.0x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -452,7 +429,7 @@ def shufflenet_v2_x1_0(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x1_0",
                           scale=1.0,
@@ -462,15 +439,10 @@ def shufflenet_v2_x1_0(pretrained=False, **kwargs):
 
 def shufflenet_v2_x1_5(pretrained=False, **kwargs):
     """ShuffleNetV2 with 1.5x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 1.5x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -488,7 +460,7 @@ def shufflenet_v2_x1_5(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x1_5",
                           scale=1.5,
@@ -498,15 +470,10 @@ def shufflenet_v2_x1_5(pretrained=False, **kwargs):
 
 def shufflenet_v2_x2_0(pretrained=False, **kwargs):
     """ShuffleNetV2 with 2.0x output channels, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with 2.0x output channels.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -524,7 +491,7 @@ def shufflenet_v2_x2_0(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_x2_0",
                           scale=2.0,
@@ -533,16 +500,11 @@ def shufflenet_v2_x2_0(pretrained=False, **kwargs):
 
 
 def shufflenet_v2_swish(pretrained=False, **kwargs):
-    """ShuffleNetV2 with swish activation function, as described in
-    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_.
+    """ShuffleNetV2 with 1.0x output channels and swish activation function, as described in
+    `"ShuffleNet V2: Practical Guidelines for Ecient CNN Architecture Design" <https://arxiv.org/pdf/1807.11164.pdf>`_ 。
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ShuffleNetV2 <api_paddle_vision_ShuffleNetV2>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ShuffleNetV2 with swish activation function.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -560,7 +522,7 @@ def shufflenet_v2_swish(pretrained=False, **kwargs):
             out = model(x)
 
             print(out.shape)
-            # [1, 1000]
+
     """
     return _shufflenet_v2("shufflenet_v2_swish",
                           scale=1.0,

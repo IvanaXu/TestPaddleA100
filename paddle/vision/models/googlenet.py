@@ -97,15 +97,12 @@ class Inception(nn.Layer):
 
 class GoogLeNet(nn.Layer):
     """GoogLeNet (Inception v1) model architecture from
-    `"Going Deeper with Convolutions" <https://arxiv.org/pdf/1409.4842.pdf>`_.
+    `"Going Deeper with Convolutions" <https://arxiv.org/pdf/1409.4842.pdf>`_
     
     Args:
-        num_classes (int, optional): Output dim of last fc layer. If num_classes <= 0, last fc layer 
+        num_classes (int): output dim of last fc layer. If num_classes <=0, last fc layer 
                             will not be defined. Default: 1000.
-        with_pool (bool, optional): Use pool before the last fc layer or not. Default: True.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of GoogLeNet (Inception v1) model.
+        with_pool (bool, optional): use pool before the last fc layer or not. Default: True.
 
     Examples:
         .. code-block:: python
@@ -119,8 +116,7 @@ class GoogLeNet(nn.Layer):
             x = paddle.rand([1, 3, 224, 224])
             out, out1, out2 = model(x)
 
-            print(out.shape, out1.shape, out2.shape)
-            # [1, 1000] [1, 1000] [1, 1000]
+            print(out.shape)
     """
 
     def __init__(self, num_classes=1000, with_pool=True):
@@ -223,15 +219,10 @@ class GoogLeNet(nn.Layer):
 
 def googlenet(pretrained=False, **kwargs):
     """GoogLeNet (Inception v1) model architecture from
-    `"Going Deeper with Convolutions" <https://arxiv.org/pdf/1409.4842.pdf>`_.
+    `"Going Deeper with Convolutions" <https://arxiv.org/pdf/1409.4842.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`GoogLeNet <api_paddle_vision_GoogLeNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of GoogLeNet (Inception v1) model.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
 
     Examples:
         .. code-block:: python
@@ -248,8 +239,7 @@ def googlenet(pretrained=False, **kwargs):
             x = paddle.rand([1, 3, 224, 224])
             out, out1, out2 = model(x)
 
-            print(out.shape, out1.shape, out2.shape)
-            # [1, 1000] [1, 1000] [1, 1000]
+            print(out.shape)
     """
     model = GoogLeNet(**kwargs)
     arch = "googlenet"

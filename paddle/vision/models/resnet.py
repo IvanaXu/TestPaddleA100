@@ -177,19 +177,16 @@ class BottleneckBlock(nn.Layer):
 
 class ResNet(nn.Layer):
     """ResNet model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        Block (BasicBlock|BottleneckBlock): Block module of model.
-        depth (int, optional): Layers of ResNet, Default: 50.
-        width (int, optional): Base width per convolution group for each convolution block, Default: 64.
-        num_classes (int, optional): Output dim of last fc layer. If num_classes <= 0, last fc layer 
+        Block (BasicBlock|BottleneckBlock): block module of model.
+        depth (int, optional): layers of resnet, Default: 50.
+        width (int, optional): base width per convolution group for each convolution block, Default: 64.
+        num_classes (int, optional): output dim of last fc layer. If num_classes <=0, last fc layer
                             will not be defined. Default: 1000.
-        with_pool (bool, optional): Use pool before the last fc layer or not. Default: True.
-        groups (int, optional): Number of groups for each convolution block, Default: 1.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet model.
+        with_pool (bool, optional): use pool before the last fc layer or not. Default: True.
+        groups (int, optional): number of groups for each convolution block, Default: 1.
 
     Examples:
         .. code-block:: python
@@ -215,6 +212,7 @@ class ResNet(nn.Layer):
 
             print(out.shape)
             # [1, 1000]
+
     """
 
     def __init__(self,
@@ -329,15 +327,10 @@ def _resnet(arch, Block, depth, pretrained, **kwargs):
 
 def resnet18(pretrained=False, **kwargs):
     """ResNet 18-layer model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet 18-layer model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -362,15 +355,10 @@ def resnet18(pretrained=False, **kwargs):
 
 def resnet34(pretrained=False, **kwargs):
     """ResNet 34-layer model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet 34-layer model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -395,15 +383,10 @@ def resnet34(pretrained=False, **kwargs):
 
 def resnet50(pretrained=False, **kwargs):
     """ResNet 50-layer model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet 50-layer model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -428,15 +411,10 @@ def resnet50(pretrained=False, **kwargs):
 
 def resnet101(pretrained=False, **kwargs):
     """ResNet 101-layer model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet 101-layer.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -461,15 +439,10 @@ def resnet101(pretrained=False, **kwargs):
 
 def resnet152(pretrained=False, **kwargs):
     """ResNet 152-layer model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_.
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNet 152-layer model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -494,15 +467,10 @@ def resnet152(pretrained=False, **kwargs):
 
 def resnext50_32x4d(pretrained=False, **kwargs):
     """ResNeXt-50 32x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-50 32x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -529,15 +497,10 @@ def resnext50_32x4d(pretrained=False, **kwargs):
 
 def resnext50_64x4d(pretrained=False, **kwargs):
     """ResNeXt-50 64x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-50 64x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -564,15 +527,10 @@ def resnext50_64x4d(pretrained=False, **kwargs):
 
 def resnext101_32x4d(pretrained=False, **kwargs):
     """ResNeXt-101 32x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-101 32x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -600,15 +558,10 @@ def resnext101_32x4d(pretrained=False, **kwargs):
 
 def resnext101_64x4d(pretrained=False, **kwargs):
     """ResNeXt-101 64x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-101 64x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -636,15 +589,10 @@ def resnext101_64x4d(pretrained=False, **kwargs):
 
 def resnext152_32x4d(pretrained=False, **kwargs):
     """ResNeXt-152 32x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-152 32x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -672,15 +620,10 @@ def resnext152_32x4d(pretrained=False, **kwargs):
 
 def resnext152_64x4d(pretrained=False, **kwargs):
     """ResNeXt-152 64x4d model from
-    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_.
+    `"Aggregated Residual Transformations for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of ResNeXt-152 64x4d model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -711,12 +654,7 @@ def wide_resnet50_2(pretrained=False, **kwargs):
     `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_.
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of Wide ResNet-50-2 model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python
@@ -745,12 +683,7 @@ def wide_resnet101_2(pretrained=False, **kwargs):
     `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_.
 
     Args:
-        pretrained (bool, optional): Whether to load pre-trained weights. If True, returns a model pre-trained
-                            on ImageNet. Default: False.
-        **kwargs (optional): Additional keyword arguments. For details, please refer to :ref:`ResNet <api_paddle_vision_ResNet>`.
-
-    Returns:
-        :ref:`api_paddle_nn_Layer`. An instance of Wide ResNet-101-2 model.
+        pretrained (bool, optional): If True, returns a model pre-trained on ImageNet. Default: False.
 
     Examples:
         .. code-block:: python

@@ -22,7 +22,7 @@ import warnings
 from contextlib import contextmanager
 
 import paddle
-from paddle import _C_ops, _legacy_C_ops
+from paddle import _C_ops
 from paddle.fluid import core
 from paddle.fluid import framework
 from paddle.fluid.dygraph import layers
@@ -118,28 +118,20 @@ class ParallelEnv(object):
     def __init__(self):
         self._rank = int(os.getenv("PADDLE_TRAINER_ID", "0"))
         self._world_size = int(os.getenv("PADDLE_TRAINERS_NUM", "1"))
-        self._device_type = str(os.getenv("PADDLE_XCCL_BACKEND", ""))
 
         # imperative only support one gpu or xpu
-        if self._device_type != "":
-            FLAGS_selected_custom_devices = 'FLAGS_selected_{}s'.format(
-                self._device_type)
-            selected_custom_devices = os.getenv(FLAGS_selected_custom_devices,
-                                                "0").split(",")
-            self._device_id = int(selected_custom_devices[0])
-        else:
-            if core.is_compiled_with_cuda():
-                selected_gpus = os.getenv("FLAGS_selected_gpus", "0").split(",")
-                self._device_id = int(selected_gpus[0])
-            elif core.is_compiled_with_xpu():
-                selected_xpus = os.getenv("FLAGS_selected_xpus", "0").split(",")
-                self._device_id = int(selected_xpus[0])
-            elif core.is_compiled_with_npu():
-                selected_npus = os.getenv("FLAGS_selected_npus", "0").split(",")
-                self._device_id = int(selected_npus[0])
-            elif core.is_compiled_with_mlu():
-                selected_mlus = os.getenv("FLAGS_selected_mlus", "0").split(",")
-                self._device_id = int(selected_mlus[0])
+        if core.is_compiled_with_cuda():
+            selected_gpus = os.getenv("FLAGS_selected_gpus", "0").split(",")
+            self._device_id = int(selected_gpus[0])
+        elif core.is_compiled_with_xpu():
+            selected_xpus = os.getenv("FLAGS_selected_xpus", "0").split(",")
+            self._device_id = int(selected_xpus[0])
+        elif core.is_compiled_with_npu():
+            selected_npus = os.getenv("FLAGS_selected_npus", "0").split(",")
+            self._device_id = int(selected_npus[0])
+        elif core.is_compiled_with_mlu():
+            selected_mlus = os.getenv("FLAGS_selected_mlus", "0").split(",")
+            self._device_id = int(selected_mlus[0])
 
         self._trainer_endpoints = os.getenv("PADDLE_TRAINER_ENDPOINTS",
                                             "").split(",")
@@ -206,16 +198,6 @@ class ParallelEnv(object):
             # The device id are 1
         """
         return self._device_id
-
-    @property
-    def device_type(self):
-        """
-        The type of custom device for parallel training.
-
-        Its value is equal to the value of the environment variable ``PADDLE_XCCL_BACKEND`` . The default value is None.
-
-        """
-        return self._device_type
 
     @property
     def current_endpoint(self):
@@ -346,7 +328,7 @@ def _split_tensors(coalesced_grads_and_grad_vars):
             attrs = ()
             attrs += ('sections', grad_var_len)
             attrs += ('axis', 0)
-            _legacy_C_ops.split(coalesced_grad, origin_grad_vars, *attrs)
+            _C_ops.split(coalesced_grad, origin_grad_vars, *attrs)
             for g_var, g_shape in zip(origin_grad_vars, grad_shapes):
                 g_var.reshape_(shape=g_shape)
                 assert g_var.shape == g_shape
@@ -420,7 +402,7 @@ def sync_params_buffers(model,
         paddle.distributed.broadcast(coalesced_var,
                                      src=src_rank,
                                      group=comm_group,
-                                     sync_op=True)
+                                     use_calc_stream=True)
 
     for coalesced_var, origin_vars, var_shapes in coalesced_vars:
         var_len = [np.prod(v_shape) for v_shape in var_shapes]

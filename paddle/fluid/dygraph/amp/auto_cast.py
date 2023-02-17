@@ -56,12 +56,6 @@ BLACK_LIST = {
     'cross_entropy2',
     # default fp32 can avoid return inf when the sum value large than 65504
     'reduce_sum',
-    # FP16 performance of grad op is worse than that of FP32. Use FP32 by default.
-    'linear_interp_v2',
-    'nearest_interp_v2',
-    'bilinear_interp_v2',
-    'bicubic_interp_v2',
-    'trilinear_interp_v2',
 }
 
 AMP_RELATED_FLAGS = [
@@ -78,16 +72,7 @@ AMP_RELATED_FLAGS_SETTING = {
 
 PURE_FP16_WHITE_LIST = {' '}
 PURE_FP16_BLACK_LIST = {
-    'lookup_table',
-    'lookup_table_v2',
-    'scatter',
-    'scatter_grad',
-    # FP16 performance of grad op is worse than that of FP32. Use FP32 by default.
-    'linear_interp_v2',
-    'nearest_interp_v2',
-    'bilinear_interp_v2',
-    'bicubic_interp_v2',
-    'trilinear_interp_v2',
+    'lookup_table', 'lookup_table_v2', 'scatter', 'scatter_grad'
 }
 
 BF16_WHITE_LIST = {'conv2d', 'matmul_v2'}
@@ -188,13 +173,7 @@ def pure_fp16_initialize(models):
                             paddle.nn.BatchNorm2D, paddle.nn.BatchNorm3D,
                             paddle.nn.LayerNorm, paddle.nn.SyncBatchNorm)):
                 continue
-            if isinstance(layer, (paddle.incubate.nn.FusedFeedForward,
-                                  paddle.incubate.nn.FusedMultiHeadAttention)):
-                layer._amp_decorate(dtype='float16')
-                continue
-            layer._to_impl(dtype='float16',
-                           include_sublayers=False,
-                           floating_only=True)
+            layer._to_impl(dtype='float16', include_sublayers=False)
     return models
 
 
@@ -414,10 +393,9 @@ class StateDictHook(object):
         for key in state_dict:
             param = state_dict[key]
             with paddle.fluid.dygraph.guard():
-                if paddle.is_floating_point(param):
-                    param_applied = paddle.cast(param, self._save_dtype)
-                    param_applied.name = param.name
-                    state_dict[key] = param_applied
+                param_applied = paddle.cast(param, self._save_dtype)
+                param_applied.name = param.name
+                state_dict[key] = param_applied
 
 
 @dygraph_only

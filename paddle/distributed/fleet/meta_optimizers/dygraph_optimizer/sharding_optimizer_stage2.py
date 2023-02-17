@@ -150,7 +150,7 @@ class ShardingOptimizerStage2(Optimizer):
             broadcast(p,
                       src=self._global_root_rank,
                       group=self.group,
-                      sync_op=True)
+                      use_calc_stream=True)
 
         # Multi stream operation will be supported later
         wait(tensor=p, group=self.group, use_calc_stream=True)
@@ -415,7 +415,7 @@ class ShardingOptimizerStage2(Optimizer):
                 broadcast(tensor=internal_storage.buffer,
                           src=self.group.ranks[dst_rank],
                           group=self.group,
-                          sync_op=True)
+                          use_calc_stream=True)
 
             # Multi stream operation will be supported later
             wait(tensor=internal_storage.buffer,

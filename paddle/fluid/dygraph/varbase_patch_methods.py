@@ -31,7 +31,7 @@ from paddle.fluid.data_feeder import convert_dtype, _PADDLE_DTYPE_2_NUMPY_DTYPE
 import paddle.utils.deprecated as deprecated
 import paddle.profiler as profiler
 from paddle.profiler.utils import in_profiler_mode
-from paddle import _C_ops, _legacy_C_ops
+from paddle import _C_ops
 
 _grad_scalar = None
 
@@ -119,10 +119,6 @@ def monkey_patch_varbase():
         attr_keys = ['block', 'shape', 'dtype', 'type', 'name', 'persistable']
         for attr in attr_keys:
             attr_kwargs[attr] = getattr(self, attr, None)
-
-        # If specify block, use it instead of self.block
-        if 'block' in kwargs:
-            attr_kwargs['block'] = kwargs['block']
 
         attr_kwargs.update(kwargs)
 
@@ -429,14 +425,12 @@ def monkey_patch_varbase():
         if device is not None:
             if isinstance(device, str):
                 device = paddle.device._convert_to_place(device)
-            elif isinstance(
-                    device,
-                (core.CPUPlace, core.CUDAPlace, core.CUDAPinnedPlace,
-                 core.XPUPlace, core.CustomPlace)):
+            elif isinstance(device, (core.CPUPlace, core.CUDAPlace,
+                                     core.CUDAPinnedPlace, core.XPUPlace)):
                 pass
             else:
                 raise ValueError(
-                    "device value error, must be str, paddle.CPUPlace(), paddle.CUDAPlace(), paddle.CUDAPinnedPlace(), paddle.XPUPlace() or paddle.CustomPlace(), but the type of device is "
+                    "device value error, must be str, paddle.CPUPlace(), paddle.CUDAPlace(), paddle.CUDAPinnedPlace() or paddle.XPUPlace(), but the type of device is "
                     + type(device).__name__)
 
         if blocking is None:
@@ -810,7 +804,6 @@ def monkey_patch_varbase():
     def _set_grad_ivar(self, value):
         if isinstance(self, EagerParamBase):
             self.grad = value
-            self._unset_fake_empty()
         else:
             raise TypeError(
                 "_set_grad_ivar is only supported for Parameter Tensor")
@@ -818,13 +811,13 @@ def monkey_patch_varbase():
     @framework.dygraph_only
     def clone(self):
         if in_dygraph_mode():
-            return _C_ops.assign(self)
+            return _C_ops.final_state_assign(self)
 
         if _in_legacy_dygraph():
             output = core.VarBase()
         else:
             output = core.eager.Tensor()
-        return _legacy_C_ops.assign(self, output)
+        return _C_ops.assign(self, output)
 
     @framework.dygraph_only
     def value(self):
@@ -872,20 +865,15 @@ def monkey_patch_varbase():
             return res
 
     @framework.dygraph_only
-    def cuda(self, device_id=None, blocking=True):
+    def cuda(self, device_id=0, blocking=True):
         if device_id is None:
-            res_place = framework._current_expected_place()
-            if not isinstance(res_place, core.CUDAPlace):
-                res_place = core.CUDAPlace(0)
-        elif isinstance(device_id, int):
-            res_place = core.CUDAPlace(device_id)
-        else:
-            raise ValueError("device_id must be int|None")
-
-        if self.place._equals(res_place):
+            device_id = 0
+        if not isinstance(device_id, int):
+            raise ValueError("\'device_id\' must be a positive integer")
+        if self.place.is_gpu_place():
             return self
         else:
-            res = self._copy_to(res_place, True)
+            res = self._copy_to(core.CUDAPlace(device_id), True)
             res.stop_gradient = self.stop_gradient
             res.persistable = self.persistable
             return res
@@ -919,11 +907,16 @@ def monkey_patch_varbase():
                     indices = [[0, 0, 1, 2, 2], [1, 3, 2, 0, 1]]
                     values = [1, 2, 3, 4, 5]
                     dense_shape = [3, 4]
-                    sparse_x = paddle.sparse.sparse_coo_tensor(paddle.to_tensor(indices, dtype='int32'), paddle.to_tensor(values, dtype='float32'), shape=dense_shape)
+                    sparse_x = paddle.incubate.sparse.sparse_coo_tensor(paddle.to_tensor(indices, dtype='int32'), paddle.to_tensor(values, dtype='float32'), shape=dense_shape)
                     print(sparse_x.values())
                     #[1, 2, 3, 4, 5]
         """
-        return _C_ops.sparse_values(self)
+
+        if self.is_sparse_coo() or self.is_sparse_csr():
+            return _C_ops.final_state_sparse_values(self)
+        else:
+            raise ValueError(
+                "only SparseCooTensor and SparseCsrTensor have method values")
 
     @framework.dygraph_only
     def to_dense(self):
@@ -944,14 +937,19 @@ def monkey_patch_varbase():
                     indices = [[0, 0, 1, 2, 2], [1, 3, 2, 0, 1]]
                     values = [1, 2, 3, 4, 5]
                     dense_shape = [3, 4]
-                    sparse_x = paddle.sparse.sparse_coo_tensor(paddle.to_tensor(indices, dtype='int64'), paddle.to_tensor(values, dtype='float32'), shape=dense_shape)
+                    sparse_x = paddle.incubate.sparse.sparse_coo_tensor(paddle.to_tensor(indices, dtype='int64'), paddle.to_tensor(values, dtype='float32'), shape=dense_shape)
                     dense_x = sparse_x.to_dense()
                     #[[0., 1., 0., 2.],
                     # [0., 0., 3., 0.],
                     # [4., 5., 0., 0.]]
         """
 
-        return _C_ops.sparse_to_dense(self)
+        if self.is_sparse_coo():
+            return _C_ops.final_state_sparse_coo_to_dense(self)
+        elif self.is_sparse_csr():
+            return _C_ops.final_state_sparse_to_dense(self)
+        else:
+            return self
 
     @framework.dygraph_only
     def to_sparse_coo(self, sparse_dim):
@@ -977,7 +975,16 @@ def monkey_patch_varbase():
                     #values=[1., 2., 3., 4.]
         """
 
-        return _C_ops.sparse_to_sparse_coo(self, sparse_dim)
+        if self.is_sparse_csr():
+            return _C_ops.final_state_sparse_to_sparse_coo(self, sparse_dim)
+        elif self.is_sparse_coo():
+            return self
+        elif self.is_selected_rows():
+            raise ValueError(
+                "SelectedRows does not support to_sparse_coo method")
+        else:
+            #is dense tensor
+            return _C_ops.final_state_sparse_dense_to_coo(self, sparse_dim)
 
     if framework._in_eager_mode_ and not hasattr(core, "eager"):
         return
@@ -1031,11 +1038,8 @@ def monkey_patch_varbase():
 
         def dtype_str(dtype):
             if dtype in _PADDLE_DTYPE_2_NUMPY_DTYPE:
-                numpy_dtype = _PADDLE_DTYPE_2_NUMPY_DTYPE[dtype]
-                if numpy_dtype == 'uint16':
-                    numpy_dtype = 'bfloat16'
                 prefix = 'paddle.'
-                return prefix + numpy_dtype
+                return prefix + _PADDLE_DTYPE_2_NUMPY_DTYPE[dtype]
             else:
                 # for example, paddle.fluid.core.VarDesc.VarType.LOD_TENSOR
                 return origin(dtype)

@@ -45,9 +45,7 @@ layer_name_map = {
 
 # Apply fake quant for the inputs of these layers
 fake_quant_input_layers = [
-    paddle.nn.Conv2D,
-    paddle.nn.Linear,
-    paddle.nn.Conv2DTranspose,
+    paddle.nn.Conv2D, paddle.nn.Linear, paddle.nn.Conv2DTranspose
 ]
 
 # Apply fake quant for the output of these layers
@@ -67,9 +65,7 @@ fake_quant_leaf_layers = [
 
 fake_quant_wrap_layers = [
     quant_layers.QuantizedConv2D, quant_layers.QuantizedLinear,
-    quant_layers.QuantizedConv2DTranspose,
-    quant_layers.QuantizedColumnParallelLinear,
-    quant_layers.QuantizedRowParallelLinear
+    quant_layers.QuantizedConv2DTranspose
 ]
 
 # The weight format of these layers is Cin * Cout * H * W

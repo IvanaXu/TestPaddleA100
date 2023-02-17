@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='the_one_ps.proto',
   package='paddle.distributed',
   syntax='proto2',
-  serialized_pb=_b('\n\x10the_one_ps.proto\x12\x12paddle.distributed\"\xe1\x01\n\x11\x46sClientParameter\x12\x46\n\x07\x66s_type\x18\x01 \x01(\x0e\x32/.paddle.distributed.FsClientParameter.FsApiType:\x04HDFS\x12\x0b\n\x03uri\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\x12\x0e\n\x06passwd\x18\x04 \x01(\t\x12\x13\n\x0b\x62uffer_size\x18\x05 \x01(\x05\x12\x12\n\nhadoop_bin\x18\x33 \x01(\t\x12\x10\n\x08\x61\x66s_conf\x18\x65 \x01(\t\"\x1e\n\tFsApiType\x12\x08\n\x04HDFS\x10\x00\x12\x07\n\x03\x41\x46S\x10\x01\"\xe5\x02\n\x0bPSParameter\x12\x14\n\x0cworker_class\x18\x01 \x01(\t\x12\x14\n\x0cserver_class\x18\x02 \x01(\t\x12\x16\n\x0einstance_class\x18\x03 \x01(\t\x12\x15\n\x0binit_gflags\x18\x04 \x01(\t:\x00\x12\x39\n\x0cworker_param\x18\x65 \x01(\x0b\x32#.paddle.distributed.WorkerParameter\x12\x39\n\x0cserver_param\x18\x66 \x01(\x0b\x32#.paddle.distributed.ServerParameter\x12\x44\n\rtrainer_param\x18\xad\x02 \x03(\x0b\x32,.paddle.distributed.DownpourTrainerParameter\x12?\n\x0f\x66s_client_param\x18\xf5\x03 \x01(\x0b\x32%.paddle.distributed.FsClientParameter\"]\n\x0fWorkerParameter\x12J\n\x15\x64ownpour_worker_param\x18\x01 \x01(\x0b\x32+.paddle.distributed.DownpourWorkerParameter\"[\n\x17\x44ownpourWorkerParameter\x12@\n\x14\x64ownpour_table_param\x18\x01 \x03(\x0b\x32\".paddle.distributed.TableParameter\"\x9e\x01\n\x17\x44ownpourServerParameter\x12@\n\x14\x64ownpour_table_param\x18\x01 \x03(\x0b\x32\".paddle.distributed.TableParameter\x12\x41\n\rservice_param\x18\x02 \x01(\x0b\x32*.paddle.distributed.ServerServiceParameter\"]\n\x0fServerParameter\x12J\n\x15\x64ownpour_server_param\x18\x01 \x01(\x0b\x32+.paddle.distributed.DownpourServerParameter\"\xa1\x02\n\x18\x44ownpourTrainerParameter\x12<\n\x0b\x64\x65nse_table\x18\x01 \x03(\x0b\x32\'.paddle.distributed.DenseTableParameter\x12>\n\x0csparse_table\x18\x02 \x03(\x0b\x32(.paddle.distributed.SparseTableParameter\x12\x1d\n\x15push_sparse_per_batch\x18\x03 \x01(\x05\x12\x1c\n\x14push_dense_per_batch\x18\x04 \x01(\x05\x12\x0f\n\x07skip_op\x18\x05 \x03(\t\x12\x39\n\x0eprogram_config\x18\x06 \x03(\x0b\x32!.paddle.distributed.ProgramConfig\"{\n\x13\x44\x65nseTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x05\x12\x1b\n\x13\x64\x65nse_variable_name\x18\x02 \x03(\t\x12$\n\x1c\x64\x65nse_gradient_variable_name\x18\x03 \x03(\t\x12\x0f\n\x07\x66\x65\x61_dim\x18\x04 \x01(\x05\"z\n\x14SparseTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x05\x12\x13\n\x0b\x66\x65\x61ture_dim\x18\x02 \x01(\x05\x12\x10\n\x08slot_key\x18\x03 \x03(\t\x12\x12\n\nslot_value\x18\x04 \x03(\t\x12\x15\n\rslot_gradient\x18\x05 \x03(\t\"\xc3\x01\n\x16ServerServiceParameter\x12\"\n\x0cserver_class\x18\x01 \x01(\t:\x0c\x42rpcPsServer\x12\"\n\x0c\x63lient_class\x18\x02 \x01(\t:\x0c\x42rpcPsClient\x12$\n\rservice_class\x18\x03 \x01(\t:\rBrpcPsService\x12\x1c\n\x11start_server_port\x18\x04 \x01(\r:\x01\x30\x12\x1d\n\x11server_thread_num\x18\x05 \x01(\r:\x02\x31\x32\"\x99\x01\n\rProgramConfig\x12\x12\n\nprogram_id\x18\x01 \x02(\t\x12\x1c\n\x14push_sparse_table_id\x18\x02 \x03(\x05\x12\x1b\n\x13push_dense_table_id\x18\x03 \x03(\x05\x12\x1c\n\x14pull_sparse_table_id\x18\x04 \x03(\x05\x12\x1b\n\x13pull_dense_table_id\x18\x05 \x03(\x05\"\xc9\x04\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x13\n\x0btable_class\x18\x02 \x01(\t\x12\x17\n\tshard_num\x18\x03 \x01(\x04:\x04\x31\x30\x30\x30\x12<\n\x08\x61\x63\x63\x65ssor\x18\x04 \x01(\x0b\x32*.paddle.distributed.TableAccessorParameter\x12;\n\x06tensor\x18\x05 \x01(\x0b\x32+.paddle.distributed.TensorAccessorParameter\x12;\n\x06\x63ommon\x18\x06 \x01(\x0b\x32+.paddle.distributed.CommonAccessorParameter\x12+\n\x04type\x18\x07 \x01(\x0e\x32\x1d.paddle.distributed.TableType\x12\x1e\n\x10\x63ompress_in_save\x18\x08 \x01(\x08:\x04true\x12;\n\x0fgraph_parameter\x18\t \x01(\x0b\x32\".paddle.distributed.GraphParameter\x12\'\n\x19\x65nable_sparse_table_cache\x18\n \x01(\x08:\x04true\x12(\n\x17sparse_table_cache_rate\x18\x0b \x01(\x01:\x07\x30.00055\x12\'\n\x1bsparse_table_cache_file_num\x18\x0c \x01(\r:\x02\x31\x36\x12\x1c\n\renable_revert\x18\r \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x10shard_merge_rate\x18\x0e \x01(\x02:\x01\x31\"\xea\x03\n\x16TableAccessorParameter\x12\x16\n\x0e\x61\x63\x63\x65ssor_class\x18\x01 \x01(\t\x12\x13\n\x07\x66\x65\x61_dim\x18\x04 \x01(\r:\x02\x31\x31\x12\x15\n\nembedx_dim\x18\x05 \x01(\r:\x01\x38\x12\x1c\n\x10\x65mbedx_threshold\x18\x06 \x01(\r:\x02\x31\x30\x12\x44\n\x12\x63tr_accessor_param\x18\x07 \x01(\x0b\x32(.paddle.distributed.CtrAccessorParameter\x12Q\n\x19table_accessor_save_param\x18\x08 \x03(\x0b\x32..paddle.distributed.TableAccessorSaveParameter\x12I\n\x0f\x65mbed_sgd_param\x18\n \x01(\x0b\x32\x30.paddle.distributed.SparseCommonSGDRuleParameter\x12J\n\x10\x65mbedx_sgd_param\x18\x0b \x01(\x0b\x32\x30.paddle.distributed.SparseCommonSGDRuleParameter\x12>\n\x0fgraph_sgd_param\x18\x0c \x01(\x0b\x32%.paddle.distributed.GraphSGDParameter\"S\n\x11GraphSGDParameter\x12\x19\n\x0bnodeid_slot\x18\x01 \x01(\r:\x04\x39\x30\x30\x38\x12#\n\x15\x66\x65\x61ture_learning_rate\x18\x02 \x01(\x02:\x04\x30.05\"\xe3\x02\n\x14\x43trAccessorParameter\x12\x19\n\x0cnonclk_coeff\x18\x01 \x01(\x02:\x03\x30.1\x12\x16\n\x0b\x63lick_coeff\x18\x02 \x01(\x02:\x01\x31\x12\x1b\n\x0e\x62\x61se_threshold\x18\x03 \x01(\x02:\x03\x31.5\x12\x1d\n\x0f\x64\x65lta_threshold\x18\x04 \x01(\x02:\x04\x30.25\x12\x1b\n\x0f\x64\x65lta_keep_days\x18\x05 \x01(\x02:\x02\x31\x36\x12#\n\x15show_click_decay_rate\x18\x06 \x01(\x02:\x04\x30.98\x12\x1d\n\x10\x64\x65lete_threshold\x18\x07 \x01(\x02:\x03\x30.8\x12$\n\x18\x64\x65lete_after_unseen_days\x18\x08 \x01(\x02:\x02\x33\x30\x12\"\n\x17ssd_unseenday_threshold\x18\t \x01(\x05:\x01\x31\x12\x18\n\nshow_scale\x18\n \x01(\x08:\x04true\x12\x17\n\tzero_init\x18\x0b \x01(\x08:\x04true\"\x99\x01\n\x17TensorAccessorParameter\x12\x15\n\rfeed_var_name\x18\x01 \x01(\t\x12\x16\n\x0e\x66\x65tch_var_name\x18\x02 \x01(\t\x12\x1a\n\x12startup_program_id\x18\x03 \x01(\x03\x12\x17\n\x0fmain_program_id\x18\x04 \x01(\x03\x12\x1a\n\x12tensor_table_class\x18\x06 \x01(\t\"\xe9\x01\n\x17\x43ommonAccessorParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12\x12\n\nattributes\x18\x03 \x03(\t\x12\x0e\n\x06params\x18\x04 \x03(\t\x12\x0c\n\x04\x64ims\x18\x05 \x03(\r\x12\x14\n\x0cinitializers\x18\x06 \x03(\t\x12\r\n\x05\x65ntry\x18\x07 \x01(\t\x12\x13\n\x0btrainer_num\x18\x08 \x01(\x05\x12\x0c\n\x04sync\x18\t \x01(\x08\x12\x11\n\ttable_num\x18\n \x01(\r\x12\x11\n\ttable_dim\x18\x0b \x01(\r\x12\x0c\n\x04\x61ttr\x18\x0c \x01(\t\"S\n\x1aTableAccessorSaveParameter\x12\r\n\x05param\x18\x01 \x01(\r\x12\x11\n\tconverter\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65\x63onverter\x18\x03 \x01(\t\"\xea\x01\n\x1cSparseCommonSGDRuleParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12>\n\x05naive\x18\x02 \x01(\x0b\x32/.paddle.distributed.SparseNaiveSGDRuleParameter\x12\x42\n\x07\x61\x64\x61grad\x18\x03 \x01(\x0b\x32\x31.paddle.distributed.SparseAdagradSGDRuleParameter\x12\x38\n\x04\x61\x64\x61m\x18\x04 \x01(\x0b\x32*.paddle.distributed.SparseAdamSGDParameter\"p\n\x1bSparseNaiveSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x03 \x03(\x02\"\x8c\x01\n\x1dSparseAdagradSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x18\n\rinitial_g2sum\x18\x02 \x01(\x01:\x01\x33\x12\x1d\n\rinitial_range\x18\x03 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x04 \x03(\x02\"\xc8\x01\n\x16SparseAdamSGDParameter\x12\x1c\n\rlearning_rate\x18\x01 \x01(\x01:\x05\x30.001\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x1d\n\x10\x62\x65ta1_decay_rate\x18\x03 \x01(\x01:\x03\x30.9\x12\x1f\n\x10\x62\x65ta2_decay_rate\x18\x04 \x01(\x01:\x05\x30.999\x12\x1a\n\x0b\x61\x64\x61_epsilon\x18\x05 \x01(\x01:\x05\x31\x65-08\x12\x15\n\rweight_bounds\x18\x06 \x03(\x02\"\xe0\x02\n\x0eGraphParameter\x12\x1a\n\x0etask_pool_size\x18\x01 \x01(\x05:\x02\x32\x34\x12\x12\n\nedge_types\x18\x02 \x03(\t\x12\x12\n\nnode_types\x18\x03 \x03(\t\x12\x18\n\tuse_cache\x18\x04 \x01(\x08:\x05\x66\x61lse\x12 \n\x10\x63\x61\x63he_size_limit\x18\x05 \x01(\x05:\x06\x31\x30\x30\x30\x30\x30\x12\x14\n\tcache_ttl\x18\x06 \x01(\x05:\x01\x35\x12\x37\n\rgraph_feature\x18\x07 \x03(\x0b\x32 .paddle.distributed.GraphFeature\x12\x14\n\ntable_name\x18\x08 \x01(\t:\x00\x12\x14\n\ntable_type\x18\t \x01(\t:\x00\x12\x16\n\tshard_num\x18\n \x01(\x05:\x03\x31\x32\x37\x12\x17\n\x0csearch_level\x18\x0b \x01(\x05:\x01\x31\x12\"\n\x14\x62uild_sampler_on_cpu\x18\x0c \x01(\x08:\x04true\":\n\x0cGraphFeature\x12\x0c\n\x04name\x18\x01 \x03(\t\x12\r\n\x05\x64type\x18\x02 \x03(\t\x12\r\n\x05shape\x18\x03 \x03(\x05\"y\n\x0b\x46LParameter\x12\x33\n\x0b\x66l_strategy\x18\x01 \x01(\x0b\x32\x1e.paddle.distributed.FLStrategy\x12\x35\n\x0b\x63lient_info\x18\x02 \x01(\x0b\x32 .paddle.distributed.FLClientInfo\"g\n\nFLStrategy\x12\x15\n\riteration_num\x18\x01 \x01(\x04\x12\x11\n\tclient_id\x18\x02 \x01(\x04\x12\x18\n\nnext_state\x18\x03 \x01(\t:\x04JOIN\x12\x15\n\x0binit_gflags\x18\x04 \x01(\t:\x00\"\xc2\x01\n\x0c\x46LClientInfo\x12\x11\n\tclient_id\x18\x01 \x01(\r\x12\x13\n\x0b\x64\x65vice_type\x18\x02 \x01(\t\x12\x18\n\x10\x63ompute_capacity\x18\x03 \x01(\x05\x12\x11\n\tbandwidth\x18\x04 \x01(\x05\x12\x46\n\x15local_training_result\x18\x05 \x01(\x0b\x32\'.paddle.distributed.LocalTrainingResult\x12\x15\n\x0binit_gflags\x18\x06 \x01(\t:\x00\"0\n\x13LocalTrainingResult\x12\x0b\n\x03\x61\x63\x63\x18\x01 \x01(\x01\x12\x0c\n\x04loss\x18\x02 \x01(\x01*H\n\tTableType\x12\x13\n\x0fPS_SPARSE_TABLE\x10\x00\x12\x12\n\x0ePS_DENSE_TABLE\x10\x01\x12\x12\n\x0ePS_OTHER_TABLE\x10\x02\x42\x06\x80\x01\x01\xf8\x01\x01')
+  serialized_pb=_b('\n\x10the_one_ps.proto\x12\x12paddle.distributed\"\xe1\x01\n\x11\x46sClientParameter\x12\x46\n\x07\x66s_type\x18\x01 \x01(\x0e\x32/.paddle.distributed.FsClientParameter.FsApiType:\x04HDFS\x12\x0b\n\x03uri\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\x12\x0e\n\x06passwd\x18\x04 \x01(\t\x12\x13\n\x0b\x62uffer_size\x18\x05 \x01(\x05\x12\x12\n\nhadoop_bin\x18\x33 \x01(\t\x12\x10\n\x08\x61\x66s_conf\x18\x65 \x01(\t\"\x1e\n\tFsApiType\x12\x08\n\x04HDFS\x10\x00\x12\x07\n\x03\x41\x46S\x10\x01\"\xe5\x02\n\x0bPSParameter\x12\x14\n\x0cworker_class\x18\x01 \x01(\t\x12\x14\n\x0cserver_class\x18\x02 \x01(\t\x12\x16\n\x0einstance_class\x18\x03 \x01(\t\x12\x15\n\x0binit_gflags\x18\x04 \x01(\t:\x00\x12\x39\n\x0cworker_param\x18\x65 \x01(\x0b\x32#.paddle.distributed.WorkerParameter\x12\x39\n\x0cserver_param\x18\x66 \x01(\x0b\x32#.paddle.distributed.ServerParameter\x12\x44\n\rtrainer_param\x18\xad\x02 \x03(\x0b\x32,.paddle.distributed.DownpourTrainerParameter\x12?\n\x0f\x66s_client_param\x18\xf5\x03 \x01(\x0b\x32%.paddle.distributed.FsClientParameter\"]\n\x0fWorkerParameter\x12J\n\x15\x64ownpour_worker_param\x18\x01 \x01(\x0b\x32+.paddle.distributed.DownpourWorkerParameter\"[\n\x17\x44ownpourWorkerParameter\x12@\n\x14\x64ownpour_table_param\x18\x01 \x03(\x0b\x32\".paddle.distributed.TableParameter\"\x9e\x01\n\x17\x44ownpourServerParameter\x12@\n\x14\x64ownpour_table_param\x18\x01 \x03(\x0b\x32\".paddle.distributed.TableParameter\x12\x41\n\rservice_param\x18\x02 \x01(\x0b\x32*.paddle.distributed.ServerServiceParameter\"]\n\x0fServerParameter\x12J\n\x15\x64ownpour_server_param\x18\x01 \x01(\x0b\x32+.paddle.distributed.DownpourServerParameter\"\xa1\x02\n\x18\x44ownpourTrainerParameter\x12<\n\x0b\x64\x65nse_table\x18\x01 \x03(\x0b\x32\'.paddle.distributed.DenseTableParameter\x12>\n\x0csparse_table\x18\x02 \x03(\x0b\x32(.paddle.distributed.SparseTableParameter\x12\x1d\n\x15push_sparse_per_batch\x18\x03 \x01(\x05\x12\x1c\n\x14push_dense_per_batch\x18\x04 \x01(\x05\x12\x0f\n\x07skip_op\x18\x05 \x03(\t\x12\x39\n\x0eprogram_config\x18\x06 \x03(\x0b\x32!.paddle.distributed.ProgramConfig\"{\n\x13\x44\x65nseTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x05\x12\x1b\n\x13\x64\x65nse_variable_name\x18\x02 \x03(\t\x12$\n\x1c\x64\x65nse_gradient_variable_name\x18\x03 \x03(\t\x12\x0f\n\x07\x66\x65\x61_dim\x18\x04 \x01(\x05\"z\n\x14SparseTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x05\x12\x13\n\x0b\x66\x65\x61ture_dim\x18\x02 \x01(\x05\x12\x10\n\x08slot_key\x18\x03 \x03(\t\x12\x12\n\nslot_value\x18\x04 \x03(\t\x12\x15\n\rslot_gradient\x18\x05 \x03(\t\"\xc3\x01\n\x16ServerServiceParameter\x12\"\n\x0cserver_class\x18\x01 \x01(\t:\x0c\x42rpcPsServer\x12\"\n\x0c\x63lient_class\x18\x02 \x01(\t:\x0c\x42rpcPsClient\x12$\n\rservice_class\x18\x03 \x01(\t:\rBrpcPsService\x12\x1c\n\x11start_server_port\x18\x04 \x01(\r:\x01\x30\x12\x1d\n\x11server_thread_num\x18\x05 \x01(\r:\x02\x31\x32\"\x99\x01\n\rProgramConfig\x12\x12\n\nprogram_id\x18\x01 \x02(\t\x12\x1c\n\x14push_sparse_table_id\x18\x02 \x03(\x05\x12\x1b\n\x13push_dense_table_id\x18\x03 \x03(\x05\x12\x1c\n\x14pull_sparse_table_id\x18\x04 \x03(\x05\x12\x1b\n\x13pull_dense_table_id\x18\x05 \x03(\x05\"\x8f\x04\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x13\n\x0btable_class\x18\x02 \x01(\t\x12\x17\n\tshard_num\x18\x03 \x01(\x04:\x04\x31\x30\x30\x30\x12<\n\x08\x61\x63\x63\x65ssor\x18\x04 \x01(\x0b\x32*.paddle.distributed.TableAccessorParameter\x12;\n\x06tensor\x18\x05 \x01(\x0b\x32+.paddle.distributed.TensorAccessorParameter\x12;\n\x06\x63ommon\x18\x06 \x01(\x0b\x32+.paddle.distributed.CommonAccessorParameter\x12+\n\x04type\x18\x07 \x01(\x0e\x32\x1d.paddle.distributed.TableType\x12\x1f\n\x10\x63ompress_in_save\x18\x08 \x01(\x08:\x05\x66\x61lse\x12;\n\x0fgraph_parameter\x18\t \x01(\x0b\x32\".paddle.distributed.GraphParameter\x12\'\n\x19\x65nable_sparse_table_cache\x18\n \x01(\x08:\x04true\x12(\n\x17sparse_table_cache_rate\x18\x0b \x01(\x01:\x07\x30.00055\x12\'\n\x1bsparse_table_cache_file_num\x18\x0c \x01(\r:\x02\x31\x36\"\xaa\x03\n\x16TableAccessorParameter\x12\x16\n\x0e\x61\x63\x63\x65ssor_class\x18\x01 \x01(\t\x12\x13\n\x07\x66\x65\x61_dim\x18\x04 \x01(\r:\x02\x31\x31\x12\x15\n\nembedx_dim\x18\x05 \x01(\r:\x01\x38\x12\x1c\n\x10\x65mbedx_threshold\x18\x06 \x01(\r:\x02\x31\x30\x12\x44\n\x12\x63tr_accessor_param\x18\x07 \x01(\x0b\x32(.paddle.distributed.CtrAccessorParameter\x12Q\n\x19table_accessor_save_param\x18\x08 \x03(\x0b\x32..paddle.distributed.TableAccessorSaveParameter\x12I\n\x0f\x65mbed_sgd_param\x18\n \x01(\x0b\x32\x30.paddle.distributed.SparseCommonSGDRuleParameter\x12J\n\x10\x65mbedx_sgd_param\x18\x0b \x01(\x0b\x32\x30.paddle.distributed.SparseCommonSGDRuleParameter\"\xca\x02\n\x14\x43trAccessorParameter\x12\x19\n\x0cnonclk_coeff\x18\x01 \x01(\x02:\x03\x30.1\x12\x16\n\x0b\x63lick_coeff\x18\x02 \x01(\x02:\x01\x31\x12\x1b\n\x0e\x62\x61se_threshold\x18\x03 \x01(\x02:\x03\x31.5\x12\x1d\n\x0f\x64\x65lta_threshold\x18\x04 \x01(\x02:\x04\x30.25\x12\x1b\n\x0f\x64\x65lta_keep_days\x18\x05 \x01(\x02:\x02\x31\x36\x12#\n\x15show_click_decay_rate\x18\x06 \x01(\x02:\x04\x30.98\x12\x1d\n\x10\x64\x65lete_threshold\x18\x07 \x01(\x02:\x03\x30.8\x12$\n\x18\x64\x65lete_after_unseen_days\x18\x08 \x01(\x02:\x02\x33\x30\x12\"\n\x17ssd_unseenday_threshold\x18\t \x01(\x05:\x01\x31\x12\x18\n\nshow_scale\x18\n \x01(\x08:\x04true\"\x99\x01\n\x17TensorAccessorParameter\x12\x15\n\rfeed_var_name\x18\x01 \x01(\t\x12\x16\n\x0e\x66\x65tch_var_name\x18\x02 \x01(\t\x12\x1a\n\x12startup_program_id\x18\x03 \x01(\x03\x12\x17\n\x0fmain_program_id\x18\x04 \x01(\x03\x12\x1a\n\x12tensor_table_class\x18\x06 \x01(\t\"\xdb\x01\n\x17\x43ommonAccessorParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12\x12\n\nattributes\x18\x03 \x03(\t\x12\x0e\n\x06params\x18\x04 \x03(\t\x12\x0c\n\x04\x64ims\x18\x05 \x03(\r\x12\x14\n\x0cinitializers\x18\x06 \x03(\t\x12\r\n\x05\x65ntry\x18\x07 \x01(\t\x12\x13\n\x0btrainer_num\x18\x08 \x01(\x05\x12\x0c\n\x04sync\x18\t \x01(\x08\x12\x11\n\ttable_num\x18\n \x01(\r\x12\x11\n\ttable_dim\x18\x0b \x01(\r\"S\n\x1aTableAccessorSaveParameter\x12\r\n\x05param\x18\x01 \x01(\r\x12\x11\n\tconverter\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65\x63onverter\x18\x03 \x01(\t\"\xea\x01\n\x1cSparseCommonSGDRuleParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12>\n\x05naive\x18\x02 \x01(\x0b\x32/.paddle.distributed.SparseNaiveSGDRuleParameter\x12\x42\n\x07\x61\x64\x61grad\x18\x03 \x01(\x0b\x32\x31.paddle.distributed.SparseAdagradSGDRuleParameter\x12\x38\n\x04\x61\x64\x61m\x18\x04 \x01(\x0b\x32*.paddle.distributed.SparseAdamSGDParameter\"p\n\x1bSparseNaiveSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x03 \x03(\x02\"\x8c\x01\n\x1dSparseAdagradSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x18\n\rinitial_g2sum\x18\x02 \x01(\x01:\x01\x33\x12\x1d\n\rinitial_range\x18\x03 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x04 \x03(\x02\"\xc8\x01\n\x16SparseAdamSGDParameter\x12\x1c\n\rlearning_rate\x18\x01 \x01(\x01:\x05\x30.001\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x1d\n\x10\x62\x65ta1_decay_rate\x18\x03 \x01(\x01:\x03\x30.9\x12\x1f\n\x10\x62\x65ta2_decay_rate\x18\x04 \x01(\x01:\x05\x30.999\x12\x1a\n\x0b\x61\x64\x61_epsilon\x18\x05 \x01(\x01:\x05\x31\x65-08\x12\x15\n\rweight_bounds\x18\x06 \x03(\x02\"\xbc\x02\n\x0eGraphParameter\x12\x1a\n\x0etask_pool_size\x18\x01 \x01(\x05:\x02\x32\x34\x12\x12\n\nedge_types\x18\x02 \x03(\t\x12\x12\n\nnode_types\x18\x03 \x03(\t\x12\x18\n\tuse_cache\x18\x04 \x01(\x08:\x05\x66\x61lse\x12 \n\x10\x63\x61\x63he_size_limit\x18\x05 \x01(\x05:\x06\x31\x30\x30\x30\x30\x30\x12\x14\n\tcache_ttl\x18\x06 \x01(\x05:\x01\x35\x12\x37\n\rgraph_feature\x18\x07 \x03(\x0b\x32 .paddle.distributed.GraphFeature\x12\x14\n\ntable_name\x18\x08 \x01(\t:\x00\x12\x14\n\ntable_type\x18\t \x01(\t:\x00\x12\x16\n\tshard_num\x18\n \x01(\x05:\x03\x31\x32\x37\x12\x17\n\x0csearch_level\x18\x0b \x01(\x05:\x01\x31\":\n\x0cGraphFeature\x12\x0c\n\x04name\x18\x01 \x03(\t\x12\r\n\x05\x64type\x18\x02 \x03(\t\x12\r\n\x05shape\x18\x03 \x03(\x05*H\n\tTableType\x12\x13\n\x0fPS_SPARSE_TABLE\x10\x00\x12\x12\n\x0ePS_DENSE_TABLE\x10\x01\x12\x12\n\x0ePS_OTHER_TABLE\x10\x02\x42\x06\x80\x01\x01\xf8\x01\x01')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -45,8 +45,8 @@ _TABLETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=5555,
-  serialized_end=5627,
+  serialized_start=4798,
+  serialized_end=4870,
 )
 _sym_db.RegisterEnumDescriptor(_TABLETYPE)
 
@@ -718,7 +718,7 @@ _TABLEPARAMETER = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='compress_in_save', full_name='paddle.distributed.TableParameter.compress_in_save', index=7,
       number=8, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
+      has_default_value=True, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -750,20 +750,6 @@ _TABLEPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_revert', full_name='paddle.distributed.TableParameter.enable_revert', index=12,
-      number=13, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='shard_merge_rate', full_name='paddle.distributed.TableParameter.shard_merge_rate', index=13,
-      number=14, type=2, cpp_type=6, label=1,
-      has_default_value=True, default_value=float(1),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -777,7 +763,7 @@ _TABLEPARAMETER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1968,
-  serialized_end=2553,
+  serialized_end=2495,
 )
 
 
@@ -844,13 +830,6 @@ _TABLEACCESSORPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='graph_sgd_param', full_name='paddle.distributed.TableAccessorParameter.graph_sgd_param', index=8,
-      number=12, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -863,46 +842,8 @@ _TABLEACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2556,
-  serialized_end=3046,
-)
-
-
-_GRAPHSGDPARAMETER = _descriptor.Descriptor(
-  name='GraphSGDParameter',
-  full_name='paddle.distributed.GraphSGDParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='nodeid_slot', full_name='paddle.distributed.GraphSGDParameter.nodeid_slot', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=True, default_value=9008,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='feature_learning_rate', full_name='paddle.distributed.GraphSGDParameter.feature_learning_rate', index=1,
-      number=2, type=2, cpp_type=6, label=1,
-      has_default_value=True, default_value=float(0.05),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3048,
-  serialized_end=3131,
+  serialized_start=2498,
+  serialized_end=2924,
 )
 
 
@@ -983,13 +924,6 @@ _CTRACCESSORPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='zero_init', full_name='paddle.distributed.CtrAccessorParameter.zero_init', index=10,
-      number=11, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1002,8 +936,8 @@ _CTRACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3134,
-  serialized_end=3489,
+  serialized_start=2927,
+  serialized_end=3257,
 )
 
 
@@ -1061,8 +995,8 @@ _TENSORACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3492,
-  serialized_end=3645,
+  serialized_start=3260,
+  serialized_end=3413,
 )
 
 
@@ -1150,13 +1084,6 @@ _COMMONACCESSORPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='attr', full_name='paddle.distributed.CommonAccessorParameter.attr', index=11,
-      number=12, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1169,8 +1096,8 @@ _COMMONACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3648,
-  serialized_end=3881,
+  serialized_start=3416,
+  serialized_end=3635,
 )
 
 
@@ -1214,8 +1141,8 @@ _TABLEACCESSORSAVEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3883,
-  serialized_end=3966,
+  serialized_start=3637,
+  serialized_end=3720,
 )
 
 
@@ -1266,8 +1193,8 @@ _SPARSECOMMONSGDRULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3969,
-  serialized_end=4203,
+  serialized_start=3723,
+  serialized_end=3957,
 )
 
 
@@ -1311,8 +1238,8 @@ _SPARSENAIVESGDRULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4205,
-  serialized_end=4317,
+  serialized_start=3959,
+  serialized_end=4071,
 )
 
 
@@ -1363,8 +1290,8 @@ _SPARSEADAGRADSGDRULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4320,
-  serialized_end=4460,
+  serialized_start=4074,
+  serialized_end=4214,
 )
 
 
@@ -1429,8 +1356,8 @@ _SPARSEADAMSGDPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4463,
-  serialized_end=4663,
+  serialized_start=4217,
+  serialized_end=4417,
 )
 
 
@@ -1518,13 +1445,6 @@ _GRAPHPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='build_sampler_on_cpu', full_name='paddle.distributed.GraphParameter.build_sampler_on_cpu', index=11,
-      number=12, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1537,8 +1457,8 @@ _GRAPHPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4666,
-  serialized_end=5018,
+  serialized_start=4420,
+  serialized_end=4736,
 )
 
 
@@ -1582,202 +1502,8 @@ _GRAPHFEATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5020,
-  serialized_end=5078,
-)
-
-
-_FLPARAMETER = _descriptor.Descriptor(
-  name='FLParameter',
-  full_name='paddle.distributed.FLParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fl_strategy', full_name='paddle.distributed.FLParameter.fl_strategy', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='client_info', full_name='paddle.distributed.FLParameter.client_info', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=5080,
-  serialized_end=5201,
-)
-
-
-_FLSTRATEGY = _descriptor.Descriptor(
-  name='FLStrategy',
-  full_name='paddle.distributed.FLStrategy',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='iteration_num', full_name='paddle.distributed.FLStrategy.iteration_num', index=0,
-      number=1, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='client_id', full_name='paddle.distributed.FLStrategy.client_id', index=1,
-      number=2, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='next_state', full_name='paddle.distributed.FLStrategy.next_state', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=True, default_value=_b("JOIN").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='init_gflags', full_name='paddle.distributed.FLStrategy.init_gflags', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=True, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=5203,
-  serialized_end=5306,
-)
-
-
-_FLCLIENTINFO = _descriptor.Descriptor(
-  name='FLClientInfo',
-  full_name='paddle.distributed.FLClientInfo',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='client_id', full_name='paddle.distributed.FLClientInfo.client_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='device_type', full_name='paddle.distributed.FLClientInfo.device_type', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='compute_capacity', full_name='paddle.distributed.FLClientInfo.compute_capacity', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='bandwidth', full_name='paddle.distributed.FLClientInfo.bandwidth', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='local_training_result', full_name='paddle.distributed.FLClientInfo.local_training_result', index=4,
-      number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='init_gflags', full_name='paddle.distributed.FLClientInfo.init_gflags', index=5,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=True, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=5309,
-  serialized_end=5503,
-)
-
-
-_LOCALTRAININGRESULT = _descriptor.Descriptor(
-  name='LocalTrainingResult',
-  full_name='paddle.distributed.LocalTrainingResult',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='acc', full_name='paddle.distributed.LocalTrainingResult.acc', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='loss', full_name='paddle.distributed.LocalTrainingResult.loss', index=1,
-      number=2, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=5505,
-  serialized_end=5553,
+  serialized_start=4738,
+  serialized_end=4796,
 )
 
 _FSCLIENTPARAMETER.fields_by_name['fs_type'].enum_type = _FSCLIENTPARAMETER_FSAPITYPE
@@ -1803,14 +1529,10 @@ _TABLEACCESSORPARAMETER.fields_by_name['ctr_accessor_param'].message_type = _CTR
 _TABLEACCESSORPARAMETER.fields_by_name['table_accessor_save_param'].message_type = _TABLEACCESSORSAVEPARAMETER
 _TABLEACCESSORPARAMETER.fields_by_name['embed_sgd_param'].message_type = _SPARSECOMMONSGDRULEPARAMETER
 _TABLEACCESSORPARAMETER.fields_by_name['embedx_sgd_param'].message_type = _SPARSECOMMONSGDRULEPARAMETER
-_TABLEACCESSORPARAMETER.fields_by_name['graph_sgd_param'].message_type = _GRAPHSGDPARAMETER
 _SPARSECOMMONSGDRULEPARAMETER.fields_by_name['naive'].message_type = _SPARSENAIVESGDRULEPARAMETER
 _SPARSECOMMONSGDRULEPARAMETER.fields_by_name['adagrad'].message_type = _SPARSEADAGRADSGDRULEPARAMETER
 _SPARSECOMMONSGDRULEPARAMETER.fields_by_name['adam'].message_type = _SPARSEADAMSGDPARAMETER
 _GRAPHPARAMETER.fields_by_name['graph_feature'].message_type = _GRAPHFEATURE
-_FLPARAMETER.fields_by_name['fl_strategy'].message_type = _FLSTRATEGY
-_FLPARAMETER.fields_by_name['client_info'].message_type = _FLCLIENTINFO
-_FLCLIENTINFO.fields_by_name['local_training_result'].message_type = _LOCALTRAININGRESULT
 DESCRIPTOR.message_types_by_name['FsClientParameter'] = _FSCLIENTPARAMETER
 DESCRIPTOR.message_types_by_name['PSParameter'] = _PSPARAMETER
 DESCRIPTOR.message_types_by_name['WorkerParameter'] = _WORKERPARAMETER
@@ -1824,7 +1546,6 @@ DESCRIPTOR.message_types_by_name['ServerServiceParameter'] = _SERVERSERVICEPARAM
 DESCRIPTOR.message_types_by_name['ProgramConfig'] = _PROGRAMCONFIG
 DESCRIPTOR.message_types_by_name['TableParameter'] = _TABLEPARAMETER
 DESCRIPTOR.message_types_by_name['TableAccessorParameter'] = _TABLEACCESSORPARAMETER
-DESCRIPTOR.message_types_by_name['GraphSGDParameter'] = _GRAPHSGDPARAMETER
 DESCRIPTOR.message_types_by_name['CtrAccessorParameter'] = _CTRACCESSORPARAMETER
 DESCRIPTOR.message_types_by_name['TensorAccessorParameter'] = _TENSORACCESSORPARAMETER
 DESCRIPTOR.message_types_by_name['CommonAccessorParameter'] = _COMMONACCESSORPARAMETER
@@ -1835,10 +1556,6 @@ DESCRIPTOR.message_types_by_name['SparseAdagradSGDRuleParameter'] = _SPARSEADAGR
 DESCRIPTOR.message_types_by_name['SparseAdamSGDParameter'] = _SPARSEADAMSGDPARAMETER
 DESCRIPTOR.message_types_by_name['GraphParameter'] = _GRAPHPARAMETER
 DESCRIPTOR.message_types_by_name['GraphFeature'] = _GRAPHFEATURE
-DESCRIPTOR.message_types_by_name['FLParameter'] = _FLPARAMETER
-DESCRIPTOR.message_types_by_name['FLStrategy'] = _FLSTRATEGY
-DESCRIPTOR.message_types_by_name['FLClientInfo'] = _FLCLIENTINFO
-DESCRIPTOR.message_types_by_name['LocalTrainingResult'] = _LOCALTRAININGRESULT
 DESCRIPTOR.enum_types_by_name['TableType'] = _TABLETYPE
 
 FsClientParameter = _reflection.GeneratedProtocolMessageType('FsClientParameter', (_message.Message,), dict(
@@ -1932,13 +1649,6 @@ TableAccessorParameter = _reflection.GeneratedProtocolMessageType('TableAccessor
   ))
 _sym_db.RegisterMessage(TableAccessorParameter)
 
-GraphSGDParameter = _reflection.GeneratedProtocolMessageType('GraphSGDParameter', (_message.Message,), dict(
-  DESCRIPTOR = _GRAPHSGDPARAMETER,
-  __module__ = 'the_one_ps_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.distributed.GraphSGDParameter)
-  ))
-_sym_db.RegisterMessage(GraphSGDParameter)
-
 CtrAccessorParameter = _reflection.GeneratedProtocolMessageType('CtrAccessorParameter', (_message.Message,), dict(
   DESCRIPTOR = _CTRACCESSORPARAMETER,
   __module__ = 'the_one_ps_pb2'
@@ -2008,34 +1718,6 @@ GraphFeature = _reflection.GeneratedProtocolMessageType('GraphFeature', (_messag
   # @@protoc_insertion_point(class_scope:paddle.distributed.GraphFeature)
   ))
 _sym_db.RegisterMessage(GraphFeature)
-
-FLParameter = _reflection.GeneratedProtocolMessageType('FLParameter', (_message.Message,), dict(
-  DESCRIPTOR = _FLPARAMETER,
-  __module__ = 'the_one_ps_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.distributed.FLParameter)
-  ))
-_sym_db.RegisterMessage(FLParameter)
-
-FLStrategy = _reflection.GeneratedProtocolMessageType('FLStrategy', (_message.Message,), dict(
-  DESCRIPTOR = _FLSTRATEGY,
-  __module__ = 'the_one_ps_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.distributed.FLStrategy)
-  ))
-_sym_db.RegisterMessage(FLStrategy)
-
-FLClientInfo = _reflection.GeneratedProtocolMessageType('FLClientInfo', (_message.Message,), dict(
-  DESCRIPTOR = _FLCLIENTINFO,
-  __module__ = 'the_one_ps_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.distributed.FLClientInfo)
-  ))
-_sym_db.RegisterMessage(FLClientInfo)
-
-LocalTrainingResult = _reflection.GeneratedProtocolMessageType('LocalTrainingResult', (_message.Message,), dict(
-  DESCRIPTOR = _LOCALTRAININGRESULT,
-  __module__ = 'the_one_ps_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.distributed.LocalTrainingResult)
-  ))
-_sym_db.RegisterMessage(LocalTrainingResult)
 
 
 DESCRIPTOR.has_options = True

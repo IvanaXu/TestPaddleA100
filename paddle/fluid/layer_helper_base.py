@@ -163,14 +163,10 @@ class LayerHelperBase(object):
                         [self.name, 'weight_norm_reshape'])),
                     dtype=dtype,
                     persistable=False)
-            x_shape = block.create_var(name="Xshape", dtype=x.dtype)
-            block.append_op(type="reshape2",
+            block.append_op(type='reshape',
                             inputs={'X': x},
-                            attrs={'shape': shape},
-                            outputs={
-                                "Out": out,
-                                "XShape": x_shape
-                            })
+                            outputs={'Out': out},
+                            attrs={'shape': shape})
             return out
 
         def __transpose_op(x,
@@ -407,30 +403,6 @@ class LayerHelperBase(object):
             dtype=dtype,
             shape=shape,
             type=core.VarDesc.VarType.LOD_TENSOR,
-            persistable=False,
-            stop_gradient=stop_gradient)
-
-    def create_sparse_variable_for_type_inference(self,
-                                                  dtype,
-                                                  stop_gradient=False,
-                                                  shape=None):
-        """Create a temporary sparse variable that should be type inferred layer.
-
-        Note:
-            The default type will be set to SPARSE_COO. However, when
-            the var is used as operator output, its type will be updated
-            based on operator's `VarTypeInference` implementation in
-            infer_var_type.
-        """
-        # set global dtype
-        if not dtype:
-            dtype = self.__dtype
-        return self.main_program.current_block().create_var(
-            name=unique_name.generate_with_ignorable_key(".".join(
-                [self.name, 'tmp'])),
-            dtype=dtype,
-            shape=shape,
-            type=core.VarDesc.VarType.SPARSE_COO,
             persistable=False,
             stop_gradient=stop_gradient)
 

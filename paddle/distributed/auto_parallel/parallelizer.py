@@ -23,12 +23,14 @@ import logging
 import pickle
 import time
 import paddle
+from paddle.fluid.backward import append_backward
+from paddle.distributed.utils import get_logger
+from paddle.distributed.fleet import cloud_utils
 import paddle.fluid.core as core
 from paddle.fluid import program_guard
-from paddle.fluid.backward import append_backward
-from paddle.distributed.utils.log_utils import get_logger
 from paddle.distributed.passes import new_pass, PassContext
 from .dist_context import DistributedContext
+from .dist_context import get_default_distributed_context
 from .dist_context import set_default_distributed_context
 from .completion import Completer
 from .partitioner import Partitioner
@@ -38,6 +40,7 @@ from .process_group import get_world_process_group
 from .process_group import _g_process_group_map, ProcessGroup
 from .utils import make_data_unshard
 from .utils import set_grad_var_shape
+from .utils import print_program_with_dist_attr
 from .utils import SerialProgramInfo
 from .reshard import Resharder
 from .cluster import Cluster
@@ -45,6 +48,7 @@ from .mapper import mapping
 from .dist_op import DistributedOperator
 from .dist_tensor import DistributedTensor
 from .planner import Planner
+from paddle.distributed.passes import new_pass, PassContext
 
 _logger = get_logger(logging.INFO)
 
@@ -81,7 +85,7 @@ class AutoParallelizer:
         self._need_rank_mapping = os.getenv("PADDLE_NEED_RANK_MAPPING")
         self._need_rank_mapping = True if self._need_rank_mapping and \
             self._need_rank_mapping.lower() == 'true' else False
-        # self._pass_context = None
+        self._pass_context = None
 
     def _remove_distributed_attrs(self, main_program):
         suffix = core.kAutoParallelSuffix()
@@ -140,11 +144,10 @@ class AutoParallelizer:
 
     def _apply_optimize(self, main_program, startup_program, params_grads):
 
-        optimizer = copy.deepcopy(self._optimizer)
         with program_guard(main_program, startup_program):
-            optimize_ops = optimizer.apply_gradients(params_grads)
+            optimize_ops = copy.deepcopy(
+                self._optimizer).apply_gradients(params_grads)
 
-        self._dist_context._serial_optimizer = optimizer
         # update completion
         self._completer = Completer(self._dist_context)
         self._completer.complete_update_annotation(main_program)
@@ -163,15 +166,6 @@ class AutoParallelizer:
                                                    config)
             auto_parallel_sharding_pass.apply([main_program], [startup_program],
                                               self._pass_context)
-            params_grads = self._pass_context.get_attr("params_grads")
-
-        config = copy.deepcopy(self._dist_strategy.sharding_configs)
-        config["dist_context"] = self._dist_context
-        config["params_grads"] = params_grads
-        config["rank_id"] = rank
-        auto_parallel_clip_pass = new_pass("auto_parallel_grad_clip", config)
-        auto_parallel_clip_pass.apply([main_program], [startup_program],
-                                      self._pass_context)
 
         if self._dist_strategy.gradient_merge:
             config = copy.deepcopy(self._dist_strategy.gradient_merge_configs)

@@ -16,9 +16,7 @@ limitations under the License. */
 
 #include "paddle/fluid/platform/enforce.h"
 #include "paddle/phi/backends/xpu/xpu_header.h"
-#ifdef PADDLE_WITH_XPU_BKCL
 #include "xpu/bkcl.h"
-#endif
 
 namespace phi {
 namespace backends {
@@ -99,7 +97,6 @@ inline const char* xpuGetErrorString(int stat) {
   }
 }
 
-#ifdef PADDLE_WITH_XPU_BKCL
 inline const char* bkclGetErrorString(BKCLResult_t stat) {
   switch (stat) {
     case BKCL_SUCCESS:
@@ -116,7 +113,6 @@ inline const char* bkclGetErrorString(BKCLResult_t stat) {
       return "Unknown BKCL status";
   }
 }
-#endif
 
 inline const char* xdnnGetErrorString(int stat) {
   switch (stat) {
@@ -140,12 +136,10 @@ inline std::string build_xpu_error_msg(int stat) {
   return msg + xpuGetErrorString(stat) + " ";
 }
 
-#ifdef PADDLE_WITH_XPU_BKCL
 inline std::string build_xpu_error_msg(BKCLResult_t stat) {
   std::string msg("BKCL Error, ");
   return msg + bkclGetErrorString(stat) + " ";
 }
-#endif
 
 inline std::string build_xpu_xdnn_error_msg(int stat, std::string msg) {
   return msg + " XDNN Error, " + xdnnGetErrorString(stat) + " ";
@@ -164,9 +158,7 @@ struct ExternalApiType {};
   }
 
 DEFINE_EXTERNAL_API_TYPE(int, XPU_SUCCESS);
-#ifdef PADDLE_WITH_XPU_BKCL
 DEFINE_EXTERNAL_API_TYPE(BKCLResult_t, BKCL_SUCCESS);
-#endif
 
 #undef DEFINE_EXTERNAL_API_TYPE
 

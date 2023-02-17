@@ -15,7 +15,6 @@
 #pragma once
 
 #include "paddle/phi/common/data_type.h"
-#include "paddle/phi/common/int_array.h"
 #include "paddle/phi/core/dense_tensor.h"
 namespace phi {
 
@@ -24,7 +23,7 @@ void ReduceMaxGradKernel(const Context& dev_ctx,
                          const DenseTensor& x,
                          const DenseTensor& out,
                          const DenseTensor& out_grad,
-                         const IntArray& dims,
+                         const std::vector<int64_t>& dims,
                          bool keep_dim,
                          bool reduce_all,
                          DenseTensor* x_grad);

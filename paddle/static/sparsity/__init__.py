@@ -17,7 +17,6 @@ from ...fluid.contrib.sparsity import calculate_density  #noqa: F401
 from ...fluid.contrib.sparsity import decorate  #noqa: F401
 from ...fluid.contrib.sparsity import prune_model  #noqa: F401
 from ...fluid.contrib.sparsity import reset_excluded_layers  #noqa: F401
-from ...fluid.contrib.sparsity import add_supported_layer  #noqa: F401
 from ...fluid.contrib import sparsity  #noqa: F401
 
 
@@ -28,5 +27,5 @@ def set_excluded_layers(main_program, param_names):
 
 __all__ = [  #noqa
     'calculate_density', 'decorate', 'prune_model', 'set_excluded_layers',
-    'reset_excluded_layers', 'add_supported_layer'
+    'reset_excluded_layers'
 ]

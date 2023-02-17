@@ -1,4 +1,4 @@
-#   Copyright (c) 2022 PaddlePaddle Authors. All Rights Reserved.
+#   Copyright (c) 2020 PaddlePaddle Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,12 +33,11 @@ class KaimingNormal(MSRAInitializer):
 
     .. math::
 
-        \frac{gain}{\sqrt{{fan\_in}}}
+        \sqrt{\frac{2.0}{fan\_in}}
 
     Args:
-        fan_in (float32|None, optional): fan_in (in_features) of trainable Tensor, If None, it will be infered automaticly. If you don't want to use in_features of the Tensor, you can set the value of 'fan_in' smartly by yourself. default is None.
-        negative_slope (float, optional): negative_slope (only used with leaky_relu). default is 0.0.
-        nonlinearity(str, optional): the non-linear function. default is relu.
+        fan_in (float32|None): fan_in for Kaiming normal Initializer. If None, it is\
+        inferred from the variable. default is None.
 
     Note:
         It is recommended to set fan_in to None for most cases.
@@ -57,12 +56,10 @@ class KaimingNormal(MSRAInitializer):
 
     """
 
-    def __init__(self, fan_in=None, negative_slope=0.0, nonlinearity='relu'):
+    def __init__(self, fan_in=None):
         super(KaimingNormal, self).__init__(uniform=False,
                                             fan_in=fan_in,
-                                            seed=0,
-                                            negative_slope=negative_slope,
-                                            nonlinearity=nonlinearity)
+                                            seed=0)
 
 
 class KaimingUniform(MSRAInitializer):
@@ -79,12 +76,11 @@ class KaimingUniform(MSRAInitializer):
 
     .. math::
 
-        x = gain \times \sqrt{\frac{3}{fan\_in}}
+        x = \sqrt{\frac{6.0}{fan\_in}}
 
     Args:
-        fan_in (float32|None, optional): fan_in (in_features) of trainable Tensor, If None, it will be infered automaticly. If you don't want to use in_features of the Tensor, you can set the value of 'fan_in' smartly by yourself. default is None.
-        negative_slope (float, optional): negative_slope (only used with leaky_relu). default is 0.0.
-        nonlinearity(str, optional): the non-linear function. default is relu.
+        fan_in (float32|None): fan_in for Kaiming uniform Initializer. If None, it is\
+        inferred from the variable. default is None.
 
     Note:
         It is recommended to set fan_in to None for most cases.
@@ -103,9 +99,7 @@ class KaimingUniform(MSRAInitializer):
 
     """
 
-    def __init__(self, fan_in=None, negative_slope=0.0, nonlinearity='relu'):
+    def __init__(self, fan_in=None):
         super(KaimingUniform, self).__init__(uniform=True,
                                              fan_in=fan_in,
-                                             seed=0,
-                                             negative_slope=negative_slope,
-                                             nonlinearity=nonlinearity)
+                                             seed=0)

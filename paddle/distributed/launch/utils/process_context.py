@@ -24,8 +24,7 @@ class ProcessContext(object):
                  out=sys.stdout,
                  err=sys.stderr,
                  group=True,
-                 preexec_fn=None,
-                 shell=False):
+                 preexec_fn=None):
         self._cmd = cmd
         self._env = env
         self._preexec_fn = preexec_fn
@@ -34,7 +33,6 @@ class ProcessContext(object):
         self._group = group if os.name != 'nt' else False
         self._proc = None
         self._code = None
-        self._shell = shell
 
     def _start(self):
         pre_fn = os.setsid if self._group else None
@@ -42,8 +40,7 @@ class ProcessContext(object):
                                       env=self._env,
                                       stdout=self._stdout,
                                       stderr=self._stderr,
-                                      preexec_fn=self._preexec_fn or pre_fn,
-                                      shell=self._shell)
+                                      preexec_fn=self._preexec_fn or pre_fn)
 
     def _close_std(self):
         try:

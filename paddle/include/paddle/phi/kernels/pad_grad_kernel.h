@@ -15,7 +15,6 @@
 
 #pragma once
 
-#include "paddle/phi/common/scalar.h"
 #include "paddle/phi/core/dense_tensor.h"
 
 namespace phi {
@@ -24,6 +23,6 @@ template <typename T, typename Context>
 void PadGradKernel(const Context& dev_ctx,
                    const DenseTensor& d_out,
                    const std::vector<int>& paddings,
-                   const Scalar& pad_value,
+                   float pad_value,
                    DenseTensor* d_x);
 }  // namespace phi

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='distributed_strategy.proto',
   package='paddle.fleet',
   syntax='proto2',
-  serialized_pb=_b('\n\x1a\x64istributed_strategy.proto\x12\x0cpaddle.fleet\"}\n\x0fRecomputeConfig\x12\x13\n\x0b\x63heckpoints\x18\x01 \x03(\t\x12\x1d\n\x0e\x65nable_offload\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x18\n\x10\x63heckpoint_shape\x18\x03 \x03(\x05\x12\x1c\n\renable_tuning\x18\x04 \x01(\x08:\x05\x66\x61lse\"\xe2\x03\n\x0eShardingConfig\x12\x37\n\x19sharding_segment_strategy\x18\x01 \x01(\t:\x14segment_broadcast_MB\x12 \n\x14segment_broadcast_MB\x18\x02 \x01(\x02:\x02\x33\x32\x12\x17\n\x0fsegment_anchors\x18\x03 \x03(\t\x12\x1a\n\x0fsharding_degree\x18\x04 \x01(\x05:\x01\x38\x12\x14\n\tmp_degree\x18\x05 \x01(\x05:\x01\x31\x12\x14\n\tdp_degree\x18\x06 \x01(\x05:\x01\x31\x12\x18\n\thybrid_dp\x18\x07 \x01(\x08:\x05\x66\x61lse\x12\"\n\x17gradient_merge_acc_step\x18\x08 \x01(\x05:\x01\x31\x12\x1f\n\x10optimize_offload\x18\t \x01(\x08:\x05\x66\x61lse\x12\'\n\x18pp_allreduce_in_optimize\x18\n \x01(\x08:\x05\x66\x61lse\x12\x14\n\tpp_degree\x18\x0b \x01(\x05:\x01\x31\x12\x1c\n\roptimize_cast\x18\x0c \x01(\x08:\x05\x66\x61lse\x12(\n\x19_dp_as_optimizer_sharding\x18\r \x01(\x08:\x05\x66\x61lse\x12\x10\n\x05stage\x18\x0e \x01(\x05:\x01\x31\x12\x1c\n\renable_tuning\x18\x0f \x01(\x08:\x05\x66\x61lse\"m\n\x0cHybridConfig\x12\x15\n\tdp_degree\x18\x01 \x01(\x05:\x02-1\x12\x14\n\tmp_degree\x18\x02 \x01(\x05:\x01\x31\x12\x14\n\tpp_degree\x18\x03 \x01(\x05:\x01\x31\x12\x1a\n\x0fsharding_degree\x18\x04 \x01(\x05:\x01\x31\"\xff\x02\n\tAMPConfig\x12 \n\x11init_loss_scaling\x18\x01 \x01(\x02:\x05\x33\x32\x37\x36\x38\x12 \n\x12incr_every_n_steps\x18\x02 \x01(\x05:\x04\x31\x30\x30\x30\x12\"\n\x17\x64\x65\x63r_every_n_nan_or_inf\x18\x03 \x01(\x05:\x01\x32\x12\x15\n\nincr_ratio\x18\x04 \x01(\x02:\x01\x32\x12\x17\n\ndecr_ratio\x18\x05 \x01(\x02:\x03\x30.8\x12&\n\x18use_dynamic_loss_scaling\x18\x06 \x01(\x08:\x04true\x12\x19\n\x11\x63ustom_white_list\x18\x07 \x03(\t\x12\x19\n\x11\x63ustom_black_list\x18\x08 \x03(\t\x12\x1d\n\x15\x63ustom_black_varnames\x18\t \x03(\t\x12\x1c\n\ruse_pure_fp16\x18\n \x01(\x08:\x05\x66\x61lse\x12\x1c\n\x0euse_fp16_guard\x18\x0b \x01(\x08:\x04true\x12!\n\x12use_optimizer_fp16\x18\x0c \x01(\x08:\x05\x66\x61lse\";\n\x0eLocalSGDConfig\x12\x12\n\x07k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x15\n\nbegin_step\x18\x02 \x01(\x05:\x01\x31\"H\n\x16\x41\x64\x61ptiveLocalSGDConfig\x12\x17\n\x0cinit_k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x15\n\nbegin_step\x18\x02 \x01(\x05:\x01\x31\"<\n\x13GradientMergeConfig\x12\x12\n\x07k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x11\n\x03\x61vg\x18\x02 \x01(\x08:\x04true\"S\n\tDGCConfig\x12\x1c\n\x11rampup_begin_step\x18\x01 \x01(\x05:\x01\x30\x12\x16\n\x0brampup_step\x18\x02 \x01(\x05:\x01\x31\x12\x10\n\x08sparsity\x18\x03 \x03(\x02\"\x81\x01\n\nLarsConfig\x12\x19\n\nlars_coeff\x18\x01 \x01(\x02:\x05\x30.001\x12!\n\x11lars_weight_decay\x18\x02 \x01(\x02:\x06\x30.0005\x12\x12\n\x07\x65psilon\x18\x03 \x01(\x02:\x01\x30\x12!\n\x19\x65xclude_from_weight_decay\x18\x04 \x03(\t\"P\n\nLambConfig\x12\x1f\n\x11lamb_weight_decay\x18\x01 \x01(\x02:\x04\x30.01\x12!\n\x19\x65xclude_from_weight_decay\x18\x02 \x03(\t\"\xd9\x04\n\rBuildStrategy\x12*\n\x1b\x65nable_sequential_execution\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x66use_elewise_add_act_ops\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0f\x66use_bn_act_ops\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x66use_relu_depthwise_conv\x18\x04 \x01(\x08:\x05\x66\x61lse\x12!\n\x12\x66use_broadcast_ops\x18\x05 \x01(\x08:\x05\x66\x61lse\x12%\n\x16\x66use_all_optimizer_ops\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0e\x65nable_inplace\x18\x07 \x01(\x08:\x05\x66\x61lse\x12/\n!enable_backward_optimizer_op_deps\x18\x08 \x01(\x08:\x04true\x12$\n\x15\x63\x61\x63he_runtime_context\x18\t \x01(\x08:\x05\x66\x61lse\x12!\n\x13\x66use_bn_add_act_ops\x18\n \x01(\x08:\x04true\x12!\n\x12\x65nable_auto_fusion\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x0c\x65nable_addto\x18\x0c \x01(\x08:\x05\x66\x61lse\x12\x1f\n\x10\x66ix_op_run_order\x18\r \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x61llow_cuda_graph_capture\x18\x0e \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0freduce_strategy\x18\x0f \x01(\x05:\x01\x30\x12!\n\x12\x66use_gemm_epilogue\x18\x10 \x01(\x08:\x05\x66\x61lse\"\x9a\x01\n\x11\x45xecutionStrategy\x12\x16\n\x0bnum_threads\x18\x01 \x01(\x05:\x01\x31\x12(\n\x1cnum_iteration_per_drop_scope\x18\x02 \x01(\x05:\x02\x31\x30\x12 \n\x15num_iteration_per_run\x18\x03 \x01(\x05:\x01\x31\x12!\n\x12use_thread_barrier\x18\x04 \x01(\x08:\x05\x66\x61lse\"Q\n\x13GradientScaleConfig\x12\x1b\n\x0escale_strategy\x18\x01 \x01(\t:\x03\x61vg\x12\x1d\n\x0escale_gradient\x18\x02 \x01(\x08:\x05\x66\x61lse\"\x89\x03\n\x0b\x41syncConfig\x12\x13\n\x07k_steps\x18\x01 \x01(\x05:\x02-1\x12\x1c\n\x11max_merge_var_num\x18\x02 \x01(\x05:\x01\x31\x12\x1b\n\x0fsend_queue_size\x18\x03 \x01(\x05:\x02\x31\x36\x12&\n\x17independent_recv_thread\x18\x04 \x01(\x08:\x05\x66\x61lse\x12(\n\x1dmin_send_grad_num_before_recv\x18\x05 \x01(\x05:\x01\x31\x12\x1b\n\x10thread_pool_size\x18\x06 \x01(\x05:\x01\x31\x12\x1a\n\x0fsend_wait_times\x18\x07 \x01(\x05:\x01\x31\x12&\n\x17runtime_split_send_recv\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x1c\n\x0elaunch_barrier\x18\t \x01(\x08:\x04true\x12&\n\x19heter_worker_device_guard\x18\n \x01(\t:\x03\x63pu\x12\x1a\n\x0elr_decay_steps\x18\x0b \x01(\x05:\x02\x31\x30\x12\x15\n\nuse_ps_gpu\x18\x0c \x01(\x05:\x01\x30\"\xc3\x01\n\x11TrainerDescConfig\x12\x18\n\x10\x64ump_fields_path\x18\x01 \x01(\t\x12\x13\n\x0b\x64ump_fields\x18\x02 \x03(\t\x12\x12\n\ndump_param\x18\x03 \x03(\t\x12\x16\n\x0estat_var_names\x18\x04 \x03(\t\x12\x0f\n\x07trainer\x18\x05 \x01(\t\x12\x15\n\rdevice_worker\x18\x06 \x01(\t\x12\x14\n\x0clocal_sparse\x18\x07 \x03(\t\x12\x15\n\rremote_sparse\x18\x08 \x03(\t\"\xae\x01\n\x0ePipelineConfig\x12\x1b\n\x10micro_batch_size\x18\x01 \x01(\x05:\x01\x31\x12\x1b\n\x10\x61\x63\x63umulate_steps\x18\x02 \x01(\x05:\x01\x31\x12\x1b\n\rschedule_mode\x18\x03 \x01(\t:\x04\x31\x46\x31\x42\x12\x1d\n\x0fp2p_cache_shape\x18\x04 \x01(\x08:\x04true\x12&\n\x18\x65nable_partial_send_recv\x18\x05 \x01(\x08:\x04true\"W\n\x14TensorParallelConfig\x12!\n\x16tensor_parallel_degree\x18\x01 \x01(\x05:\x01\x31\x12\x1c\n\x10tensor_init_seed\x18\x02 \x01(\x05:\x02-1\"\x8c\x01\n\tQatConfig\x12\"\n\x14\x63hannel_wise_abs_max\x18\x01 \x01(\x08:\x04true\x12\x16\n\x0bweight_bits\x18\x02 \x01(\x05:\x01\x38\x12\x1a\n\x0f\x61\x63tivation_bits\x18\x03 \x01(\x05:\x01\x38\x12\x19\n\x11not_quant_pattern\x18\x04 \x03(\t\x12\x0c\n\x04\x61lgo\x18\x05 \x01(\t\"\x9b\x03\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12\x13\n\x0btable_class\x18\x03 \x01(\t\x12\x17\n\tshard_num\x18\x04 \x01(\x04:\x04\x31\x30\x30\x30\x12%\n\x04type\x18\x05 \x01(\x0e\x32\x17.paddle.fleet.TableType\x12\x36\n\x08\x61\x63\x63\x65ssor\x18\x06 \x01(\x0b\x32$.paddle.fleet.TableAccessorParameter\x12\x1f\n\x10\x63ompress_in_save\x18\x07 \x01(\x08:\x05\x66\x61lse\x12\'\n\x19\x65nable_sparse_table_cache\x18\n \x01(\x08:\x04true\x12(\n\x17sparse_table_cache_rate\x18\x0b \x01(\x01:\x07\x30.00055\x12\'\n\x1bsparse_table_cache_file_num\x18\x0c \x01(\r:\x02\x31\x36\x12\x1c\n\renable_revert\x18\r \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x10shard_merge_rate\x18\x0e \x01(\x02:\x01\x31\"\xac\x03\n\x16TableAccessorParameter\x12\x16\n\x0e\x61\x63\x63\x65ssor_class\x18\x01 \x01(\t\x12\x13\n\x07\x66\x65\x61_dim\x18\x04 \x01(\r:\x02\x31\x31\x12\x15\n\nembedx_dim\x18\x05 \x01(\r:\x01\x38\x12\x1c\n\x10\x65mbedx_threshold\x18\x06 \x01(\r:\x02\x31\x30\x12>\n\x12\x63tr_accessor_param\x18\x07 \x01(\x0b\x32\".paddle.fleet.CtrAccessorParameter\x12K\n\x19table_accessor_save_param\x18\x08 \x03(\x0b\x32(.paddle.fleet.TableAccessorSaveParameter\x12\x33\n\x0f\x65mbed_sgd_param\x18\n \x01(\x0b\x32\x1a.paddle.fleet.SGDParameter\x12\x34\n\x10\x65mbedx_sgd_param\x18\x0b \x01(\x0b\x32\x1a.paddle.fleet.SGDParameter\x12\x38\n\x0fgraph_sgd_param\x18\x0c \x01(\x0b\x32\x1f.paddle.fleet.GraphSGDParameter\"S\n\x11GraphSGDParameter\x12\x19\n\x0bnodeid_slot\x18\x01 \x01(\r:\x04\x39\x30\x30\x38\x12#\n\x15\x66\x65\x61ture_learning_rate\x18\x02 \x01(\x02:\x04\x30.05\"\xc8\x01\n\x0cSGDParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x38\n\x05naive\x18\x02 \x01(\x0b\x32).paddle.fleet.SparseNaiveSGDRuleParameter\x12<\n\x07\x61\x64\x61grad\x18\x03 \x01(\x0b\x32+.paddle.fleet.SparseAdagradSGDRuleParameter\x12\x32\n\x04\x61\x64\x61m\x18\x04 \x01(\x0b\x32$.paddle.fleet.SparseAdamSGDParameter\"p\n\x1bSparseNaiveSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x03 \x03(\x02\"\x8c\x01\n\x1dSparseAdagradSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x18\n\rinitial_g2sum\x18\x02 \x01(\x01:\x01\x33\x12\x1d\n\rinitial_range\x18\x03 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x04 \x03(\x02\"\xc8\x01\n\x16SparseAdamSGDParameter\x12\x1c\n\rlearning_rate\x18\x01 \x01(\x01:\x05\x30.001\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x1d\n\x10\x62\x65ta1_decay_rate\x18\x03 \x01(\x01:\x03\x30.9\x12\x1f\n\x10\x62\x65ta2_decay_rate\x18\x04 \x01(\x01:\x05\x30.999\x12\x1a\n\x0b\x61\x64\x61_epsilon\x18\x05 \x01(\x01:\x05\x31\x65-08\x12\x15\n\rweight_bounds\x18\x06 \x03(\x02\"\xca\x02\n\x14\x43trAccessorParameter\x12\x19\n\x0cnonclk_coeff\x18\x01 \x01(\x02:\x03\x30.1\x12\x16\n\x0b\x63lick_coeff\x18\x02 \x01(\x02:\x01\x31\x12\x1b\n\x0e\x62\x61se_threshold\x18\x03 \x01(\x02:\x03\x31.5\x12\x1d\n\x0f\x64\x65lta_threshold\x18\x04 \x01(\x02:\x04\x30.25\x12\x1b\n\x0f\x64\x65lta_keep_days\x18\x05 \x01(\x02:\x02\x31\x36\x12#\n\x15show_click_decay_rate\x18\x06 \x01(\x02:\x04\x30.98\x12\x1d\n\x10\x64\x65lete_threshold\x18\x07 \x01(\x02:\x03\x30.8\x12$\n\x18\x64\x65lete_after_unseen_days\x18\x08 \x01(\x02:\x02\x33\x30\x12\"\n\x17ssd_unseenday_threshold\x18\t \x01(\x05:\x01\x31\x12\x18\n\nshow_scale\x18\n \x01(\x08:\x04true\"S\n\x1aTableAccessorSaveParameter\x12\r\n\x05param\x18\x01 \x01(\r\x12\x11\n\tconverter\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65\x63onverter\x18\x03 \x01(\t\"R\n\x11\x46sClientParameter\x12\x0b\n\x03uri\x18\x01 \x01(\t\x12\x0c\n\x04user\x18\x02 \x01(\t\x12\x0e\n\x06passwd\x18\x03 \x01(\t\x12\x12\n\nhadoop_bin\x18\x04 \x01(\t\"\xa3\x13\n\x13\x44istributedStrategy\x12,\n\x04mode\x18\x01 \x01(\x0e\x32\x12.paddle.fleet.Mode:\nCOLLECTIVE\x12\x12\n\x03\x61mp\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x18\n\trecompute\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08localsgd\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x12\n\x03\x64gc\x18\x05 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0egradient_merge\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04lars\x18\x07 \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04lamb\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08pipeline\x18\t \x01(\x08:\x05\x66\x61lse\x12\x16\n\x07\x65lastic\x18\n \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04\x61uto\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x14\n\x06\x61_sync\x18\x0c \x01(\x08:\x04true\x12!\n\x13sync_nccl_allreduce\x18\r \x01(\x08:\x04true\x12\x18\n\rnccl_comm_num\x18\x0e \x01(\x05:\x01\x31\x12)\n\x1ause_hierarchical_allreduce\x18\x0f \x01(\x08:\x05\x66\x61lse\x12.\n#hierarchical_allreduce_inter_nranks\x18\x10 \x01(\x05:\x01\x31\x12\x1e\n\x0fsync_batch_norm\x18\x11 \x01(\x08:\x05\x66\x61lse\x12!\n\x13\x66use_all_reduce_ops\x18\x12 \x01(\x08:\x04true\x12 \n\x14\x66use_grad_size_in_MB\x18\x13 \x01(\x05:\x02\x33\x32\x12$\n\x18\x66use_grad_size_in_TFLOPS\x18\x14 \x01(\x02:\x02\x35\x30\x12&\n\x17\x63udnn_exhaustive_search\x18\x15 \x01(\x08:\x05\x66\x61lse\x12&\n\x19\x63onv_workspace_size_limit\x18\x16 \x01(\x05:\x03\x35\x31\x32\x12\x31\n\"cudnn_batchnorm_spatial_persistent\x18\x17 \x01(\x08:\x05\x66\x61lse\x12 \n\x11\x61\x64\x61ptive_localsgd\x18\x18 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0e\x66p16_allreduce\x18\x19 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08sharding\x18\x1a \x01(\x08:\x05\x66\x61lse\x12\"\n\x17last_comm_group_size_MB\x18\x1b \x01(\x02:\x01\x31\x12%\n\x16\x66ind_unused_parameters\x18\x1c \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0ftensor_parallel\x18\x1d \x01(\x08:\x05\x66\x61lse\x12)\n\x1awithout_graph_optimization\x18\x1e \x01(\x08:\x05\x66\x61lse\x12 \n\x15\x66use_grad_size_in_num\x18\x1f \x01(\x05:\x01\x38\x12$\n\x15\x63\x61lc_comm_same_stream\x18  \x01(\x08:\x05\x66\x61lse\x12\x12\n\x03\x61sp\x18! \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0f\x66use_grad_merge\x18\" \x01(\x08:\x05\x66\x61lse\x12\x18\n\tsemi_auto\x18# \x01(\x08:\x05\x66\x61lse\x12\x19\n\nadam_d2sum\x18$ \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0b\x61uto_search\x18% \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0eheter_ccl_mode\x18& \x01(\x08:\x05\x66\x61lse\x12\x1c\n\ris_fl_ps_mode\x18\' \x01(\x08:\x05\x66\x61lse\x12\x1f\n\x10with_coordinator\x18( \x01(\x08:\x05\x66\x61lse\x12\x12\n\x03qat\x18) \x01(\x08:\x05\x66\x61lse\x12\x18\n\nsplit_data\x18* \x01(\x08:\x04true\x12\x38\n\x11recompute_configs\x18\x65 \x01(\x0b\x32\x1d.paddle.fleet.RecomputeConfig\x12,\n\x0b\x61mp_configs\x18\x66 \x01(\x0b\x32\x17.paddle.fleet.AMPConfig\x12\x36\n\x10localsgd_configs\x18g \x01(\x0b\x32\x1c.paddle.fleet.LocalSGDConfig\x12\x41\n\x16gradient_merge_configs\x18h \x01(\x0b\x32!.paddle.fleet.GradientMergeConfig\x12,\n\x0b\x64gc_configs\x18i \x01(\x0b\x32\x17.paddle.fleet.DGCConfig\x12\x36\n\x10pipeline_configs\x18j \x01(\x0b\x32\x1c.paddle.fleet.PipelineConfig\x12\x31\n\x0e\x61_sync_configs\x18k \x01(\x0b\x32\x19.paddle.fleet.AsyncConfig\x12.\n\x0clars_configs\x18l \x01(\x0b\x32\x18.paddle.fleet.LarsConfig\x12.\n\x0clamb_configs\x18m \x01(\x0b\x32\x18.paddle.fleet.LambConfig\x12G\n\x19\x61\x64\x61ptive_localsgd_configs\x18n \x01(\x0b\x32$.paddle.fleet.AdaptiveLocalSGDConfig\x12\x36\n\x10sharding_configs\x18o \x01(\x0b\x32\x1c.paddle.fleet.ShardingConfig\x12\x32\n\x0ehybrid_configs\x18p \x01(\x0b\x32\x1a.paddle.fleet.HybridConfig\x12\x43\n\x17tensor_parallel_configs\x18q \x01(\x0b\x32\".paddle.fleet.TensorParallelConfig\x12=\n\x14trainer_desc_configs\x18r \x01(\x0b\x32\x1f.paddle.fleet.TrainerDescConfig\x12:\n\x14\x64ownpour_table_param\x18s \x03(\x0b\x32\x1c.paddle.fleet.TableParameter\x12\x38\n\x0f\x66s_client_param\x18t \x01(\x0b\x32\x1f.paddle.fleet.FsClientParameter\x12,\n\x0bqat_configs\x18u \x01(\x0b\x32\x17.paddle.fleet.QatConfig\x12\x34\n\x0e\x62uild_strategy\x18\xc9\x01 \x01(\x0b\x32\x1b.paddle.fleet.BuildStrategy\x12<\n\x12\x65xecution_strategy\x18\xca\x01 \x01(\x0b\x32\x1f.paddle.fleet.ExecutionStrategy\x12\x42\n\x16gradient_scale_configs\x18\xcb\x01 \x01(\x0b\x32!.paddle.fleet.GradientScaleConfig\"\xfe\x01\n\x12\x44istributedJobInfo\x12\x12\n\nworker_num\x18\x01 \x01(\x05\x12\x12\n\nserver_num\x18\x02 \x01(\x05\x12\x12\n\nworker_ips\x18\x03 \x03(\t\x12\x18\n\x10server_endpoints\x18\x04 \x03(\t\x12\x16\n\x0eorigin_startup\x18\x05 \x01(\t\x12\x13\n\x0borigin_main\x18\x06 \x01(\t\x12\x18\n\x10\x64istributed_main\x18\x07 \x01(\t\x12\x16\n\x0eoptimizer_name\x18\x08 \x01(\t\x12\x33\n\x08strategy\x18\x65 \x01(\x0b\x32!.paddle.fleet.DistributedStrategy*7\n\x04Mode\x12\x0e\n\nCOLLECTIVE\x10\x01\x12\x06\n\x02PS\x10\x02\x12\x0c\n\x08PIPELINE\x10\x03\x12\t\n\x05HETER\x10\x04*4\n\tTableType\x12\x13\n\x0fPS_SPARSE_TABLE\x10\x00\x12\x12\n\x0ePS_DENSE_TABLE\x10\x01')
+  serialized_pb=_b('\n\x1a\x64istributed_strategy.proto\x12\x0cpaddle.fleet\"_\n\x0fRecomputeConfig\x12\x13\n\x0b\x63heckpoints\x18\x01 \x03(\t\x12\x1d\n\x0e\x65nable_offload\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x18\n\x10\x63heckpoint_shape\x18\x03 \x03(\x05\"\xc4\x03\n\x0eShardingConfig\x12\x37\n\x19sharding_segment_strategy\x18\x01 \x01(\t:\x14segment_broadcast_MB\x12 \n\x14segment_broadcast_MB\x18\x02 \x01(\x02:\x02\x33\x32\x12\x17\n\x0fsegment_anchors\x18\x03 \x03(\t\x12\x1a\n\x0fsharding_degree\x18\x04 \x01(\x05:\x01\x38\x12\x14\n\tmp_degree\x18\x05 \x01(\x05:\x01\x31\x12\x14\n\tdp_degree\x18\x06 \x01(\x05:\x01\x31\x12\x18\n\thybrid_dp\x18\x07 \x01(\x08:\x05\x66\x61lse\x12\"\n\x17gradient_merge_acc_step\x18\x08 \x01(\x05:\x01\x31\x12\x1f\n\x10optimize_offload\x18\t \x01(\x08:\x05\x66\x61lse\x12\'\n\x18pp_allreduce_in_optimize\x18\n \x01(\x08:\x05\x66\x61lse\x12\x14\n\tpp_degree\x18\x0b \x01(\x05:\x01\x31\x12\x1c\n\roptimize_cast\x18\x0c \x01(\x08:\x05\x66\x61lse\x12(\n\x19_dp_as_optimizer_sharding\x18\r \x01(\x08:\x05\x66\x61lse\x12\x10\n\x05stage\x18\x0e \x01(\x05:\x01\x31\"m\n\x0cHybridConfig\x12\x15\n\tdp_degree\x18\x01 \x01(\x05:\x02-1\x12\x14\n\tmp_degree\x18\x02 \x01(\x05:\x01\x31\x12\x14\n\tpp_degree\x18\x03 \x01(\x05:\x01\x31\x12\x1a\n\x0fsharding_degree\x18\x04 \x01(\x05:\x01\x31\"\xff\x02\n\tAMPConfig\x12 \n\x11init_loss_scaling\x18\x01 \x01(\x02:\x05\x33\x32\x37\x36\x38\x12 \n\x12incr_every_n_steps\x18\x02 \x01(\x05:\x04\x31\x30\x30\x30\x12\"\n\x17\x64\x65\x63r_every_n_nan_or_inf\x18\x03 \x01(\x05:\x01\x32\x12\x15\n\nincr_ratio\x18\x04 \x01(\x02:\x01\x32\x12\x17\n\ndecr_ratio\x18\x05 \x01(\x02:\x03\x30.8\x12&\n\x18use_dynamic_loss_scaling\x18\x06 \x01(\x08:\x04true\x12\x19\n\x11\x63ustom_white_list\x18\x07 \x03(\t\x12\x19\n\x11\x63ustom_black_list\x18\x08 \x03(\t\x12\x1d\n\x15\x63ustom_black_varnames\x18\t \x03(\t\x12\x1c\n\ruse_pure_fp16\x18\n \x01(\x08:\x05\x66\x61lse\x12\x1c\n\x0euse_fp16_guard\x18\x0b \x01(\x08:\x04true\x12!\n\x12use_optimizer_fp16\x18\x0c \x01(\x08:\x05\x66\x61lse\";\n\x0eLocalSGDConfig\x12\x12\n\x07k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x15\n\nbegin_step\x18\x02 \x01(\x05:\x01\x31\"H\n\x16\x41\x64\x61ptiveLocalSGDConfig\x12\x17\n\x0cinit_k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x15\n\nbegin_step\x18\x02 \x01(\x05:\x01\x31\"<\n\x13GradientMergeConfig\x12\x12\n\x07k_steps\x18\x01 \x01(\x05:\x01\x31\x12\x11\n\x03\x61vg\x18\x02 \x01(\x08:\x04true\"S\n\tDGCConfig\x12\x1c\n\x11rampup_begin_step\x18\x01 \x01(\x05:\x01\x30\x12\x16\n\x0brampup_step\x18\x02 \x01(\x05:\x01\x31\x12\x10\n\x08sparsity\x18\x03 \x03(\x02\"\x81\x01\n\nLarsConfig\x12\x19\n\nlars_coeff\x18\x01 \x01(\x02:\x05\x30.001\x12!\n\x11lars_weight_decay\x18\x02 \x01(\x02:\x06\x30.0005\x12\x12\n\x07\x65psilon\x18\x03 \x01(\x02:\x01\x30\x12!\n\x19\x65xclude_from_weight_decay\x18\x04 \x03(\t\"P\n\nLambConfig\x12\x1f\n\x11lamb_weight_decay\x18\x01 \x01(\x02:\x04\x30.01\x12!\n\x19\x65xclude_from_weight_decay\x18\x02 \x03(\t\"\xd9\x04\n\rBuildStrategy\x12*\n\x1b\x65nable_sequential_execution\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x66use_elewise_add_act_ops\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0f\x66use_bn_act_ops\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x66use_relu_depthwise_conv\x18\x04 \x01(\x08:\x05\x66\x61lse\x12!\n\x12\x66use_broadcast_ops\x18\x05 \x01(\x08:\x05\x66\x61lse\x12%\n\x16\x66use_all_optimizer_ops\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0e\x65nable_inplace\x18\x07 \x01(\x08:\x05\x66\x61lse\x12/\n!enable_backward_optimizer_op_deps\x18\x08 \x01(\x08:\x04true\x12$\n\x15\x63\x61\x63he_runtime_context\x18\t \x01(\x08:\x05\x66\x61lse\x12!\n\x13\x66use_bn_add_act_ops\x18\n \x01(\x08:\x04true\x12!\n\x12\x65nable_auto_fusion\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x0c\x65nable_addto\x18\x0c \x01(\x08:\x05\x66\x61lse\x12\x1f\n\x10\x66ix_op_run_order\x18\r \x01(\x08:\x05\x66\x61lse\x12\'\n\x18\x61llow_cuda_graph_capture\x18\x0e \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0freduce_strategy\x18\x0f \x01(\x05:\x01\x30\x12!\n\x12\x66use_gemm_epilogue\x18\x10 \x01(\x08:\x05\x66\x61lse\"\x9a\x01\n\x11\x45xecutionStrategy\x12\x16\n\x0bnum_threads\x18\x01 \x01(\x05:\x01\x31\x12(\n\x1cnum_iteration_per_drop_scope\x18\x02 \x01(\x05:\x02\x31\x30\x12 \n\x15num_iteration_per_run\x18\x03 \x01(\x05:\x01\x31\x12!\n\x12use_thread_barrier\x18\x04 \x01(\x08:\x05\x66\x61lse\"Q\n\x13GradientScaleConfig\x12\x1b\n\x0escale_strategy\x18\x01 \x01(\t:\x03\x61vg\x12\x1d\n\x0escale_gradient\x18\x02 \x01(\x08:\x05\x66\x61lse\"\x89\x03\n\x0b\x41syncConfig\x12\x13\n\x07k_steps\x18\x01 \x01(\x05:\x02-1\x12\x1c\n\x11max_merge_var_num\x18\x02 \x01(\x05:\x01\x31\x12\x1b\n\x0fsend_queue_size\x18\x03 \x01(\x05:\x02\x31\x36\x12&\n\x17independent_recv_thread\x18\x04 \x01(\x08:\x05\x66\x61lse\x12(\n\x1dmin_send_grad_num_before_recv\x18\x05 \x01(\x05:\x01\x31\x12\x1b\n\x10thread_pool_size\x18\x06 \x01(\x05:\x01\x31\x12\x1a\n\x0fsend_wait_times\x18\x07 \x01(\x05:\x01\x31\x12&\n\x17runtime_split_send_recv\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x1c\n\x0elaunch_barrier\x18\t \x01(\x08:\x04true\x12&\n\x19heter_worker_device_guard\x18\n \x01(\t:\x03\x63pu\x12\x1a\n\x0elr_decay_steps\x18\x0b \x01(\x05:\x02\x31\x30\x12\x15\n\nuse_ps_gpu\x18\x0c \x01(\x05:\x01\x30\"\x96\x01\n\x11TrainerDescConfig\x12\x18\n\x10\x64ump_fields_path\x18\x01 \x01(\t\x12\x13\n\x0b\x64ump_fields\x18\x02 \x03(\t\x12\x12\n\ndump_param\x18\x03 \x03(\t\x12\x16\n\x0estat_var_names\x18\x04 \x03(\t\x12\x0f\n\x07trainer\x18\x05 \x01(\t\x12\x15\n\rdevice_worker\x18\x06 \x01(\t\"\x86\x01\n\x0ePipelineConfig\x12\x1b\n\x10micro_batch_size\x18\x01 \x01(\x05:\x01\x31\x12\x1b\n\x10\x61\x63\x63umulate_steps\x18\x02 \x01(\x05:\x01\x31\x12\x1b\n\rschedule_mode\x18\x03 \x01(\t:\x04\x31\x46\x31\x42\x12\x1d\n\x0fp2p_cache_shape\x18\x04 \x01(\x08:\x04true\"W\n\x14TensorParallelConfig\x12!\n\x16tensor_parallel_degree\x18\x01 \x01(\x05:\x01\x31\x12\x1c\n\x10tensor_init_seed\x18\x02 \x01(\x05:\x02-1\"\xe4\x01\n\x0eTableParameter\x12\x10\n\x08table_id\x18\x01 \x01(\x04\x12\x12\n\ntable_name\x18\x02 \x01(\t\x12\x13\n\x0btable_class\x18\x03 \x01(\t\x12\x17\n\tshard_num\x18\x04 \x01(\x04:\x04\x31\x30\x30\x30\x12%\n\x04type\x18\x05 \x01(\x0e\x32\x17.paddle.fleet.TableType\x12\x36\n\x08\x61\x63\x63\x65ssor\x18\x06 \x01(\x0b\x32$.paddle.fleet.TableAccessorParameter\x12\x1f\n\x10\x63ompress_in_save\x18\x07 \x01(\x08:\x05\x66\x61lse\"\xf2\x02\n\x16TableAccessorParameter\x12\x16\n\x0e\x61\x63\x63\x65ssor_class\x18\x01 \x01(\t\x12\x33\n\x0f\x65mbed_sgd_param\x18\x02 \x01(\x0b\x32\x1a.paddle.fleet.SGDParameter\x12\x34\n\x10\x65mbedx_sgd_param\x18\x03 \x01(\x0b\x32\x1a.paddle.fleet.SGDParameter\x12\x13\n\x07\x66\x65\x61_dim\x18\x04 \x01(\r:\x02\x31\x31\x12\x15\n\nembedx_dim\x18\x05 \x01(\r:\x01\x38\x12\x1c\n\x10\x65mbedx_threshold\x18\x06 \x01(\r:\x02\x31\x30\x12>\n\x12\x63tr_accessor_param\x18\x07 \x01(\x0b\x32\".paddle.fleet.CtrAccessorParameter\x12K\n\x19table_accessor_save_param\x18\x08 \x03(\x0b\x32(.paddle.fleet.TableAccessorSaveParameter\"\xc8\x01\n\x0cSGDParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x38\n\x05naive\x18\x02 \x01(\x0b\x32).paddle.fleet.SparseNaiveSGDRuleParameter\x12<\n\x07\x61\x64\x61grad\x18\x03 \x01(\x0b\x32+.paddle.fleet.SparseAdagradSGDRuleParameter\x12\x32\n\x04\x61\x64\x61m\x18\x04 \x01(\x0b\x32$.paddle.fleet.SparseAdamSGDParameter\"p\n\x1bSparseNaiveSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x03 \x03(\x02\"\x8c\x01\n\x1dSparseAdagradSGDRuleParameter\x12\x1b\n\rlearning_rate\x18\x01 \x01(\x01:\x04\x30.05\x12\x18\n\rinitial_g2sum\x18\x02 \x01(\x01:\x01\x33\x12\x1d\n\rinitial_range\x18\x03 \x01(\x01:\x06\x30.0001\x12\x15\n\rweight_bounds\x18\x04 \x03(\x02\"\xc8\x01\n\x16SparseAdamSGDParameter\x12\x1c\n\rlearning_rate\x18\x01 \x01(\x01:\x05\x30.001\x12\x1d\n\rinitial_range\x18\x02 \x01(\x01:\x06\x30.0001\x12\x1d\n\x10\x62\x65ta1_decay_rate\x18\x03 \x01(\x01:\x03\x30.9\x12\x1f\n\x10\x62\x65ta2_decay_rate\x18\x04 \x01(\x01:\x05\x30.999\x12\x1a\n\x0b\x61\x64\x61_epsilon\x18\x05 \x01(\x01:\x05\x31\x65-08\x12\x15\n\rweight_bounds\x18\x06 \x03(\x02\"\xca\x02\n\x14\x43trAccessorParameter\x12\x19\n\x0cnonclk_coeff\x18\x01 \x01(\x02:\x03\x30.1\x12\x16\n\x0b\x63lick_coeff\x18\x02 \x01(\x02:\x01\x31\x12\x1b\n\x0e\x62\x61se_threshold\x18\x03 \x01(\x02:\x03\x31.5\x12\x1d\n\x0f\x64\x65lta_threshold\x18\x04 \x01(\x02:\x04\x30.25\x12\x1b\n\x0f\x64\x65lta_keep_days\x18\x05 \x01(\x02:\x02\x31\x36\x12#\n\x15show_click_decay_rate\x18\x06 \x01(\x02:\x04\x30.98\x12\x1d\n\x10\x64\x65lete_threshold\x18\x07 \x01(\x02:\x03\x30.8\x12$\n\x18\x64\x65lete_after_unseen_days\x18\x08 \x01(\x02:\x02\x33\x30\x12\"\n\x17ssd_unseenday_threshold\x18\t \x01(\x05:\x01\x31\x12\x18\n\nshow_scale\x18\n \x01(\x08:\x04true\"S\n\x1aTableAccessorSaveParameter\x12\r\n\x05param\x18\x01 \x01(\r\x12\x11\n\tconverter\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65\x63onverter\x18\x03 \x01(\t\"R\n\x11\x46sClientParameter\x12\x0b\n\x03uri\x18\x01 \x01(\t\x12\x0c\n\x04user\x18\x02 \x01(\t\x12\x0e\n\x06passwd\x18\x03 \x01(\t\x12\x12\n\nhadoop_bin\x18\x04 \x01(\t\"\xa6\x12\n\x13\x44istributedStrategy\x12,\n\x04mode\x18\x01 \x01(\x0e\x32\x12.paddle.fleet.Mode:\nCOLLECTIVE\x12\x12\n\x03\x61mp\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x18\n\trecompute\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08localsgd\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x12\n\x03\x64gc\x18\x05 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0egradient_merge\x18\x06 \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04lars\x18\x07 \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04lamb\x18\x08 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08pipeline\x18\t \x01(\x08:\x05\x66\x61lse\x12\x16\n\x07\x65lastic\x18\n \x01(\x08:\x05\x66\x61lse\x12\x13\n\x04\x61uto\x18\x0b \x01(\x08:\x05\x66\x61lse\x12\x14\n\x06\x61_sync\x18\x0c \x01(\x08:\x04true\x12!\n\x13sync_nccl_allreduce\x18\r \x01(\x08:\x04true\x12\x18\n\rnccl_comm_num\x18\x0e \x01(\x05:\x01\x31\x12)\n\x1ause_hierarchical_allreduce\x18\x0f \x01(\x08:\x05\x66\x61lse\x12.\n#hierarchical_allreduce_inter_nranks\x18\x10 \x01(\x05:\x01\x31\x12\x1e\n\x0fsync_batch_norm\x18\x11 \x01(\x08:\x05\x66\x61lse\x12!\n\x13\x66use_all_reduce_ops\x18\x12 \x01(\x08:\x04true\x12 \n\x14\x66use_grad_size_in_MB\x18\x13 \x01(\x05:\x02\x33\x32\x12$\n\x18\x66use_grad_size_in_TFLOPS\x18\x14 \x01(\x02:\x02\x35\x30\x12&\n\x17\x63udnn_exhaustive_search\x18\x15 \x01(\x08:\x05\x66\x61lse\x12&\n\x19\x63onv_workspace_size_limit\x18\x16 \x01(\x05:\x03\x35\x31\x32\x12\x31\n\"cudnn_batchnorm_spatial_persistent\x18\x17 \x01(\x08:\x05\x66\x61lse\x12 \n\x11\x61\x64\x61ptive_localsgd\x18\x18 \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0e\x66p16_allreduce\x18\x19 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08sharding\x18\x1a \x01(\x08:\x05\x66\x61lse\x12\"\n\x17last_comm_group_size_MB\x18\x1b \x01(\x02:\x01\x31\x12%\n\x16\x66ind_unused_parameters\x18\x1c \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0ftensor_parallel\x18\x1d \x01(\x08:\x05\x66\x61lse\x12)\n\x1awithout_graph_optimization\x18\x1e \x01(\x08:\x05\x66\x61lse\x12 \n\x15\x66use_grad_size_in_num\x18\x1f \x01(\x05:\x01\x38\x12$\n\x15\x63\x61lc_comm_same_stream\x18  \x01(\x08:\x05\x66\x61lse\x12\x12\n\x03\x61sp\x18! \x01(\x08:\x05\x66\x61lse\x12\x1e\n\x0f\x66use_grad_merge\x18\" \x01(\x08:\x05\x66\x61lse\x12\x18\n\tsemi_auto\x18# \x01(\x08:\x05\x66\x61lse\x12\x19\n\nadam_d2sum\x18$ \x01(\x08:\x05\x66\x61lse\x12\x1a\n\x0b\x61uto_search\x18% \x01(\x08:\x05\x66\x61lse\x12\x1d\n\x0eheter_ccl_mode\x18& \x01(\x08:\x05\x66\x61lse\x12\x1c\n\ris_fl_ps_mode\x18\' \x01(\x08:\x05\x66\x61lse\x12\x38\n\x11recompute_configs\x18\x65 \x01(\x0b\x32\x1d.paddle.fleet.RecomputeConfig\x12,\n\x0b\x61mp_configs\x18\x66 \x01(\x0b\x32\x17.paddle.fleet.AMPConfig\x12\x36\n\x10localsgd_configs\x18g \x01(\x0b\x32\x1c.paddle.fleet.LocalSGDConfig\x12\x41\n\x16gradient_merge_configs\x18h \x01(\x0b\x32!.paddle.fleet.GradientMergeConfig\x12,\n\x0b\x64gc_configs\x18i \x01(\x0b\x32\x17.paddle.fleet.DGCConfig\x12\x36\n\x10pipeline_configs\x18j \x01(\x0b\x32\x1c.paddle.fleet.PipelineConfig\x12\x31\n\x0e\x61_sync_configs\x18k \x01(\x0b\x32\x19.paddle.fleet.AsyncConfig\x12.\n\x0clars_configs\x18l \x01(\x0b\x32\x18.paddle.fleet.LarsConfig\x12.\n\x0clamb_configs\x18m \x01(\x0b\x32\x18.paddle.fleet.LambConfig\x12G\n\x19\x61\x64\x61ptive_localsgd_configs\x18n \x01(\x0b\x32$.paddle.fleet.AdaptiveLocalSGDConfig\x12\x36\n\x10sharding_configs\x18o \x01(\x0b\x32\x1c.paddle.fleet.ShardingConfig\x12\x32\n\x0ehybrid_configs\x18p \x01(\x0b\x32\x1a.paddle.fleet.HybridConfig\x12\x43\n\x17tensor_parallel_configs\x18q \x01(\x0b\x32\".paddle.fleet.TensorParallelConfig\x12=\n\x14trainer_desc_configs\x18r \x01(\x0b\x32\x1f.paddle.fleet.TrainerDescConfig\x12:\n\x14\x64ownpour_table_param\x18s \x03(\x0b\x32\x1c.paddle.fleet.TableParameter\x12\x38\n\x0f\x66s_client_param\x18t \x01(\x0b\x32\x1f.paddle.fleet.FsClientParameter\x12\x34\n\x0e\x62uild_strategy\x18\xc9\x01 \x01(\x0b\x32\x1b.paddle.fleet.BuildStrategy\x12<\n\x12\x65xecution_strategy\x18\xca\x01 \x01(\x0b\x32\x1f.paddle.fleet.ExecutionStrategy\x12\x42\n\x16gradient_scale_configs\x18\xcb\x01 \x01(\x0b\x32!.paddle.fleet.GradientScaleConfig\"\xfe\x01\n\x12\x44istributedJobInfo\x12\x12\n\nworker_num\x18\x01 \x01(\x05\x12\x12\n\nserver_num\x18\x02 \x01(\x05\x12\x12\n\nworker_ips\x18\x03 \x03(\t\x12\x18\n\x10server_endpoints\x18\x04 \x03(\t\x12\x16\n\x0eorigin_startup\x18\x05 \x01(\t\x12\x13\n\x0borigin_main\x18\x06 \x01(\t\x12\x18\n\x10\x64istributed_main\x18\x07 \x01(\t\x12\x16\n\x0eoptimizer_name\x18\x08 \x01(\t\x12\x33\n\x08strategy\x18\x65 \x01(\x0b\x32!.paddle.fleet.DistributedStrategy*7\n\x04Mode\x12\x0e\n\nCOLLECTIVE\x10\x01\x12\x06\n\x02PS\x10\x02\x12\x0c\n\x08PIPELINE\x10\x03\x12\t\n\x05HETER\x10\x04*4\n\tTableType\x12\x13\n\x0fPS_SPARSE_TABLE\x10\x00\x12\x12\n\x0ePS_DENSE_TABLE\x10\x01')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -49,8 +49,8 @@ _MODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=8318,
-  serialized_end=8373,
+  serialized_start=7579,
+  serialized_end=7634,
 )
 _sym_db.RegisterEnumDescriptor(_MODE)
 
@@ -72,8 +72,8 @@ _TABLETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=8375,
-  serialized_end=8427,
+  serialized_start=7636,
+  serialized_end=7688,
 )
 _sym_db.RegisterEnumDescriptor(_TABLETYPE)
 
@@ -115,13 +115,6 @@ _RECOMPUTECONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_tuning', full_name='paddle.fleet.RecomputeConfig.enable_tuning', index=3,
-      number=4, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -135,7 +128,7 @@ _RECOMPUTECONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=44,
-  serialized_end=169,
+  serialized_end=139,
 )
 
 
@@ -244,13 +237,6 @@ _SHARDINGCONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_tuning', full_name='paddle.fleet.ShardingConfig.enable_tuning', index=14,
-      number=15, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -263,8 +249,8 @@ _SHARDINGCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=172,
-  serialized_end=654,
+  serialized_start=142,
+  serialized_end=594,
 )
 
 
@@ -315,8 +301,8 @@ _HYBRIDCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=656,
-  serialized_end=765,
+  serialized_start=596,
+  serialized_end=705,
 )
 
 
@@ -423,8 +409,8 @@ _AMPCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=768,
-  serialized_end=1151,
+  serialized_start=708,
+  serialized_end=1091,
 )
 
 
@@ -461,8 +447,8 @@ _LOCALSGDCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1153,
-  serialized_end=1212,
+  serialized_start=1093,
+  serialized_end=1152,
 )
 
 
@@ -499,8 +485,8 @@ _ADAPTIVELOCALSGDCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1214,
-  serialized_end=1286,
+  serialized_start=1154,
+  serialized_end=1226,
 )
 
 
@@ -537,8 +523,8 @@ _GRADIENTMERGECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1288,
-  serialized_end=1348,
+  serialized_start=1228,
+  serialized_end=1288,
 )
 
 
@@ -582,8 +568,8 @@ _DGCCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1350,
-  serialized_end=1433,
+  serialized_start=1290,
+  serialized_end=1373,
 )
 
 
@@ -634,8 +620,8 @@ _LARSCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1436,
-  serialized_end=1565,
+  serialized_start=1376,
+  serialized_end=1505,
 )
 
 
@@ -672,8 +658,8 @@ _LAMBCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1567,
-  serialized_end=1647,
+  serialized_start=1507,
+  serialized_end=1587,
 )
 
 
@@ -808,8 +794,8 @@ _BUILDSTRATEGY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1650,
-  serialized_end=2251,
+  serialized_start=1590,
+  serialized_end=2191,
 )
 
 
@@ -860,8 +846,8 @@ _EXECUTIONSTRATEGY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2254,
-  serialized_end=2408,
+  serialized_start=2194,
+  serialized_end=2348,
 )
 
 
@@ -898,8 +884,8 @@ _GRADIENTSCALECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2410,
-  serialized_end=2491,
+  serialized_start=2350,
+  serialized_end=2431,
 )
 
 
@@ -1006,8 +992,8 @@ _ASYNCCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2494,
-  serialized_end=2887,
+  serialized_start=2434,
+  serialized_end=2827,
 )
 
 
@@ -1060,20 +1046,6 @@ _TRAINERDESCCONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='local_sparse', full_name='paddle.fleet.TrainerDescConfig.local_sparse', index=6,
-      number=7, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='remote_sparse', full_name='paddle.fleet.TrainerDescConfig.remote_sparse', index=7,
-      number=8, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1086,8 +1058,8 @@ _TRAINERDESCCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2890,
-  serialized_end=3085,
+  serialized_start=2830,
+  serialized_end=2980,
 )
 
 
@@ -1126,13 +1098,6 @@ _PIPELINECONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_partial_send_recv', full_name='paddle.fleet.PipelineConfig.enable_partial_send_recv', index=4,
-      number=5, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1145,8 +1110,8 @@ _PIPELINECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3088,
-  serialized_end=3262,
+  serialized_start=2983,
+  serialized_end=3117,
 )
 
 
@@ -1183,67 +1148,8 @@ _TENSORPARALLELCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3264,
-  serialized_end=3351,
-)
-
-
-_QATCONFIG = _descriptor.Descriptor(
-  name='QatConfig',
-  full_name='paddle.fleet.QatConfig',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='channel_wise_abs_max', full_name='paddle.fleet.QatConfig.channel_wise_abs_max', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='weight_bits', full_name='paddle.fleet.QatConfig.weight_bits', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=True, default_value=8,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='activation_bits', full_name='paddle.fleet.QatConfig.activation_bits', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=True, default_value=8,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='not_quant_pattern', full_name='paddle.fleet.QatConfig.not_quant_pattern', index=3,
-      number=4, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='algo', full_name='paddle.fleet.QatConfig.algo', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3354,
-  serialized_end=3494,
+  serialized_start=3119,
+  serialized_end=3206,
 )
 
 
@@ -1303,41 +1209,6 @@ _TABLEPARAMETER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_sparse_table_cache', full_name='paddle.fleet.TableParameter.enable_sparse_table_cache', index=7,
-      number=10, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='sparse_table_cache_rate', full_name='paddle.fleet.TableParameter.sparse_table_cache_rate', index=8,
-      number=11, type=1, cpp_type=5, label=1,
-      has_default_value=True, default_value=float(0.00055),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='sparse_table_cache_file_num', full_name='paddle.fleet.TableParameter.sparse_table_cache_file_num', index=9,
-      number=12, type=13, cpp_type=3, label=1,
-      has_default_value=True, default_value=16,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='enable_revert', full_name='paddle.fleet.TableParameter.enable_revert', index=10,
-      number=13, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='shard_merge_rate', full_name='paddle.fleet.TableParameter.shard_merge_rate', index=11,
-      number=14, type=2, cpp_type=6, label=1,
-      has_default_value=True, default_value=float(1),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1350,8 +1221,8 @@ _TABLEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3497,
-  serialized_end=3908,
+  serialized_start=3209,
+  serialized_end=3437,
 )
 
 
@@ -1370,61 +1241,54 @@ _TABLEACCESSORPARAMETER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='fea_dim', full_name='paddle.fleet.TableAccessorParameter.fea_dim', index=1,
+      name='embed_sgd_param', full_name='paddle.fleet.TableAccessorParameter.embed_sgd_param', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='embedx_sgd_param', full_name='paddle.fleet.TableAccessorParameter.embedx_sgd_param', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='fea_dim', full_name='paddle.fleet.TableAccessorParameter.fea_dim', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=True, default_value=11,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='embedx_dim', full_name='paddle.fleet.TableAccessorParameter.embedx_dim', index=2,
+      name='embedx_dim', full_name='paddle.fleet.TableAccessorParameter.embedx_dim', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=True, default_value=8,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='embedx_threshold', full_name='paddle.fleet.TableAccessorParameter.embedx_threshold', index=3,
+      name='embedx_threshold', full_name='paddle.fleet.TableAccessorParameter.embedx_threshold', index=5,
       number=6, type=13, cpp_type=3, label=1,
       has_default_value=True, default_value=10,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='ctr_accessor_param', full_name='paddle.fleet.TableAccessorParameter.ctr_accessor_param', index=4,
+      name='ctr_accessor_param', full_name='paddle.fleet.TableAccessorParameter.ctr_accessor_param', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='table_accessor_save_param', full_name='paddle.fleet.TableAccessorParameter.table_accessor_save_param', index=5,
+      name='table_accessor_save_param', full_name='paddle.fleet.TableAccessorParameter.table_accessor_save_param', index=7,
       number=8, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='embed_sgd_param', full_name='paddle.fleet.TableAccessorParameter.embed_sgd_param', index=6,
-      number=10, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='embedx_sgd_param', full_name='paddle.fleet.TableAccessorParameter.embedx_sgd_param', index=7,
-      number=11, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='graph_sgd_param', full_name='paddle.fleet.TableAccessorParameter.graph_sgd_param', index=8,
-      number=12, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -1437,46 +1301,8 @@ _TABLEACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3911,
-  serialized_end=4339,
-)
-
-
-_GRAPHSGDPARAMETER = _descriptor.Descriptor(
-  name='GraphSGDParameter',
-  full_name='paddle.fleet.GraphSGDParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='nodeid_slot', full_name='paddle.fleet.GraphSGDParameter.nodeid_slot', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=True, default_value=9008,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='feature_learning_rate', full_name='paddle.fleet.GraphSGDParameter.feature_learning_rate', index=1,
-      number=2, type=2, cpp_type=6, label=1,
-      has_default_value=True, default_value=float(0.05),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=4341,
-  serialized_end=4424,
+  serialized_start=3440,
+  serialized_end=3810,
 )
 
 
@@ -1527,8 +1353,8 @@ _SGDPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4427,
-  serialized_end=4627,
+  serialized_start=3813,
+  serialized_end=4013,
 )
 
 
@@ -1572,8 +1398,8 @@ _SPARSENAIVESGDRULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4629,
-  serialized_end=4741,
+  serialized_start=4015,
+  serialized_end=4127,
 )
 
 
@@ -1624,8 +1450,8 @@ _SPARSEADAGRADSGDRULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4744,
-  serialized_end=4884,
+  serialized_start=4130,
+  serialized_end=4270,
 )
 
 
@@ -1690,8 +1516,8 @@ _SPARSEADAMSGDPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4887,
-  serialized_end=5087,
+  serialized_start=4273,
+  serialized_end=4473,
 )
 
 
@@ -1784,8 +1610,8 @@ _CTRACCESSORPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5090,
-  serialized_end=5420,
+  serialized_start=4476,
+  serialized_end=4806,
 )
 
 
@@ -1829,8 +1655,8 @@ _TABLEACCESSORSAVEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5422,
-  serialized_end=5505,
+  serialized_start=4808,
+  serialized_end=4891,
 )
 
 
@@ -1881,8 +1707,8 @@ _FSCLIENTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5507,
-  serialized_end=5589,
+  serialized_start=4893,
+  serialized_end=4975,
 )
 
 
@@ -2167,161 +1993,133 @@ _DISTRIBUTEDSTRATEGY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='with_coordinator', full_name='paddle.fleet.DistributedStrategy.with_coordinator', index=39,
-      number=40, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='qat', full_name='paddle.fleet.DistributedStrategy.qat', index=40,
-      number=41, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='split_data', full_name='paddle.fleet.DistributedStrategy.split_data', index=41,
-      number=42, type=8, cpp_type=7, label=1,
-      has_default_value=True, default_value=True,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='recompute_configs', full_name='paddle.fleet.DistributedStrategy.recompute_configs', index=42,
+      name='recompute_configs', full_name='paddle.fleet.DistributedStrategy.recompute_configs', index=39,
       number=101, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='amp_configs', full_name='paddle.fleet.DistributedStrategy.amp_configs', index=43,
+      name='amp_configs', full_name='paddle.fleet.DistributedStrategy.amp_configs', index=40,
       number=102, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='localsgd_configs', full_name='paddle.fleet.DistributedStrategy.localsgd_configs', index=44,
+      name='localsgd_configs', full_name='paddle.fleet.DistributedStrategy.localsgd_configs', index=41,
       number=103, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='gradient_merge_configs', full_name='paddle.fleet.DistributedStrategy.gradient_merge_configs', index=45,
+      name='gradient_merge_configs', full_name='paddle.fleet.DistributedStrategy.gradient_merge_configs', index=42,
       number=104, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='dgc_configs', full_name='paddle.fleet.DistributedStrategy.dgc_configs', index=46,
+      name='dgc_configs', full_name='paddle.fleet.DistributedStrategy.dgc_configs', index=43,
       number=105, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='pipeline_configs', full_name='paddle.fleet.DistributedStrategy.pipeline_configs', index=47,
+      name='pipeline_configs', full_name='paddle.fleet.DistributedStrategy.pipeline_configs', index=44,
       number=106, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='a_sync_configs', full_name='paddle.fleet.DistributedStrategy.a_sync_configs', index=48,
+      name='a_sync_configs', full_name='paddle.fleet.DistributedStrategy.a_sync_configs', index=45,
       number=107, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='lars_configs', full_name='paddle.fleet.DistributedStrategy.lars_configs', index=49,
+      name='lars_configs', full_name='paddle.fleet.DistributedStrategy.lars_configs', index=46,
       number=108, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='lamb_configs', full_name='paddle.fleet.DistributedStrategy.lamb_configs', index=50,
+      name='lamb_configs', full_name='paddle.fleet.DistributedStrategy.lamb_configs', index=47,
       number=109, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='adaptive_localsgd_configs', full_name='paddle.fleet.DistributedStrategy.adaptive_localsgd_configs', index=51,
+      name='adaptive_localsgd_configs', full_name='paddle.fleet.DistributedStrategy.adaptive_localsgd_configs', index=48,
       number=110, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='sharding_configs', full_name='paddle.fleet.DistributedStrategy.sharding_configs', index=52,
+      name='sharding_configs', full_name='paddle.fleet.DistributedStrategy.sharding_configs', index=49,
       number=111, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='hybrid_configs', full_name='paddle.fleet.DistributedStrategy.hybrid_configs', index=53,
+      name='hybrid_configs', full_name='paddle.fleet.DistributedStrategy.hybrid_configs', index=50,
       number=112, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='tensor_parallel_configs', full_name='paddle.fleet.DistributedStrategy.tensor_parallel_configs', index=54,
+      name='tensor_parallel_configs', full_name='paddle.fleet.DistributedStrategy.tensor_parallel_configs', index=51,
       number=113, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='trainer_desc_configs', full_name='paddle.fleet.DistributedStrategy.trainer_desc_configs', index=55,
+      name='trainer_desc_configs', full_name='paddle.fleet.DistributedStrategy.trainer_desc_configs', index=52,
       number=114, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='downpour_table_param', full_name='paddle.fleet.DistributedStrategy.downpour_table_param', index=56,
+      name='downpour_table_param', full_name='paddle.fleet.DistributedStrategy.downpour_table_param', index=53,
       number=115, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='fs_client_param', full_name='paddle.fleet.DistributedStrategy.fs_client_param', index=57,
+      name='fs_client_param', full_name='paddle.fleet.DistributedStrategy.fs_client_param', index=54,
       number=116, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='qat_configs', full_name='paddle.fleet.DistributedStrategy.qat_configs', index=58,
-      number=117, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='build_strategy', full_name='paddle.fleet.DistributedStrategy.build_strategy', index=59,
+      name='build_strategy', full_name='paddle.fleet.DistributedStrategy.build_strategy', index=55,
       number=201, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='execution_strategy', full_name='paddle.fleet.DistributedStrategy.execution_strategy', index=60,
+      name='execution_strategy', full_name='paddle.fleet.DistributedStrategy.execution_strategy', index=56,
       number=202, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='gradient_scale_configs', full_name='paddle.fleet.DistributedStrategy.gradient_scale_configs', index=61,
+      name='gradient_scale_configs', full_name='paddle.fleet.DistributedStrategy.gradient_scale_configs', index=57,
       number=203, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -2339,8 +2137,8 @@ _DISTRIBUTEDSTRATEGY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5592,
-  serialized_end=8059,
+  serialized_start=4978,
+  serialized_end=7320,
 )
 
 
@@ -2426,17 +2224,16 @@ _DISTRIBUTEDJOBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=8062,
-  serialized_end=8316,
+  serialized_start=7323,
+  serialized_end=7577,
 )
 
 _TABLEPARAMETER.fields_by_name['type'].enum_type = _TABLETYPE
 _TABLEPARAMETER.fields_by_name['accessor'].message_type = _TABLEACCESSORPARAMETER
-_TABLEACCESSORPARAMETER.fields_by_name['ctr_accessor_param'].message_type = _CTRACCESSORPARAMETER
-_TABLEACCESSORPARAMETER.fields_by_name['table_accessor_save_param'].message_type = _TABLEACCESSORSAVEPARAMETER
 _TABLEACCESSORPARAMETER.fields_by_name['embed_sgd_param'].message_type = _SGDPARAMETER
 _TABLEACCESSORPARAMETER.fields_by_name['embedx_sgd_param'].message_type = _SGDPARAMETER
-_TABLEACCESSORPARAMETER.fields_by_name['graph_sgd_param'].message_type = _GRAPHSGDPARAMETER
+_TABLEACCESSORPARAMETER.fields_by_name['ctr_accessor_param'].message_type = _CTRACCESSORPARAMETER
+_TABLEACCESSORPARAMETER.fields_by_name['table_accessor_save_param'].message_type = _TABLEACCESSORSAVEPARAMETER
 _SGDPARAMETER.fields_by_name['naive'].message_type = _SPARSENAIVESGDRULEPARAMETER
 _SGDPARAMETER.fields_by_name['adagrad'].message_type = _SPARSEADAGRADSGDRULEPARAMETER
 _SGDPARAMETER.fields_by_name['adam'].message_type = _SPARSEADAMSGDPARAMETER
@@ -2457,7 +2254,6 @@ _DISTRIBUTEDSTRATEGY.fields_by_name['tensor_parallel_configs'].message_type = _T
 _DISTRIBUTEDSTRATEGY.fields_by_name['trainer_desc_configs'].message_type = _TRAINERDESCCONFIG
 _DISTRIBUTEDSTRATEGY.fields_by_name['downpour_table_param'].message_type = _TABLEPARAMETER
 _DISTRIBUTEDSTRATEGY.fields_by_name['fs_client_param'].message_type = _FSCLIENTPARAMETER
-_DISTRIBUTEDSTRATEGY.fields_by_name['qat_configs'].message_type = _QATCONFIG
 _DISTRIBUTEDSTRATEGY.fields_by_name['build_strategy'].message_type = _BUILDSTRATEGY
 _DISTRIBUTEDSTRATEGY.fields_by_name['execution_strategy'].message_type = _EXECUTIONSTRATEGY
 _DISTRIBUTEDSTRATEGY.fields_by_name['gradient_scale_configs'].message_type = _GRADIENTSCALECONFIG
@@ -2479,10 +2275,8 @@ DESCRIPTOR.message_types_by_name['AsyncConfig'] = _ASYNCCONFIG
 DESCRIPTOR.message_types_by_name['TrainerDescConfig'] = _TRAINERDESCCONFIG
 DESCRIPTOR.message_types_by_name['PipelineConfig'] = _PIPELINECONFIG
 DESCRIPTOR.message_types_by_name['TensorParallelConfig'] = _TENSORPARALLELCONFIG
-DESCRIPTOR.message_types_by_name['QatConfig'] = _QATCONFIG
 DESCRIPTOR.message_types_by_name['TableParameter'] = _TABLEPARAMETER
 DESCRIPTOR.message_types_by_name['TableAccessorParameter'] = _TABLEACCESSORPARAMETER
-DESCRIPTOR.message_types_by_name['GraphSGDParameter'] = _GRAPHSGDPARAMETER
 DESCRIPTOR.message_types_by_name['SGDParameter'] = _SGDPARAMETER
 DESCRIPTOR.message_types_by_name['SparseNaiveSGDRuleParameter'] = _SPARSENAIVESGDRULEPARAMETER
 DESCRIPTOR.message_types_by_name['SparseAdagradSGDRuleParameter'] = _SPARSEADAGRADSGDRULEPARAMETER
@@ -2614,13 +2408,6 @@ TensorParallelConfig = _reflection.GeneratedProtocolMessageType('TensorParallelC
   ))
 _sym_db.RegisterMessage(TensorParallelConfig)
 
-QatConfig = _reflection.GeneratedProtocolMessageType('QatConfig', (_message.Message,), dict(
-  DESCRIPTOR = _QATCONFIG,
-  __module__ = 'distributed_strategy_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.fleet.QatConfig)
-  ))
-_sym_db.RegisterMessage(QatConfig)
-
 TableParameter = _reflection.GeneratedProtocolMessageType('TableParameter', (_message.Message,), dict(
   DESCRIPTOR = _TABLEPARAMETER,
   __module__ = 'distributed_strategy_pb2'
@@ -2634,13 +2421,6 @@ TableAccessorParameter = _reflection.GeneratedProtocolMessageType('TableAccessor
   # @@protoc_insertion_point(class_scope:paddle.fleet.TableAccessorParameter)
   ))
 _sym_db.RegisterMessage(TableAccessorParameter)
-
-GraphSGDParameter = _reflection.GeneratedProtocolMessageType('GraphSGDParameter', (_message.Message,), dict(
-  DESCRIPTOR = _GRAPHSGDPARAMETER,
-  __module__ = 'distributed_strategy_pb2'
-  # @@protoc_insertion_point(class_scope:paddle.fleet.GraphSGDParameter)
-  ))
-_sym_db.RegisterMessage(GraphSGDParameter)
 
 SGDParameter = _reflection.GeneratedProtocolMessageType('SGDParameter', (_message.Message,), dict(
   DESCRIPTOR = _SGDPARAMETER,

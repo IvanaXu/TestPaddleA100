@@ -116,26 +116,14 @@ class Pod(PodSepc):
 
         self._restart += 1
 
-    def stop(self, sigint=15, timeout=None):
+    def stop(self, sigint=0):
         for c in self._containers:
-            if isinstance(sigint, int) and timeout is None:
-                c.send_signal(sigint)
-            else:
-                c.terminate()
+            force = True if sigint == 9 else False
+            c.terminate(force)
 
-        if isinstance(timeout, int):
-            if not self.join(timeout):
-                for c in self._containers:
-                    c.terminate(force=True)
-                return False
-            else:
-                return True
-
-    def join(self, timeout=None):
+    def join(self):
         for c in self._containers:
-            if not c.wait(timeout):
-                return False
-        return True
+            c.wait(None)
 
     @property
     def status(self):

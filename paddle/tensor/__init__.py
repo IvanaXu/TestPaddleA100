@@ -128,8 +128,6 @@ from .manipulation import put_along_axis_  # noqa: F401
 from .manipulation import as_real  # noqa: F401
 from .manipulation import moveaxis  # noqa: F401
 from .manipulation import repeat_interleave  # noqa: F401
-from .manipulation import index_add  # noqa: F401
-from .manipulation import index_add_  # noqa: F401
 from .math import abs  # noqa: F401
 from .math import acos  # noqa: F401
 from .math import asin  # noqa: F401
@@ -170,7 +168,6 @@ from .math import stanh  # noqa: F401
 from .math import sum  # noqa: F401
 from .math import nansum  # noqa: F401
 from .math import nanmean  # noqa: F401
-from .math import count_nonzero  # noqa: F401
 from .math import tanh  # noqa: F401
 from .math import tanh_  # noqa: F401
 from .math import add_n  # noqa: F401
@@ -184,7 +181,6 @@ from .math import mm  # noqa: F401
 from .math import divide  # noqa: F401
 from .math import floor_divide  # noqa: F401
 from .math import remainder  # noqa: F401
-from .math import remainder_  # noqa: F401
 from .math import mod  # noqa: F401
 from .math import floor_mod  # noqa: F401
 from .math import multiply  # noqa: F401
@@ -236,8 +232,6 @@ from .math import inner  # noqa: F401
 from .math import outer  # noqa: F401
 from .math import heaviside  # noqa: F401
 from .math import frac  # noqa: F401
-from .math import sgn  # noqa: F401
-from .math import take  # noqa: F401
 
 from .random import multinomial  # noqa: F401
 from .random import standard_normal  # noqa: F401
@@ -255,7 +249,6 @@ from .search import argmax  # noqa: F401
 from .search import argmin  # noqa: F401
 from .search import argsort  # noqa: F401
 from .search import searchsorted  # noqa: F401
-from .search import bucketize  # noqa: F401
 from .search import topk  # noqa: F401
 from .search import where  # noqa: F401
 from .search import index_select  # noqa: F401
@@ -284,8 +277,8 @@ from .array import create_array  # noqa: F401
 
 from .einsum import einsum  # noqa: F401
 
-# this list used in math_op_patch.py for _binary_creator_
-tensor_method_func = [  # noqa
+#this list used in math_op_patch.py for _binary_creator_
+tensor_method_func = [  #noqa
     'matmul',
     'dot',
     'cov',
@@ -350,7 +343,6 @@ tensor_method_func = [  # noqa
     'sum',
     'nansum',
     'nanmean',
-    'count_nonzero',
     'tanh',
     'tanh_',
     'add_n',
@@ -368,7 +360,6 @@ tensor_method_func = [  # noqa
     'divide',
     'floor_divide',
     'remainder',
-    'remainder_',
     'mod',
     'floor_mod',
     'multiply',
@@ -510,14 +501,9 @@ tensor_method_func = [  # noqa
     'put_along_axis_',
     'exponential_',
     'heaviside',
-    'index_add',
-    "index_add_",
-    'take',
-    'bucketize',
-    'sgn',
 ]
 
-# this list used in math_op_patch.py for magic_method bind
+#this list used in math_op_patch.py for magic_method bind
 magic_method_func = [
     ('__and__', 'bitwise_and'),
     ('__or__', 'bitwise_or'),

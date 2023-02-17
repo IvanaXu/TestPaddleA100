@@ -240,14 +240,6 @@ class HybridCommunicateGroup(object):
 
         return parallel_group, parallel_comm_group
 
-    def _get_p2p_next_rank(self):
-        assert hasattr(self, 'next_rank'), "next_rank has not been inited"
-        return self.next_rank
-
-    def _get_p2p_prev_rank(self):
-        assert hasattr(self, 'prev_rank'), "prev_rank has not been inited"
-        return self.prev_rank
-
     def _set_p2p_group(self):
         comm_lists = self._topo.get_comm_list('pipe')
 
@@ -262,10 +254,6 @@ class HybridCommunicateGroup(object):
                 curr_rank = rank
                 next_rank = comm_ranks[(idx + 1) % self._pp_degree]
                 prev_rank = comm_ranks[(idx - 1) % self._pp_degree]
-
-                if self.global_rank == curr_rank:
-                    self.next_rank = next_rank
-                    self.prev_rank = prev_rank
 
                 next_group = paddle.distributed.new_group(
                     ranks=[curr_rank, next_rank])
@@ -378,8 +366,8 @@ class _CommunicateGroup(object):
 
     def set_comm_group(self, group_name, group_rank, group_size, ring_id,
                        group_ranks):
-        group = paddle.distributed.collective.Group(group_rank, ring_id,
-                                                    group_ranks)
+        group = paddle.distributed.collective.Group(group_rank, group_size,
+                                                    ring_id, group_ranks)
         self.groups[group_name] = group
 
     def get_group(self, group_name):

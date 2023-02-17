@@ -59,7 +59,7 @@ struct DefaultDeviceContextType<AllocationType::GPU> {
  *
  * Note: DeviceContextPool is an experimental API and may be removed in the
  * future. From 2.3, we recommend directly using the C++ API to combine new
- * operators.
+ * perators.
  */
 class PADDLE_API DeviceContextPool {
  public:

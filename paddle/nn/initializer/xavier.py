@@ -41,6 +41,7 @@ class XavierNormal(XavierInitializer):
 
     Examples:
         .. code-block:: python
+            :name: initializer_XavierNormal-example
 
             import paddle
 
@@ -96,6 +97,7 @@ class XavierUniform(XavierInitializer):
 
     Examples:
         .. code-block:: python
+            :name: initializer_XavierUniform-example
 
             import paddle
 

@@ -22,12 +22,12 @@ from paddle.fluid.layer_helper import LayerHelper
 from paddle.fluid.initializer import Normal, Constant
 from paddle.fluid.framework import Variable
 from paddle.fluid.param_attr import ParamAttr
-from paddle.fluid.layers import tensor
+from paddle.fluid.layers import nn
 
 __all__ = ['ctr_metric_bundle']
 
 
-def ctr_metric_bundle(input, label, ins_tag_weight=None):
+def ctr_metric_bundle(input, label):
     """
     ctr related metric layer
 
@@ -42,48 +42,28 @@ def ctr_metric_bundle(input, label, ins_tag_weight=None):
     number first
 
     Args:
-        input(Tensor): A floating-point 2D Tensor, values are in the range
+        input(Variable): A floating-point 2D Variable, values are in the range
                          [0, 1]. Each row is sorted in descending order. This
                          input should be the output of topk. Typically, this
-                         Tensor indicates the probability of each label.
-        label(Tensor): A 2D int Tensor indicating the label of the training
+                         Variable indicates the probability of each label.
+        label(Variable): A 2D int Variable indicating the label of the training
                          data. The height is batch size and width is always 1.
-        ins_tag_weight(Tensor): A 2D int Tensor indicating the ins_tag_weight of the training
-                         data. 1 means real data, 0 means fake data. 
-                         A LoDTensor or Tensor with type float32,float64.
 
     Returns:
-        local_sqrerr(Tensor): Local sum of squared error
-        local_abserr(Tensor): Local sum of abs error
-        local_prob(Tensor): Local sum of predicted ctr
-        local_q(Tensor): Local sum of q value
+        local_sqrerr(Variable): Local sum of squared error
+        local_abserr(Variable): Local sum of abs error
+        local_prob(Variable): Local sum of predicted ctr
+        local_q(Variable): Local sum of q value
 
-    Examples 1:
+    Examples:
         .. code-block:: python
 
-            import paddle
-            paddle.enable_static()
-            data = paddle.static.data(name="data", shape=[32, 32], dtype="float32")
-            label = paddle.static.data(name="label", shape=[-1, 1], dtype="int32")
-            predict = paddle.nn.functional.sigmoid(paddle.static.nn.fc(input=data, size=1))
-            auc_out = paddle.static.ctr_metric_bundle(input=predict, label=label)
-    Examples 2:
-        .. code-block:: python
-
-            import paddle
-            paddle.enable_static()
-            data = paddle.static.data(name="data", shape=[32, 32], dtype="float32")
-            label = paddle.static.data(name="label", shape=[-1, 1], dtype="int32")
-            predict = paddle.nn.functional.sigmoid(paddle.static.nn.fc(input=data, size=1))
-            ins_tag_weight = paddle.static.data(name='ins_tag', shape=[-1,16], lod_level=0, dtype='int64')
-            auc_out = paddle.static.ctr_metric_bundle(input=predict, label=label, ins_tag_weight=ins_tag_weight)
-
+            import paddle.fluid as fluid
+            data = fluid.layers.data(name="data", shape=[32, 32], dtype="float32")
+            label = fluid.layers.data(name="label", shape=[1], dtype="int32")
+            predict = fluid.layers.sigmoid(fluid.layers.fc(input=data, size=1))
+            auc_out = fluid.contrib.layers.ctr_metric_bundle(input=predict, label=label)
     """
-    if ins_tag_weight is None:
-        ins_tag_weight = tensor.fill_constant(shape=[1, 1],
-                                              dtype="float32",
-                                              value=1.0)
-
     assert input.shape == label.shape
     helper = LayerHelper("ctr_metric_bundle", **locals())
 
@@ -184,6 +164,12 @@ def ctr_metric_bundle(input, label, ins_tag_weight=None):
     helper.append_op(type="reduce_sum",
                      inputs={"X": [tmp_res_sigmoid]},
                      outputs={"Out": [batch_q]})
+    helper.append_op(type="elementwise_add",
+                     inputs={
+                         "X": [batch_q],
+                         "Y": [local_q]
+                     },
+                     outputs={"Out": [local_q]})
 
     helper.append_op(type="reduce_sum",
                      inputs={"X": [label]},
@@ -206,45 +192,11 @@ def ctr_metric_bundle(input, label, ins_tag_weight=None):
     helper.append_op(type="reduce_sum",
                      inputs={"X": [tmp_ones]},
                      outputs={"Out": [batch_ins_num]})
-
-    #if data is fake, return 0
-    inputs_slice = {'Input': ins_tag_weight}
-    attrs = {'axes': [0]}
-    attrs['starts'] = [0]
-    attrs['ends'] = [1]
-    helper.append_op(type="slice",
-                     inputs=inputs_slice,
-                     attrs=attrs,
-                     outputs={"Out": ins_tag_weight})
-
-    axis = helper.kwargs.get('axis', 0)
-    helper.append_op(type="elementwise_mul",
-                     inputs={
-                         "X": [batch_ins_num],
-                         "Y": [ins_tag_weight]
-                     },
-                     outputs={"Out": [batch_ins_num]},
-                     attrs={'axis': axis})
-
     helper.append_op(type="elementwise_add",
                      inputs={
                          "X": [batch_ins_num],
                          "Y": [local_ins_num]
                      },
                      outputs={"Out": [local_ins_num]})
-
-    helper.append_op(type="elementwise_mul",
-                     inputs={
-                         "X": [batch_q],
-                         "Y": [ins_tag_weight]
-                     },
-                     outputs={"Out": [batch_q]},
-                     attrs={'axis': axis})
-    helper.append_op(type="elementwise_add",
-                     inputs={
-                         "X": [batch_q],
-                         "Y": [local_q]
-                     },
-                     outputs={"Out": [local_q]})
 
     return local_sqrerr, local_abserr, local_prob, local_q, local_pos_num, local_ins_num

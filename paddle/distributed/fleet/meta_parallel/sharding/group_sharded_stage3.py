@@ -20,7 +20,7 @@ from collections import OrderedDict
 
 import paddle
 from paddle import nn
-from paddle.autograd import PyLayer
+from paddle.autograd import EagerPyLayer
 import paddle.fluid.core as core
 import paddle.fluid.framework as framework
 from paddle.fluid.framework import EagerParamBase
@@ -181,7 +181,7 @@ class GroupShardedStage3(nn.Layer):
             collective.broadcast(p,
                                  src=self._global_root_rank,
                                  group=self._group,
-                                 sync_op=True)
+                                 use_calc_stream=True)
 
     def _clear_gradients(self):
         assert len(self._trainable_params.keys()) > 0
@@ -398,7 +398,7 @@ class GroupShardedStage3(nn.Layer):
 
     def _register_forward_hooks(self, layer):
         """
-        Register PyLayer to manage memory slices.
+        Register EagerPyLayer to manage memory slices.
         There are four stages:
         FW
         1. Before the forward layers, synchronize the full parameters.
@@ -446,7 +446,7 @@ class GroupShardedStage3(nn.Layer):
             collective.broadcast(buffer,
                                  self._global_root_rank,
                                  self._group,
-                                 sync_op=True)
+                                 use_calc_stream=True)
 
     def __getattr__(self, name):
         """Forward missing attributes to wrapped layer."""
@@ -653,7 +653,7 @@ def ForwardPreHooks(layer, order_tracer, trainable_params, param2buffer_size,
     return
 
 
-class ForwardPostHooks(PyLayer):
+class ForwardPostHooks(EagerPyLayer):
 
     @staticmethod
     def forward(ctx, inputs, layer, order_tracer, trainable_params,

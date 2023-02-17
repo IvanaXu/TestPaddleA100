@@ -40,8 +40,6 @@ from ...fluid.layers import while_loop  # noqa: F401
 
 from ...fluid.input import embedding  # noqa: F401
 from ...fluid.contrib.layers import sparse_embedding  # noqa: F401
-from ...fluid.layers import continuous_value_model  # noqa: F401
-from ...fluid.layers import StaticRNN  # noqa: F401
 
 from ...fluid.layers.sequence_lod import sequence_conv  # noqa: F401
 from ...fluid.layers.sequence_lod import sequence_softmax  # noqa: F401
@@ -100,5 +98,4 @@ __all__ = [  #noqa
     'sequence_scatter',
     'sequence_enumerate',
     'sequence_reverse',
-    'StaticRNN',
 ]

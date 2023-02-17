@@ -19,8 +19,7 @@ from .. import core
 from ..framework import convert_np_dtype_to_dtype_, Variable, in_dygraph_mode
 from ..data_feeder import convert_dtype, check_variable_and_dtype, check_type, check_dtype
 from paddle.utils import deprecated
-from paddle import _C_ops, _legacy_C_ops
-import paddle
+from paddle import _C_ops
 
 __deprecated_func_name__ = {
     'tanh_shrink': 'tanhshrink',
@@ -32,14 +31,34 @@ __activations_noattr__ = [
     'silu',
     'logsigmoid',
     'tanh_shrink',
+    'softplus',
     'softsign',
     'tanh',
 ]
 
 __unary_func__ = [
-    'exp', 'expm1', 'atan', 'sqrt', 'rsqrt', 'abs', 'ceil', 'floor', 'cos',
-    'tan', 'acos', 'sin', 'sinh', 'asin', 'cosh', 'round', 'reciprocal',
-    'square', 'acosh', 'asinh', 'atanh', 'lgamma'
+    'exp',
+    'expm1',
+    'atan',
+    'sqrt',
+    'rsqrt',
+    'abs',
+    'ceil',
+    'floor',
+    'cos',
+    'tan',
+    'acos',
+    'sin',
+    'sinh',
+    'asin',
+    'cosh',
+    'round',
+    'reciprocal',
+    'square',
+    'lgamma',
+    'acosh',
+    'asinh',
+    'atanh',
 ]
 
 __inplace_unary_func__ = [
@@ -52,15 +71,7 @@ __inplace_unary_func__ = [
     'reciprocal_',
 ]
 
-__all__ = [
-    'softplus',
-    'softshrink',
-    'hard_shrink',
-    'cumsum',
-    'thresholded_relu',
-    'gelu',
-    'erf',
-]
+__all__ = []
 
 for _OP in set(__all__):
     globals()[_OP] = generate_layer_fn(_OP)
@@ -469,40 +480,22 @@ Examples:
 
 """)
 
-_softplus_ = generate_layer_fn('softplus')
+add_sample_code(
+    globals()["lgamma"], r"""
+Examples:
+    .. code-block:: python
 
+        import paddle
 
-def softplus(x, beta: float = 1.0, threshold: float = 20.0, name=None):
-    check_variable_and_dtype(x, 'x', ['float32', 'float64'], 'softplus')
-    locals_val = locals().copy()
-    kwargs = dict()
-    for name, val in locals_val.items():
-        if val is not None:
-            kwargs[name] = val
-    return _softplus_(**kwargs)
+        x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3])
+        out = paddle.lgamma(x)
+        print(out)
+        # [1.31452441, 1.76149750, 2.25271273, 1.09579802]
 
+""")
 
-softplus.__doc__ = r"""
-    :alias_main: paddle.nn.functional.softplus
-    :alias: paddle.nn.functional.softplus, paddle.nn.functional.activation.softplus
-    :old_api: paddle.fluid.layers.softplus
-
-:strong:`Softplus Activation Operator`
-
-Equation:
-    .. math::
-        out = \\frac{1}{beta} * log(1 + e^{beta * x})
-        For numerical stability, the implementation reverts to the linear function when: beta * x > threshold.
-
-Args:
-    x(Tensor): Input of Softplus op, Tensor, dtype: float32 or float64
-    beta(float, optional): The value of beta for softplus. Default is 1
-    threshold (float, optional): The value of threshold for softplus. Default is 20
-    name(str, optional): Name for the operation (optional, default is None)
-
-Returns:
-    Variable: The output of Softplus op, Tensor, dtype: float32 or float64
-
+add_sample_code(
+    globals()["softplus"], r"""
 Examples:
     .. code-block:: python
 
@@ -513,7 +506,8 @@ Examples:
         out = F.softplus(x) 
         print(out)
         # [0.513015, 0.598139, 0.744397, 0.854355]
-"""
+
+""")
 
 add_sample_code(
     globals()["softsign"], r"""
@@ -529,6 +523,8 @@ Examples:
         # [-0.285714, -0.166667, 0.0909091, 0.230769]
 
 """)
+
+__all__ += ['softshrink']
 
 _softshrink_ = generate_layer_fn('softshrink')
 
@@ -578,6 +574,8 @@ Examples:
         result = fluid.layers.softshrink(x=data, alpha=0.3)
 """
 
+__all__ += ['hard_shrink']
+
 _hard_shrink_ = generate_layer_fn('hard_shrink')
 
 
@@ -601,6 +599,8 @@ Examples:
     >>> data = fluid.layers.data(name="input", shape=[784])
     >>> result = fluid.layers.hard_shrink(x=data, threshold=0.3)
 """
+
+__all__ += ['cumsum']
 
 _cum_sum_ = generate_layer_fn('cumsum')
 
@@ -641,6 +641,8 @@ Examples:
         data = fluid.layers.data(name="input", shape=[32, 784])
         result = fluid.layers.cumsum(data, axis=0)
 """
+
+__all__ += ['thresholded_relu']
 
 _thresholded_relu_ = generate_layer_fn('thresholded_relu')
 
@@ -730,6 +732,8 @@ Examples:
         #        [-0.        , -0.        ,  1.0013918 ]], dtype=float32)
 """
 
+__all__ += ['gelu']
+
 _gelu_ = generate_layer_fn('gelu')
 
 
@@ -813,12 +817,14 @@ Examples:
         #        [ 0.08796856,  0.20387867,  0.2080159 ]], dtype=float32)
 """
 
+__all__ += ['erf']
+
 _erf_ = generate_layer_fn('erf')
 
 
 def erf(x, name=None):
     if in_dygraph_mode():
-        return _C_ops.erf(x)
+        return _C_ops.final_state_erf(x)
 
     locals_var = locals().copy()
     kwargs = dict()
@@ -854,31 +860,3 @@ Examples:
         print(out)
         # [-0.42839236 -0.22270259  0.11246292  0.32862676]
 """
-
-
-def lgamma(x, name=None):
-    r"""
-    Calculates the lgamma of the given input tensor, element-wise.
-
-    This operator performs elementwise lgamma for input $X$.
-    :math:`out = log\Gamma(x)`
-
-
-    Args:
-        x (Tensor): Input Tensor. Must be one of the following types: float32, float64.
-        name (str, optional): Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`.
-
-    Returns:
-        Tensor, the lgamma of the input Tensor, the shape and data type is the same with input.
-
-    Examples:
-        .. code-block:: python
-
-            import paddle
-
-            x = paddle.to_tensor([-0.4, -0.2, 0.1, 0.3])
-            out = paddle.lgamma(x)
-            print(out)
-            # [1.31452441, 1.76149750, 2.25271273, 1.09579802]
-    """
-    return paddle.Tensor.lgamma(x)

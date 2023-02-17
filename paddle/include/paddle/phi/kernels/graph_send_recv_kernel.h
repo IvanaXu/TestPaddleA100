@@ -16,7 +16,6 @@
 
 #include <string>
 
-#include "paddle/phi/common/int_array.h"
 #include "paddle/phi/core/dense_tensor.h"
 
 namespace phi {
@@ -26,8 +25,8 @@ void GraphSendRecvKernel(const Context& ctx,
                          const DenseTensor& x,
                          const DenseTensor& src_index,
                          const DenseTensor& dst_index,
-                         const std::string& reduce_op,
-                         const IntArray& out_size,
+                         const std::string& pool_type,
+                         int64_t out_size,
                          DenseTensor* out,
                          DenseTensor* dst_count);
 

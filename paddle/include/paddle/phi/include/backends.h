@@ -4,7 +4,6 @@
 #pragma once
 
 #include "paddle/phi/backends/all_context.h"
-#include "paddle/phi/backends/c_comm_lib.h"
 #include "paddle/phi/backends/callback_manager.h"
 #include "paddle/phi/backends/device_base.h"
 #include "paddle/phi/backends/device_ext.h"

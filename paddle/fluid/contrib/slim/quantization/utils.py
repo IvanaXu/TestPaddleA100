@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
 import numpy as np
 from ....framework import IrNode
 from ....framework import Operator
@@ -53,6 +52,7 @@ _act_supported_quantizable_op_type = [
     "leaky_relu",
     "tanh",
     "swish",
+    "scale",
     "transpose",
     "transpose2",
     "sigmoid",
@@ -109,14 +109,11 @@ _act_supported_quantizable_op_type = [
     "square",
     "softplus",
     "shuffle_channel",
-    "reduce_max",
 ]
 
-QUANT_SUPPORTED_OP_TYPE_LIST = list(
+_out_scale_op_list = list(
     set(_weight_supported_quantizable_op_type +
         _act_supported_quantizable_op_type))
-
-_out_scale_op_list = QUANT_SUPPORTED_OP_TYPE_LIST
 
 _channelwise_quant_axis1_ops = [
     'conv2d_transpose', 'mul', 'matmul', 'matmul_v2'
@@ -165,6 +162,7 @@ _op_real_in_out_name = {
     "sigmoid": [["X"], ["Out"]],
     "elementwise_mul": [["X", "Y"], ["Out"]],
     "elementwise_pow": [["X", "Y"], ["Out"]],
+    "scale": [["X"], ["Out"]],
     "hard_swish": [["X"], ["Out"]],
     "hard_sigmoid": [["X"], ["Out"]],
     "gru": [["Input", "Weight"], ["Hidden"]],
@@ -216,7 +214,6 @@ _op_real_in_out_name = {
     "square": [["X"], ["Out"]],
     "softplus": [["X"], ["Out"]],
     "shuffle_channel": [["X"], ["Out"]],
-    "reduce_max": [["X"], ["Out"]],
 }
 
 
@@ -325,43 +322,29 @@ def set_variable_data(scope, place, var_name, np_value):
         tensor.set(np_value, place)
 
 
-def quant_tensor(x, scale, quant_axis=0, weight_bits=8, onnx_format=False):
+def quant_tensor(x, scale, quant_axis=0, weight_bits=8):
     # symmetry quant
     def _clip(x, scale):
         x[x > scale] = scale
         x[x < -scale] = -scale
         return x
 
+    assert quant_axis in [0, 1], 'quant_axis should be 0 or 1 for now.'
     bnt = (1 << (weight_bits - 1)) - 1
-    if isinstance(scale, list) and len(scale) == 1:
-        scale = scale[0]
     if isinstance(scale, list):
-        assert quant_axis in [0, 1], 'quant_axis should be 0 or 1 for now.'
         for i, s in enumerate(scale):
             if s == 0.0:
                 s = 1e-8
             if quant_axis == 0:
-                if onnx_format:
-                    x[i] = np.round(x[i] / s * bnt)
-                    x[i] = np.clip(x[i], -bnt - 1, bnt)
-                else:
-                    x[i] = _clip(x[i], s)
-                    x[i] = x[i] / s * bnt
+                x[i] = _clip(x[i], s)
+                x[i] = x[i] / s * bnt
             else:
-                if onnx_format:
-                    x[:, i] = np.round(x[:, i] / s * bnt)
-                    x[:, i] = np.clip(x[:, i], -bnt - 1, bnt)
-                else:
-                    x[:, i] = _clip(x[:, i], s)
-                    x[:, i] = x[:, i] / s * bnt
+                x[:, i] = _clip(x[:, i], s)
+                x[:, i] = x[:, i] / s * bnt
     else:
         scale = 1e-8 if scale == 0.0 else scale
-        if onnx_format:
-            x = np.round(x / scale * bnt)
-            x = np.clip(x, -bnt - 1, bnt)
-        else:
-            x = _clip(x, scale)
-            x = x / scale * bnt
+        x = _clip(x, scale)
+        x = x / scale * bnt
     return x
 
 
@@ -431,49 +414,3 @@ def calculate_quant_cos_error(orig_tensor, qdq_tensor):
     cos_sim = np.inner(orig_tensor.flatten(), qdq_tensor.flatten()) \
               / (np.linalg.norm(orig_tensor.flatten()) * np.linalg.norm(qdq_tensor.flatten()))
     return cos_sim
-
-
-def move_persistable_var_to_global_block(program):
-    # Move sub blocks persistable var to global block
-    global_block = program.global_block()
-    for _op in global_block.ops:
-        if _op.type == "while":
-            _block_id = _op.attr("sub_block").id
-            _block = program.block(_block_id)
-            persistables = []
-            for _name, _var in _block.vars.items():
-                if _var.persistable:
-                    global_block._clone_variable(_var)
-                    persistables.append(_name)
-            for _name in persistables:
-                _block._remove_var(_name)
-            persistables.extend(_op.input('X'))
-            _op.desc.set_input("X", persistables)
-
-
-def l2_loss(gt, pred):
-    return ((gt - pred)**2).mean()
-
-
-class tqdm(object):
-
-    def __init__(self, total, bar_format='Loading|{bar}', ncols=80):
-        self.total = total
-        self.bar_format = bar_format
-        self.ncols = ncols
-        self.n = 0
-
-    def update(self, n=1):
-        self.n += n
-        a = "=" * round((self.n / self.total) * self.ncols)
-        b = " " * (self.ncols - len(a))
-        prefix = self.bar_format.split('|')[0]
-        sys.stderr.write("\r{}|{}=>{}| {}/{}".format(prefix, a, b, self.n,
-                                                     self.total))
-        sys.stderr.flush()
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        sys.stderr.write('\n')

@@ -15,7 +15,6 @@
 #pragma once
 
 #include "paddle/phi/common/int_array.h"
-#include "paddle/phi/common/scalar.h"
 #include "paddle/phi/core/dense_tensor.h"
 #include "paddle/phi/core/device_context.h"
 
@@ -25,8 +24,8 @@ template <typename T, typename Context>
 void UniformRandomRawKernel(const Context& dev_ctx,
                             const IntArray& shape,
                             DataType dtype,
-                            const Scalar& min,
-                            const Scalar& max,
+                            float min,
+                            float max,
                             int seed,
                             int diag_num,
                             int diag_step,
@@ -37,8 +36,8 @@ template <typename T, typename Context>
 void UniformRandomKernel(const Context& dev_ctx,
                          const IntArray& shape,
                          DataType dtype,
-                         const Scalar& min,
-                         const Scalar& max,
+                         float min,
+                         float max,
                          int seed,
                          DenseTensor* out);
 

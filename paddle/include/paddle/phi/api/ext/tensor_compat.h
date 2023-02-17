@@ -71,7 +71,7 @@ using experimental::gather_nd;
 using experimental::gelu;
 using experimental::gumbel_softmax;
 using experimental::imag;
-using experimental::increment_;
+using experimental::increment;
 using experimental::index_sample;
 using experimental::is_empty;
 using experimental::isclose;
@@ -101,7 +101,6 @@ using experimental::multiply;
 using experimental::mv;
 using experimental::nll_loss;
 using experimental::one_hot;
-using experimental::ones;
 using experimental::pixel_shuffle;
 using experimental::poisson;
 using experimental::qr;
@@ -134,6 +133,5 @@ using experimental::unbind;
 using experimental::unique;
 using experimental::unsqueeze;
 using experimental::where;
-using experimental::zeros;
 
 }  // namespace paddle
