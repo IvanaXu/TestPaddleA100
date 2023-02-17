@@ -1,7 +1,7 @@
 # TFPG
 Test For PaddlePaddle GPU/A100
 
-#### Big file README
+#### 1、Big file README
 * #1
 ```sql
 # find paddle1/* -type f -size +1M | xargs ls -Slh
@@ -29,3 +29,6 @@ Test For PaddlePaddle GPU/A100
 -rwxr-xr-x@ 1 ----  staff   2.1M  2 17 11:17 paddle2/libs/libiomp5.so
 -rwxr-xr-x@ 1 ----  staff   1.2M  2 17 11:17 paddle2/libs/libgfortran.so.3
 ```
+
+#### 2、#1 diff #2
+> https://github.com/IvanaXu/TestPaddleA100/commit/1ae289bfb0baaaaa5d2cd7c9d8d893f61b71b01f
